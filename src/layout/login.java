@@ -47,8 +47,8 @@ public class login{
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					login window = new login();
-					window.frame.setVisible(true);
+					login login_window = new login();
+					login_window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -72,7 +72,7 @@ public class login{
 		frame.setBounds(100, 100, 850, 450);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-		menuBar.setBounds(0, 0, 832, 26);
+		menuBar.setBounds(0, 0, 832, 30);
 		frame.getContentPane().add(menuBar);
 		
 		menuBar.add(mnLanguage);
@@ -96,6 +96,13 @@ public class login{
 		btnlogin.setBounds(361, 240, 100, 30);
 		btnlogin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				try {
+					general general_window = new general();
+					general_window.frame.setVisible(true);
+					
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 			}
 		});
 		
