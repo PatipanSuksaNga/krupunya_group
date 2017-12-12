@@ -1,10 +1,13 @@
 package layout;
 
+import java.awt.Dimension;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import java.awt.GridLayout;
+import java.awt.Toolkit;
+
 import javax.swing.JPasswordField;
 import javax.swing.JButton;
 import javax.swing.JTextField;
@@ -24,7 +27,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JMenu;
 
-public class login{
+public class Login{
 	
 	public language lg = new language();
 	
@@ -47,7 +50,7 @@ public class login{
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					login login_window = new login();
+					Login login_window = new Login();
 					login_window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -59,7 +62,7 @@ public class login{
 	/**
 	 * Create the application.
 	 */
-	public login() {
+	public Login() {
 		initialize();
 	}
 
@@ -68,8 +71,10 @@ public class login{
 	 */
 	private void initialize() {
 		
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		
 		frame = new JFrame();
-		frame.setBounds(100, 100, 850, 450);
+		frame.setBounds(100, 100,screenSize.width*5/10, screenSize.height*5/10);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		menuBar.setBounds(0, 0, 832, 30);
@@ -97,7 +102,7 @@ public class login{
 		btnlogin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
-					general general_window = new general();
+					General general_window = new General();
 					general_window.frame.setVisible(true);
 					
 				} catch (Exception e) {

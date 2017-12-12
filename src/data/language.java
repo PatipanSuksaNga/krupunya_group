@@ -8,6 +8,11 @@ public class language {
 	public String mnLanguage = "Language";
 	public String mntmEnglish = "English";
 	public String mntmThai = "Thai";
+	public String btnBuybilling = "";
+	public String btnSellbilling = "";
+	public String btnOnspotsale = "";
+	public String btnSizetable = "";
+	public String btnConclusion = "";
 	
 	public void getEng() {
 		this.lbid = "ID";
@@ -16,6 +21,11 @@ public class language {
 		this.mnLanguage = "Language";
 		this.mntmEnglish = "English";
 		this.mntmThai = "Thai";
+		this.btnBuybilling = "";
+		this.btnSellbilling = "";
+		this.btnOnspotsale = "";
+		this.btnSizetable = "";
+		this.btnConclusion = "";
 	}
 	
 	public void getThai() {
@@ -25,6 +35,11 @@ public class language {
 		this.mnLanguage = "ภาษา";
 		this.mntmEnglish = "English";
 		this.mntmThai = "ไทย";
+		this.btnBuybilling = "";
+		this.btnSellbilling = "";
+		this.btnOnspotsale = "";
+		this.btnSizetable = "";
+		this.btnConclusion = "";
 	}
 	
 }
