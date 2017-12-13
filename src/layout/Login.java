@@ -35,13 +35,13 @@ public class Login{
 	private JPasswordField passwordField;
 	private JTextField textField;
 	
-	JButton btnlogin = new JButton(lg.btnlogin);
-	JLabel lbid = new JLabel(lg.lbid);
-	JLabel lbpassword = new JLabel(lg.lbpassword);
+	JButton btnlogin = new JButton(language.btnlogin);
+	JLabel lbid = new JLabel(language.lbid);
+	JLabel lbpassword = new JLabel(language.lbpassword);
 	JMenuBar menuBar = new JMenuBar();
-	JMenu mnLanguage = new JMenu(lg.mnLanguage);
-	JMenuItem mntmEnglish = new JMenuItem(lg.mntmEnglish);
-	JMenuItem mntmThai = new JMenuItem(lg.mntmThai);
+	JMenu mnLanguage = new JMenu(language.mnLanguage);
+	JMenuItem mntmEnglish = new JMenuItem(language.mntmEnglish);
+	JMenuItem mntmThai = new JMenuItem(language.mntmThai);
 
 	/**
 	 * Launch the application.
@@ -133,12 +133,12 @@ public class Login{
 	}
 	
 	private void setText() {
-		mnLanguage.setText(lg.mnLanguage);
-		mntmEnglish.setText(lg.mntmEnglish);
-		mntmThai.setText(lg.mntmThai);
-		lbid.setText(lg.lbid);
-		lbpassword.setText(lg.lbpassword);
-		btnlogin.setText(lg.btnlogin);
+		mnLanguage.setText(language.mnLanguage);
+		mntmEnglish.setText(language.mntmEnglish);
+		mntmThai.setText(language.mntmThai);
+		lbid.setText(language.lbid);
+		lbpassword.setText(language.lbpassword);
+		btnlogin.setText(language.btnlogin);
 		
 	}
 }

@@ -27,6 +27,9 @@ import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.RowSpec;
 import com.jgoodies.forms.layout.FormSpecs;
+import javax.swing.JLabel;
+import javax.swing.SwingConstants;
+import java.awt.Font;
 
 public class General {
 
@@ -35,9 +38,9 @@ public class General {
 	public language lg = new language();
 	
 	JMenuBar menuBar = new JMenuBar();
-	JMenu mnLanguage = new JMenu(lg.mnLanguage);
-	JMenuItem mntmEnglish = new JMenuItem(lg.mntmEnglish);
-	JMenuItem mntmThai = new JMenuItem(lg.mntmThai);
+	JMenu mnLanguage = new JMenu(language.mnLanguage);
+	JMenuItem mntmEnglish = new JMenuItem(language.mntmEnglish);
+	JMenuItem mntmThai = new JMenuItem(language.mntmThai);
 	private final JPanel panel = new JPanel();
 	private final JButton btnBuybilling = new JButton("Buy Billing");
 	private final JButton btnSellbilling = new JButton("Sell Billing");
@@ -46,6 +49,7 @@ public class General {
 	private final JButton btnConclusion = new JButton("Conclusion");
 	private final JScrollPane scrollPane = new JScrollPane();
 	private final JPanel main_panel = new JPanel();
+	private final JLabel lbMainpage = new JLabel("Main Page");
 
 	/**
 	 * Launch the application.
@@ -124,23 +128,27 @@ public class General {
 		btnConclusion.setBounds(640, 40, 110, 25);
 		
 		panel.add(btnConclusion);
+		
 		main_panel.setBorder(new LineBorder(new Color(0, 0, 0)));
 		
 		main_panel.setPreferredSize(new Dimension(screenSize.width,screenSize.height*2));
 		main_panel.setBounds(0,screenSize.height*4/10,screenSize.width,screenSize.height*2);
-//		main_panel.add(panel);
-//		main_panel.add(menuBar);
 		scrollPane.setBounds(0,screenSize.height*3/10,screenSize.width,screenSize.height*7/10);
 		scrollPane.setViewportView(main_panel);
 		scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 		frame.getContentPane().add(scrollPane);
 		
+		lbMainpage.setFont(new Font("Tahoma", Font.PLAIN, 30));
+		lbMainpage.setHorizontalAlignment(SwingConstants.CENTER);
+		lbMainpage.setBounds((screenSize.width/2)-150, 40, 300, 50);
+		frame.getContentPane().add(lbMainpage);
+		
 
 	}
 	
 	private void setText() {
-		mnLanguage.setText(lg.mnLanguage);
-		mntmEnglish.setText(lg.mntmEnglish);
-		mntmThai.setText(lg.mntmThai);
+		mnLanguage.setText(language.mnLanguage);
+		mntmEnglish.setText(language.mntmEnglish);
+		mntmThai.setText(language.mntmThai);
 	}
 }
