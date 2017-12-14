@@ -8,11 +8,12 @@ public class language {
 	public static String mnLanguage = "Language";
 	public static String mntmEnglish = "English";
 	public static String mntmThai = "Thai";
-	public static String btnBuybilling = "";
-	public static String btnSellbilling = "";
-	public static String btnOnspotsale = "";
-	public static String btnSizetable = "";
-	public static String btnConclusion = "";
+	public static String lbMainpage = "Main page";
+	public static String btnBuybilling = "Buy billing";
+	public static String btnSellbilling = "Sellbilling";
+	public static String btnOnspotsale = "On spot sale";
+	public static String btnSizetable = "Size table";
+	public static String btnConclusion = "Conclusion";
 	
 	public void getEng() {
 		language.lbid = "ID";
@@ -21,11 +22,12 @@ public class language {
 		language.mnLanguage = "Language";
 		language.mntmEnglish = "English";
 		language.mntmThai = "Thai";
-		language.btnBuybilling = "";
-		language.btnSellbilling = "";
-		language.btnOnspotsale = "";
-		language.btnSizetable = "";
-		language.btnConclusion = "";
+		language.lbMainpage = "Main page";
+		language.btnBuybilling = "Buy billing";
+		language.btnSellbilling = "Sellbilling";
+		language.btnOnspotsale = "On spot sale";
+		language.btnSizetable = "Size table";
+		language.btnConclusion = "Conclusion";
 	}
 	
 	public void getThai() {
@@ -35,11 +37,12 @@ public class language {
 		language.mnLanguage = "ภาษา";
 		language.mntmEnglish = "English";
 		language.mntmThai = "ไทย";
-		language.btnBuybilling = "";
-		language.btnSellbilling = "";
-		language.btnOnspotsale = "";
-		language.btnSizetable = "";
-		language.btnConclusion = "";
+		language.lbMainpage = "หน้าหลัก";
+		language.btnBuybilling = "บิลซื้อ";
+		language.btnSellbilling = "บิลขาย";
+		language.btnOnspotsale = "ขายสด";
+		language.btnSizetable = "ใบไซส์";
+		language.btnConclusion = "ใบสรุป";
 	}
 	
 }

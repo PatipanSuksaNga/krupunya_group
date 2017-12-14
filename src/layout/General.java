@@ -30,6 +30,7 @@ import com.jgoodies.forms.layout.FormSpecs;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import java.awt.Font;
+import javax.swing.JSeparator;
 
 public class General {
 
@@ -50,6 +51,7 @@ public class General {
 	private final JScrollPane scrollPane = new JScrollPane();
 	private final JPanel main_panel = new JPanel();
 	private final JLabel lbMainpage = new JLabel("Main Page");
+	private final JLabel lbDate = new JLabel("Date ");
 
 	/**
 	 * Launch the application.
@@ -86,6 +88,7 @@ public class General {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
+		setText();
 		menuBar.setBounds(0, 0, screenSize.width, 30);
 		menuBar.add(mnLanguage);
 		mnLanguage.add(mntmEnglish);
@@ -104,11 +107,16 @@ public class General {
 		});
 		
 		frame.getContentPane().add(menuBar);
+		
+		lbMainpage.setFont(new Font("Tahoma", Font.PLAIN, 30));
+		lbMainpage.setHorizontalAlignment(SwingConstants.CENTER);
+		lbMainpage.setBounds((screenSize.width/2)-150, 40, 300, 50);
+		frame.getContentPane().add(lbMainpage);
 		panel.setBorder(new LineBorder(new Color(0, 0, 0)));
 		panel.setBounds(screenSize.width/10, screenSize.height/10, screenSize.width*8/10, screenSize.height/10);
 		
 		frame.getContentPane().add(panel);
-		btnBuybilling.setBounds(40, 40, 110, 25);
+		btnBuybilling.setBounds(40, 20, 110, 25);
 		btnBuybilling.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			}
@@ -116,18 +124,23 @@ public class General {
 		panel.setLayout(null);
 		
 		panel.add(btnBuybilling);
-		btnSellbilling.setBounds(190, 40, 110, 25);
+		btnSellbilling.setBounds(190, 20, 110, 25);
 		
 		panel.add(btnSellbilling);
-		btnOnspotsale.setBounds(340, 40, 110, 25);
+		btnOnspotsale.setBounds(340, 20, 110, 25);
 		
 		panel.add(btnOnspotsale);
-		btnSizetable.setBounds(490, 40, 110, 25);
+		btnSizetable.setBounds(490, 20, 110, 25);
 		
 		panel.add(btnSizetable);
-		btnConclusion.setBounds(640, 40, 110, 25);
+		btnConclusion.setBounds(640, 20, 110, 25);
 		
 		panel.add(btnConclusion);
+		lbDate.setFont(new Font("Tahoma", Font.PLAIN, 30));
+		lbDate.setHorizontalAlignment(SwingConstants.CENTER);
+		lbDate.setBounds((screenSize.width/2)-250, 230, 500, 50);
+		
+		frame.getContentPane().add(lbDate);
 		
 		main_panel.setBorder(new LineBorder(new Color(0, 0, 0)));
 		
@@ -135,13 +148,16 @@ public class General {
 		main_panel.setBounds(0,screenSize.height*4/10,screenSize.width,screenSize.height*2);
 		scrollPane.setBounds(0,screenSize.height*3/10,screenSize.width,screenSize.height*7/10);
 		scrollPane.setViewportView(main_panel);
+		main_panel.setLayout(null);
+		
+		JSeparator separator = new JSeparator();
+		separator.setOrientation(SwingConstants.VERTICAL);
+		separator.setForeground(Color.WHITE);
+		separator.setBackground(Color.BLACK);
+		separator.setBounds(screenSize.width/2-1, 0, 2, screenSize.height*2);
+		main_panel.add(separator);
 		scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 		frame.getContentPane().add(scrollPane);
-		
-		lbMainpage.setFont(new Font("Tahoma", Font.PLAIN, 30));
-		lbMainpage.setHorizontalAlignment(SwingConstants.CENTER);
-		lbMainpage.setBounds((screenSize.width/2)-150, 40, 300, 50);
-		frame.getContentPane().add(lbMainpage);
 		
 
 	}
@@ -150,5 +166,11 @@ public class General {
 		mnLanguage.setText(language.mnLanguage);
 		mntmEnglish.setText(language.mntmEnglish);
 		mntmThai.setText(language.mntmThai);
+		lbMainpage.setText(language.lbMainpage);
+		btnBuybilling.setText(language.btnBuybilling);
+		btnSellbilling.setText(language.btnSellbilling);
+		btnOnspotsale.setText(language.btnOnspotsale);
+		btnSizetable.setText(language.btnSizetable);
+		btnConclusion.setText(language.btnConclusion);
 	}
 }
