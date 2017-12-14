@@ -31,7 +31,7 @@ public class Login{
 	
 	public language lg = new language();
 	
-	private JFrame frame;
+	public JFrame frame;
 	private JPasswordField passwordField;
 	private JTextField textField;
 	
@@ -102,9 +102,9 @@ public class Login{
 		btnlogin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
-					General general_window = new General();
-					general_window.frame.setVisible(true);
-					
+					Date date_window = new Date();
+					date_window.frame.setVisible(true);
+					frame.setVisible(false);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

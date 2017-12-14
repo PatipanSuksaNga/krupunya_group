@@ -20,10 +20,12 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.JLabel;
 import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class Date {
 
-	private JFrame frame;
+	JFrame frame;
 	private JTextField textField;
 	private JTextField textField_1;
 	private JTextField textField_2;
@@ -103,6 +105,13 @@ public class Date {
 		panel.add(lblYear);
 		
 		JButton btnNewButton = new JButton("Begin");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				General general_window = new General();
+				general_window.frame.setVisible(true);
+				frame.setVisible(false);
+			}
+		});
 		btnNewButton.setBounds(369, 286, 97, 25);
 		frame.getContentPane().add(btnNewButton);
 	}

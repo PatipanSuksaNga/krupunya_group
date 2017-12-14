@@ -2,8 +2,7 @@ package data;
 
 import java.util.ArrayList;
 
-public class Buybill {
-	
+public class Sellbill {
 	public String name;
 	public String address;
 	public String phone_number;
