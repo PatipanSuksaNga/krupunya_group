@@ -8,12 +8,16 @@ public class language {
 	public static String mnLanguage = "Language";
 	public static String mntmEnglish = "English";
 	public static String mntmThai = "Thai";
+	
+	public static String date = "Date " + dateIn.day;
+	
 	public static String lbMainpage = "Main page";
 	public static String btnBuybilling = "Buy billing";
 	public static String btnSellbilling = "Sellbilling";
 	public static String btnOnspotsale = "On spot sale";
 	public static String btnSizetable = "Size table";
 	public static String btnConclusion = "Conclusion";
+	
 	
 	public void getEng() {
 		language.lbid = "ID";

@@ -12,6 +12,9 @@ import net.miginfocom.swing.MigLayout;
 import java.awt.GridLayout;
 import java.awt.GridBagLayout;
 import javax.swing.border.LineBorder;
+
+import data.dateIn;
+
 import java.awt.Color;
 import javax.swing.JSeparator;
 import java.awt.Component;
@@ -26,9 +29,9 @@ import java.awt.event.ActionEvent;
 public class Date {
 
 	JFrame frame;
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
+	private JTextField textFieldMonth;
+	private JTextField textFieldDay;
+	private JTextField textFieldYear;
 
 	/**
 	 * Launch the application.
@@ -71,48 +74,55 @@ public class Date {
 		frame.getContentPane().add(panel);
 		panel.setLayout(null);
 		
-		textField = new JTextField();
-		textField.setHorizontalAlignment(SwingConstants.CENTER);
-		textField.setBounds(227, 70, 50, 22);
-		panel.add(textField);
-		textField.setColumns(10);
+		textFieldMonth = new JTextField();
+		textFieldMonth.setHorizontalAlignment(SwingConstants.CENTER);
+		textFieldMonth.setBounds(227, 70, 50, 22);
+		panel.add(textFieldMonth);
+		textFieldMonth.setColumns(10);
 		
-		textField_1 = new JTextField();
-		textField_1.setHorizontalAlignment(SwingConstants.CENTER);
-		textField_1.setColumns(10);
-		textField_1.setBounds(77, 70, 50, 22);
-		panel.add(textField_1);
+		textFieldDay = new JTextField();
+		textFieldDay.setHorizontalAlignment(SwingConstants.CENTER);
+		textFieldDay.setColumns(10);
+		textFieldDay.setBounds(77, 70, 50, 22);
+		panel.add(textFieldDay);
 		
-		textField_2 = new JTextField();
-		textField_2.setHorizontalAlignment(SwingConstants.CENTER);
-		textField_2.setColumns(10);
-		textField_2.setBounds(377, 70, 50, 22);
-		panel.add(textField_2);
+		textFieldYear = new JTextField();
+		textFieldYear.setHorizontalAlignment(SwingConstants.CENTER);
+		textFieldYear.setColumns(10);
+		textFieldYear.setBounds(377, 70, 50, 22);
+		panel.add(textFieldYear);
 		
-		JLabel lblNewLabel = new JLabel("Day");
-		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel.setBounds(77, 27, 50, 16);
-		panel.add(lblNewLabel);
+		JLabel lbDay = new JLabel("Day");
+		lbDay.setHorizontalAlignment(SwingConstants.CENTER);
+		lbDay.setBounds(77, 27, 50, 16);
+		panel.add(lbDay);
 		
-		JLabel lblMonth = new JLabel("Month");
-		lblMonth.setHorizontalAlignment(SwingConstants.CENTER);
-		lblMonth.setBounds(227, 27, 50, 16);
-		panel.add(lblMonth);
+		JLabel lbMonth = new JLabel("Month");
+		lbMonth.setHorizontalAlignment(SwingConstants.CENTER);
+		lbMonth.setBounds(227, 27, 50, 16);
+		panel.add(lbMonth);
 		
-		JLabel lblYear = new JLabel("Year");
-		lblYear.setHorizontalAlignment(SwingConstants.CENTER);
-		lblYear.setBounds(377, 27, 50, 16);
-		panel.add(lblYear);
+		JLabel lbYear = new JLabel("Year");
+		lbYear.setHorizontalAlignment(SwingConstants.CENTER);
+		lbYear.setBounds(377, 27, 50, 16);
+		panel.add(lbYear);
 		
-		JButton btnNewButton = new JButton("Begin");
-		btnNewButton.addActionListener(new ActionListener() {
+		JButton btnBegin = new JButton("Begin");
+		btnBegin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				fetchdate();
 				General general_window = new General();
 				general_window.frame.setVisible(true);
 				frame.setVisible(false);
 			}
 		});
-		btnNewButton.setBounds(369, 286, 97, 25);
-		frame.getContentPane().add(btnNewButton);
+		btnBegin.setBounds(369, 286, 97, 25);
+		frame.getContentPane().add(btnBegin);
+	}
+	
+	public void fetchdate() {
+		dateIn.day = textFieldDay.getText();
+		dateIn.month = textFieldMonth.getText();
+		dateIn.year = textFieldYear.getText();
 	}
 }
