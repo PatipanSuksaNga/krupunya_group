@@ -35,9 +35,6 @@ import javax.swing.JSeparator;
 public class General {
 
 	public JFrame frame;
-	
-	public language lg = new language();
-	
 	JMenuBar menuBar = new JMenuBar();
 	JMenu mnLanguage = new JMenu(language.mnLanguage);
 	JMenuItem mntmEnglish = new JMenuItem(language.mntmEnglish);
@@ -94,29 +91,29 @@ public class General {
 		mnLanguage.add(mntmEnglish);
 		mntmEnglish.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				lg.getEng();
+				language.getEng();
 				setText();
 			}
 		});
 		mnLanguage.add(mntmThai);
 		mntmThai.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				lg.getThai();
+				language.getThai();
 				setText();
 			}
 		});
 		
 		frame.getContentPane().add(menuBar);
 		
-		lbMainpage.setFont(new Font("Tahoma", Font.PLAIN, 30));
+		lbMainpage.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		lbMainpage.setHorizontalAlignment(SwingConstants.CENTER);
-		lbMainpage.setBounds((screenSize.width/2)-150, 40, 300, 50);
+		lbMainpage.setBounds((screenSize.width/2)-150, screenSize.height*4/100, 300, 50);
 		frame.getContentPane().add(lbMainpage);
 		panel.setBorder(new LineBorder(new Color(0, 0, 0)));
 		panel.setBounds(screenSize.width/10, screenSize.height/10, screenSize.width*8/10, screenSize.height/10);
 		
 		frame.getContentPane().add(panel);
-		btnBuybilling.setBounds(40, 20, 110, 25);
+		btnBuybilling.setBounds(40, 20, 140, 25);
 		btnBuybilling.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			}
@@ -124,21 +121,21 @@ public class General {
 		panel.setLayout(null);
 		
 		panel.add(btnBuybilling);
-		btnSellbilling.setBounds(190, 20, 110, 25);
+		btnSellbilling.setBounds(190, 20, 140, 25);
 		
 		panel.add(btnSellbilling);
-		btnOnspotsale.setBounds(340, 20, 110, 25);
+		btnOnspotsale.setBounds(340, 20, 140, 25);
 		
 		panel.add(btnOnspotsale);
-		btnSizetable.setBounds(490, 20, 110, 25);
+		btnSizetable.setBounds(490, 20, 140, 25);
 		
 		panel.add(btnSizetable);
-		btnConclusion.setBounds(640, 20, 110, 25);
+		btnConclusion.setBounds(640, 20, 140, 25);
 		
 		panel.add(btnConclusion);
-		lbDate.setFont(new Font("Tahoma", Font.PLAIN, 30));
+		lbDate.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		lbDate.setHorizontalAlignment(SwingConstants.CENTER);
-		lbDate.setBounds((screenSize.width/2)-250, 230, 500, 50);
+		lbDate.setBounds((screenSize.width/2)-250, screenSize.height*22/100, 500, 50);
 		
 		frame.getContentPane().add(lbDate);
 		

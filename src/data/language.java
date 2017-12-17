@@ -19,7 +19,7 @@ public class language {
 	public static String btnConclusion = "Conclusion";
 	
 	
-	public void getEng() {
+	public static void getEng() {
 		language.lbid = "ID";
 		language.lbpassword = "Password";
 		language.btnlogin = "Login";
@@ -34,7 +34,7 @@ public class language {
 		language.btnConclusion = "Conclusion";
 	}
 	
-	public void getThai() {
+	public static void getThai() {
 		language.lbid = "ชื่อผู้ใช้";
 		language.lbpassword = "รหัสผ่าน";
 		language.btnlogin = "เข้าสู่ระบบ";

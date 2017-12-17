@@ -29,8 +29,6 @@ import javax.swing.JMenu;
 
 public class Login{
 	
-	public language lg = new language();
-	
 	public JFrame frame;
 	private JPasswordField passwordField;
 	private JTextField textField;
@@ -77,7 +75,7 @@ public class Login{
 		frame.setBounds(100, 100,screenSize.width*5/10, screenSize.height*5/10);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-		menuBar.setBounds(0, 0, 832, 30);
+		menuBar.setBounds(0, 0, screenSize.width, 30);
 		frame.getContentPane().add(menuBar);
 		
 		menuBar.add(mnLanguage);
@@ -85,7 +83,7 @@ public class Login{
 		mnLanguage.add(mntmEnglish);
 		mntmEnglish.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				lg.getEng();
+				language.getEng();
 				setText();
 			}
 		});
@@ -93,12 +91,12 @@ public class Login{
 		mnLanguage.add(mntmThai);
 		mntmThai.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				lg.getThai();
+				language.getThai();
 				setText();
 			}
 		});
 		
-		btnlogin.setBounds(361, 240, 100, 30);
+		btnlogin.setBounds(screenSize.width/4-50, screenSize.height*30/100, 100, 30);
 		btnlogin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
@@ -112,21 +110,21 @@ public class Login{
 		});
 		
 		passwordField = new JPasswordField();
-		passwordField.setBounds(400, 195, 200, 30);
+		passwordField.setBounds(screenSize.width*2/10, screenSize.height*20/100, 200, 30);
 		
 		textField = new JTextField();
-		textField.setBounds(400, 150, 200, 30);
-		textField.setColumns(10);
+		textField.setBounds(screenSize.width*2/10, screenSize.height*15/100, 200, 30);
+		//textField.setColumns(10);
 		
-		lbid.setBounds(260, 150, 100, 30);
+		lbid.setBounds(screenSize.width*1/10, screenSize.height*15/100, 100, 30);
 		lbid.setHorizontalAlignment(SwingConstants.RIGHT);
-		
-		lbpassword.setBounds(260, 195, 100, 30);
-		lbpassword.setHorizontalAlignment(SwingConstants.RIGHT);
 		frame.getContentPane().setLayout(null);
 		frame.getContentPane().add(lbid);
-		frame.getContentPane().add(textField);
+		
+		lbpassword.setBounds(screenSize.width*1/10, screenSize.height*20/100, 100, 30);
+		lbpassword.setHorizontalAlignment(SwingConstants.RIGHT);
 		frame.getContentPane().add(lbpassword);
+		frame.getContentPane().add(textField);
 		frame.getContentPane().add(passwordField);
 		frame.getContentPane().add(btnlogin);
 		
