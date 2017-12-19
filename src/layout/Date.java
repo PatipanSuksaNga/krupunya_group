@@ -73,7 +73,7 @@ public class Date {
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		
 		frame = new JFrame();
-		frame.setBounds(100, 100,screenSize.width*5/10, screenSize.height*4/10);
+		frame.setBounds(100, 100,screenSize.width*5/10, screenSize.height*5/10);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
@@ -100,7 +100,7 @@ public class Date {
 		
 		JPanel panel = new JPanel();
 		panel.setBorder(new LineBorder(new Color(0, 0, 0)));
-		panel.setBounds(screenSize.width/10, screenSize.height/10, screenSize.width*3/10, screenSize.height/10);
+		panel.setBounds(screenSize.width/10, screenSize.height/10, screenSize.width*3/10, screenSize.height*15/100);
 		frame.getContentPane().add(panel);
 		panel.setLayout(null);
 		
@@ -146,7 +146,7 @@ public class Date {
 				frame.setVisible(false);
 			}
 		});
-		btnBegin.setBounds(screenSize.width*22/100, screenSize.width*15/100, 100, 25);
+		btnBegin.setBounds(screenSize.width*22/100, screenSize.width*20/100, 100, 30);
 		frame.getContentPane().add(btnBegin);
 	}
 	

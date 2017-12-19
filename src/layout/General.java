@@ -148,10 +148,10 @@ public class General {
 		main_panel.setLayout(null);
 		
 		JSeparator separator = new JSeparator();
+		separator.setBounds(839, 0, 2, 2100);
 		separator.setOrientation(SwingConstants.VERTICAL);
 		separator.setForeground(Color.WHITE);
 		separator.setBackground(Color.BLACK);
-		separator.setBounds(screenSize.width/2-1, 0, 2, screenSize.height*2);
 		main_panel.add(separator);
 		scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 		frame.getContentPane().add(scrollPane);
