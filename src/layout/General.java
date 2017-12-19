@@ -80,7 +80,7 @@ public class General {
 		
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		
-		frame = new JFrame();
+		frame = new JFrame("General List Account");
 		frame.setSize(screenSize.width, screenSize.height);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
@@ -135,7 +135,7 @@ public class General {
 		panel.add(btnConclusion);
 		lbDate.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		lbDate.setHorizontalAlignment(SwingConstants.CENTER);
-		lbDate.setBounds((screenSize.width/2)-250, screenSize.height*22/100, 500, 50);
+		lbDate.setBounds(597, 223, 500, 50);
 		
 		frame.getContentPane().add(lbDate);
 		
@@ -164,6 +164,7 @@ public class General {
 		mntmEnglish.setText(language.mntmEnglish);
 		mntmThai.setText(language.mntmThai);
 		lbMainpage.setText(language.lbMainpage);
+		lbDate.setText(language.date);
 		btnBuybilling.setText(language.btnBuybilling);
 		btnSellbilling.setText(language.btnSellbilling);
 		btnOnspotsale.setText(language.btnOnspotsale);

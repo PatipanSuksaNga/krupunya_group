@@ -41,6 +41,10 @@ public class Date {
 	JMenu mnLanguage = new JMenu(language.mnLanguage);
 	JMenuItem mntmEnglish = new JMenuItem(language.mntmEnglish);
 	JMenuItem mntmThai = new JMenuItem(language.mntmThai);
+	JLabel lbDay = new JLabel(language.lbDay);
+	JLabel lbMonth = new JLabel(language.lbMonth);
+	JLabel lbYear = new JLabel(language.lbYear);
+	JButton btnBegin = new JButton(language.btnBegin);
 
 	/**
 	 * Launch the application.
@@ -122,22 +126,22 @@ public class Date {
 		textFieldYear.setBounds(screenSize.width*45/200, screenSize.width*4/100, 50, 22);
 		panel.add(textFieldYear);
 		
-		JLabel lbDay = new JLabel("Day");
+		
 		lbDay.setHorizontalAlignment(SwingConstants.CENTER);
 		lbDay.setBounds(screenSize.width*9/200, screenSize.width*2/100, 50, 16);
 		panel.add(lbDay);
 		
-		JLabel lbMonth = new JLabel("Month");
+		
 		lbMonth.setHorizontalAlignment(SwingConstants.CENTER);
 		lbMonth.setBounds(screenSize.width*27/200, screenSize.width*2/100, 50, 16);
 		panel.add(lbMonth);
 		
-		JLabel lbYear = new JLabel("Year");
+		
 		lbYear.setHorizontalAlignment(SwingConstants.CENTER);
 		lbYear.setBounds(screenSize.width*45/200, screenSize.width*2/100, 50, 16);
 		panel.add(lbYear);
 		
-		JButton btnBegin = new JButton("Begin");
+		
 		btnBegin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				fetchdate();
@@ -151,15 +155,20 @@ public class Date {
 	}
 	
 	public void fetchdate() {
-		dateIn.day = textFieldDay.getText();
-		dateIn.month = textFieldMonth.getText();
-		dateIn.year = textFieldYear.getText();
+		dateIn.day = textFieldDay.getText().toString();
+		dateIn.month = textFieldMonth.getText().toString();
+		dateIn.year = textFieldYear.getText().toString();
+		language.setdate();
 	}
 	
 	private void setText() {
 		mnLanguage.setText(language.mnLanguage);
 		mntmEnglish.setText(language.mntmEnglish);
 		mntmThai.setText(language.mntmThai);
+		lbDay.setText(language.lbDay);
+		lbMonth.setText(language.lbMonth);
+		lbYear.setText(language.lbYear);
+		btnBegin.setText(language.btnBegin);
 		
 	}
 }
