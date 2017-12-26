@@ -105,7 +105,7 @@ public class General {
 		
 		frame.getContentPane().add(menuBar);
 		
-		lbMainpage.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		lbMainpage.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		lbMainpage.setHorizontalAlignment(SwingConstants.CENTER);
 		lbMainpage.setBounds((screenSize.width/2)-150, screenSize.height*4/100, 300, 50);
 		frame.getContentPane().add(lbMainpage);
@@ -133,9 +133,9 @@ public class General {
 		btnConclusion.setBounds(640, 20, 140, 25);
 		
 		panel.add(btnConclusion);
-		lbDate.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		lbDate.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		lbDate.setHorizontalAlignment(SwingConstants.CENTER);
-		lbDate.setBounds(597, 223, 500, 50);
+		lbDate.setBounds(screenSize.width/2-250, screenSize.width*13/100, 500, 50);
 		
 		frame.getContentPane().add(lbDate);
 		
