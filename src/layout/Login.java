@@ -31,7 +31,7 @@ public class Login{
 	
 	public JFrame frame;
 	private JPasswordField passwordField;
-	private JTextField textField;
+	private JTextField textFieldID;
 	
 	JButton btnlogin = new JButton(language.btnlogin);
 	JLabel lbid = new JLabel(language.lbid);
@@ -112,8 +112,8 @@ public class Login{
 		passwordField = new JPasswordField();
 		passwordField.setBounds(screenSize.width*2/10, screenSize.height*20/100, 200, 30);
 		
-		textField = new JTextField();
-		textField.setBounds(screenSize.width*2/10, screenSize.height*15/100, 200, 30);
+		textFieldID = new JTextField();
+		textFieldID.setBounds(screenSize.width*2/10, screenSize.height*15/100, 200, 30);
 		//textField.setColumns(10);
 		
 		lbid.setBounds(screenSize.width*1/10, screenSize.height*15/100, 100, 30);
@@ -124,7 +124,7 @@ public class Login{
 		lbpassword.setBounds(screenSize.width*1/10, screenSize.height*20/100, 100, 30);
 		lbpassword.setHorizontalAlignment(SwingConstants.RIGHT);
 		frame.getContentPane().add(lbpassword);
-		frame.getContentPane().add(textField);
+		frame.getContentPane().add(textFieldID);
 		frame.getContentPane().add(passwordField);
 		frame.getContentPane().add(btnlogin);
 		
