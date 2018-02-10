@@ -25,7 +25,10 @@ import javax.swing.JComboBox;
 import javax.swing.JButton;
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
+import javax.swing.table.DefaultTableModel;
+
 import java.awt.Color;
+import javax.swing.JTable;
 
 public class BuyBilling {
 
@@ -43,6 +46,7 @@ public class BuyBilling {
 	private JTextField textField_Size;
 	private JTextField textField_TotalWeight;
 	private JTextField textField_Price;
+	private JTable table;
 
 	/**
 	 * Launch the application.
@@ -75,7 +79,7 @@ public class BuyBilling {
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		
 		frame = new JFrame();
-		frame.setBounds(100, 100, 970, 900);
+		frame.setBounds(50, 50, 970, 950);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
@@ -233,7 +237,44 @@ public class BuyBilling {
 		lbPrice.setHorizontalAlignment(SwingConstants.CENTER);
 		lbPrice.setBounds(500, 50, 100, 20);
 		panel_1.add(lbPrice);
-		scrollPane.setBounds(0, 31, windowSize.width-20, windowSize.height-50);
+		
+		table = new JTable();
+		table.setBorder(new LineBorder(new Color(0, 0, 0)));
+		table.setBounds(50, 450, 850, 400);
+		/*DefaultTableModel model = new DefaultTableModel();
+        table.setModel(new DefaultTableModel(
+        	new Object[][] {
+        		{null, null, null, null},
+        		{null, null, null, null},
+        		{null, null, null, null},
+        		{null, null, null, null},
+        		{null, null, null, null},
+        		{null, null, null, null},
+        		{null, null, null, null},
+        		{null, null, null, null},
+        		{null, null, null, null},
+        		{null, null, null, null},
+        		{null, null, null, null},
+        	},
+        	new String[] {
+        		"a", "New column", "New column", "New column"
+        	}
+        ));*/
+		DefaultTableModel model = new DefaultTableModel();
+		table.setModel(model);
+        model.addColumn("Secret number");
+        model.addColumn("Size");
+        model.addColumn("Total weight");
+        model.addColumn("Price per kg");
+        model.addRow(new Object[]{"Secret number","Size","Total weight","Price per kg"});
+        model.addRow(new Object[]{"","","",""});
+        model.addRow(new Object[]{"","","",""});
+        model.addRow(new Object[]{"","","",""});
+        model.addRow(new Object[]{"","","",""});
+        model.addRow(new Object[]{"","","",""});
+		
+		panel.add(table);
+		scrollPane.setBounds(0, 31, windowSize.width-20, windowSize.height-70);
 		frame.getContentPane().add(scrollPane);
 	}
 	
