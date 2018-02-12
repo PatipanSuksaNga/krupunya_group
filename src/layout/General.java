@@ -21,6 +21,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.border.LineBorder;
+import javax.swing.table.DefaultTableModel;
 
 import data.language;
 import com.jgoodies.forms.layout.FormLayout;
@@ -31,6 +32,8 @@ import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import java.awt.Font;
 import javax.swing.JSeparator;
+import java.awt.Label;
+import javax.swing.JTable;
 
 public class General {
 
@@ -39,6 +42,8 @@ public class General {
 	JMenu mnLanguage = new JMenu(language.mnLanguage);
 	JMenuItem mntmEnglish = new JMenuItem(language.mntmEnglish);
 	JMenuItem mntmThai = new JMenuItem(language.mntmThai);
+	DefaultTableModel buybill_model = new DefaultTableModel();
+	
 	private final JPanel panel = new JPanel();
 	private final JButton btnBuybilling = new JButton("Buy Billing");
 	private final JButton btnSellbilling = new JButton("Sell Billing");
@@ -49,6 +54,8 @@ public class General {
 	private final JPanel main_panel = new JPanel();
 	private final JLabel lbMainpage = new JLabel("Main Page");
 	private final JLabel lbDate = new JLabel("Date ");
+	private final JLabel lblBuyBillDetail = new JLabel("Buy bill detail");
+	private JTable buybill_table;
 
 	/**
 	 * Launch the application.
@@ -116,6 +123,8 @@ public class General {
 		btnBuybilling.setBounds(40, 20, 140, 25);
 		btnBuybilling.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				BuyBilling buybilling_window = new BuyBilling();
+				buybilling_window.frame.setVisible(true);
 			}
 		});
 		panel.setLayout(null);
@@ -148,11 +157,43 @@ public class General {
 		main_panel.setLayout(null);
 		
 		JSeparator separator = new JSeparator();
-		separator.setBounds(839, 0, 2, 2100);
+		separator.setBounds(screenSize.width/2-1, 0, 2, screenSize.height*2);
 		separator.setOrientation(SwingConstants.VERTICAL);
 		separator.setForeground(Color.WHITE);
 		separator.setBackground(Color.BLACK);
 		main_panel.add(separator);
+		
+		JSeparator separator_1 = new JSeparator();
+		separator_1.setForeground(Color.WHITE);
+		separator_1.setBackground(Color.BLACK);
+		separator_1.setBounds(0, 50, screenSize.width, 2);
+		main_panel.add(separator_1);
+		
+		JLabel lbRevenue = new JLabel("Revenue");
+		lbRevenue.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		lbRevenue.setHorizontalAlignment(SwingConstants.CENTER);
+		lbRevenue.setBounds(screenSize.width/4-100, 5, 200, 40);
+		main_panel.add(lbRevenue);
+		
+		JLabel lbExpenditure = new JLabel("Expenditure");
+		lbExpenditure.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		lbExpenditure.setHorizontalAlignment(SwingConstants.CENTER);
+		lbExpenditure.setBounds(screenSize.width*3/4-100, 5, 200, 40);
+		main_panel.add(lbExpenditure);
+		
+		lblBuyBillDetail.setBounds(screenSize.width/2+50, 100, 100, 20);
+		main_panel.add(lblBuyBillDetail);
+		
+		buybill_table = new JTable();
+		buybill_table.setBorder(new LineBorder(new Color(0, 0, 0)));
+		buybill_table.setBounds(screenSize.width/2+50, 150, screenSize.width/2-400, 300);
+		buybill_table.setModel(buybill_model);
+		buybill_model.addColumn("name");
+		buybill_model.addColumn("price");
+		buybill_model.addColumn("status");
+		
+		main_panel.add(buybill_table);
+		
 		scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 		frame.getContentPane().add(scrollPane);
 		

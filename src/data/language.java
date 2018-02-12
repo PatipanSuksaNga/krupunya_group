@@ -22,7 +22,7 @@ public class language {
 	
 	
 	public static void getEng() {
-		language.mnLanguage = "ภาษา";
+		language.mnLanguage = "English";
 		language.mntmEnglish = "English";
 		language.mntmThai = "ไทย";
 		language.lbid = "ID";

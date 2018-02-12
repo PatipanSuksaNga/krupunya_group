@@ -5,6 +5,7 @@ import java.awt.Toolkit;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -12,6 +13,10 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JScrollPane;
 
+import data.BillCollections;
+import data.Buybill;
+import data.Product;
+import data.dateIn;
 import data.language;
 
 import java.awt.BorderLayout;
@@ -32,12 +37,13 @@ import javax.swing.JTable;
 
 public class BuyBilling {
 
-	private JFrame frame;
+	JFrame frame;
 	
 	JMenuBar menuBar = new JMenuBar();
 	JMenu mnLanguage = new JMenu(language.mnLanguage);
 	JMenuItem mntmEnglish = new JMenuItem(language.mntmEnglish);
 	JMenuItem mntmThai = new JMenuItem(language.mntmThai);
+	DefaultTableModel model = new DefaultTableModel();
 	private JTextField textField_Name;
 	private JTextField textField_Address;
 	private JTextField textField_Importer;
@@ -47,6 +53,7 @@ public class BuyBilling {
 	private JTextField textField_TotalWeight;
 	private JTextField textField_Price;
 	private JTable table;
+	private JTextField textField_Phonenumber;
 
 	/**
 	 * Launch the application.
@@ -112,50 +119,40 @@ public class BuyBilling {
 		JScrollPane scrollPane = new JScrollPane(panel,JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		panel.setLayout(null);
 		
-		JLabel lbCustomerName = new JLabel("Name");
-		lbCustomerName.setHorizontalAlignment(SwingConstants.CENTER);
-		lbCustomerName.setBounds(50, 150, 100, 20);
-		panel.add(lbCustomerName);
-		
-		textField_Name = new JTextField();
-		textField_Name.setHorizontalAlignment(SwingConstants.CENTER);
-		textField_Name.setBounds(150, 150, 100, 20);
-		panel.add(textField_Name);
-		textField_Name.setColumns(10);
-		
-		JLabel lbType = new JLabel("Type");
-		lbType.setHorizontalAlignment(SwingConstants.CENTER);
-		lbType.setBounds(300, 150, 100, 20);
-		panel.add(lbType);
-		
-		textField_Address = new JTextField();
-		textField_Address.setHorizontalAlignment(SwingConstants.CENTER);
-		textField_Address.setBounds(150, 200, 100, 20);
-		panel.add(textField_Address);
-		textField_Address.setColumns(10);
+		JLabel BuyBilling = new JLabel("Buy Billing");
+		BuyBilling.setHorizontalAlignment(SwingConstants.CENTER);
+		BuyBilling.setBounds(435, 30, 100, 30);
+		panel.add(BuyBilling);
 		
 		JLabel lbDate = new JLabel("Date");
 		lbDate.setHorizontalAlignment(SwingConstants.CENTER);
 		lbDate.setBounds(800, 20, 100, 20);
 		panel.add(lbDate);
 		
-		JLabel BuyBilling = new JLabel("Buy Billing");
-		BuyBilling.setHorizontalAlignment(SwingConstants.CENTER);
-		BuyBilling.setBounds(435, 30, 100, 30);
-		panel.add(BuyBilling);
-		
-		JComboBox comboBox_Type = new JComboBox();
-		comboBox_Type.setBounds(400, 150, 100, 20);
-		panel.add(comboBox_Type);
-		
-		JComboBox comboBox_Mumber = new JComboBox();
-		comboBox_Mumber.setBounds(150, 100, 100, 20);
-		panel.add(comboBox_Mumber);
-		
 		JLabel lbMember = new JLabel("Member");
 		lbMember.setHorizontalAlignment(SwingConstants.CENTER);
 		lbMember.setBounds(50, 100, 100, 20);
 		panel.add(lbMember);
+		
+		JLabel lbStatus = new JLabel("status");
+		lbStatus.setHorizontalAlignment(SwingConstants.CENTER);
+		lbStatus.setBounds(300, 100, 100, 20);
+		panel.add(lbStatus);
+		
+		JLabel lbCustomerName = new JLabel("Name");
+		lbCustomerName.setHorizontalAlignment(SwingConstants.CENTER);
+		lbCustomerName.setBounds(50, 150, 100, 20);
+		panel.add(lbCustomerName);
+		
+		JLabel lbType = new JLabel("Type");
+		lbType.setHorizontalAlignment(SwingConstants.CENTER);
+		lbType.setBounds(300, 150, 100, 20);
+		panel.add(lbType);
+		
+		JLabel lbPhoneNumber = new JLabel("Phone number");
+		lbPhoneNumber.setHorizontalAlignment(SwingConstants.CENTER);
+		lbPhoneNumber.setBounds(550, 150, 100, 20);
+		panel.add(lbPhoneNumber);
 		
 		JLabel lbAddress = new JLabel("Address");
 		lbAddress.setHorizontalAlignment(SwingConstants.CENTER);
@@ -167,16 +164,51 @@ public class BuyBilling {
 		lbImporter.setBounds(300, 200, 100, 20);
 		panel.add(lbImporter);
 		
+		JLabel lbEvaluater = new JLabel("Evaluator");
+		lbEvaluater.setHorizontalAlignment(SwingConstants.CENTER);
+		lbEvaluater.setBounds(550, 200, 100, 20);
+		panel.add(lbEvaluater);
+		
+		JComboBox comboBox_Member = new JComboBox();
+		comboBox_Member.setBounds(150, 100, 100, 20);
+		comboBox_Member.addItem("-");
+		comboBox_Member.addItem("...");
+		panel.add(comboBox_Member);
+		
+		JComboBox comboBox_Status = new JComboBox();
+		comboBox_Status.setBounds(400, 100, 100, 20);
+		comboBox_Status.addItem("paid");
+		comboBox_Status.addItem( "pending");
+		panel.add(comboBox_Status);
+		
+		textField_Name = new JTextField();
+		textField_Name.setHorizontalAlignment(SwingConstants.CENTER);
+		textField_Name.setBounds(150, 150, 100, 20);
+		panel.add(textField_Name);
+		textField_Name.setColumns(10);
+		
+		JComboBox comboBox_Type = new JComboBox();
+		comboBox_Type.setBounds(400, 150, 100, 20);
+		comboBox_Type.addItem("white shrimp");
+		comboBox_Type.addItem("Lobster");
+		panel.add(comboBox_Type);
+		
+		textField_Phonenumber = new JTextField();
+		textField_Phonenumber.setBounds(650, 150, 100, 20);
+		panel.add(textField_Phonenumber);
+		textField_Phonenumber.setColumns(10);
+		
+		textField_Address = new JTextField();
+		textField_Address.setHorizontalAlignment(SwingConstants.CENTER);
+		textField_Address.setBounds(150, 200, 100, 20);
+		panel.add(textField_Address);
+		textField_Address.setColumns(10);
+		
 		textField_Importer = new JTextField();
 		textField_Importer.setHorizontalAlignment(SwingConstants.CENTER);
 		textField_Importer.setBounds(400, 200, 100, 20);
 		panel.add(textField_Importer);
 		textField_Importer.setColumns(10);
-		
-		JLabel lbEvaluater = new JLabel("Evaluator");
-		lbEvaluater.setHorizontalAlignment(SwingConstants.CENTER);
-		lbEvaluater.setBounds(550, 200, 100, 20);
-		panel.add(lbEvaluater);
 		
 		textField_Evaluater = new JTextField();
 		textField_Evaluater.setHorizontalAlignment(SwingConstants.CENTER);
@@ -184,11 +216,61 @@ public class BuyBilling {
 		panel.add(textField_Evaluater);
 		textField_Evaluater.setColumns(10);
 		
+		JButton btnFinishBilling = new JButton("Finish billing");
+		btnFinishBilling.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				Buybill buybill = new Buybill(); 
+				
+				buybill.name = textField_Name.getText();
+				buybill.address = textField_Address.getText();
+				buybill.phone_number = textField_Phonenumber.getText();
+				buybill.taker = textField_Importer.getText();
+				buybill.weighter = textField_Evaluater.getText();
+				buybill.date = dateIn.day+dateIn.month+dateIn.year;
+				buybill.product_type = comboBox_Type.getSelectedItem().toString();
+				
+				if(comboBox_Status.getSelectedItem().toString() == "paid")
+					buybill.status = true;
+				else
+					buybill.status = false;
+				
+				//push product to the bill
+				for (int count = 1; count < model.getRowCount(); count++){
+					Product ptemp = new Product();
+					ptemp.secret_number=model.getValueAt(count, 0).toString();
+					ptemp.size=Integer.parseInt(model.getValueAt(count, 1).toString());
+					ptemp.weight=Double.parseDouble(model.getValueAt(count, 2).toString());
+					ptemp.price=Double.parseDouble(model.getValueAt(count, 3).toString());
+		            buybill.product.add(ptemp);
+		        }
+				
+				BillCollections.buybill.add(buybill);
+				
+			}
+		});
+		btnFinishBilling.setBounds(700, 900, 200, 60);
+		panel.add(btnFinishBilling);
+		
 		JPanel panel_1 = new JPanel();
 		panel_1.setBorder(new LineBorder(new Color(0, 0, 0)));
 		panel_1.setBounds(50, 250, 850, 160);
 		panel.add(panel_1);
 		panel_1.setLayout(null);
+		
+		JButton btnSubmit = new JButton("Submit");
+		btnSubmit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				String 	c1=textField_SecretNumber.getText(),
+						c2=textField_Size.getText(),
+						c3=textField_TotalWeight.getText(),
+						c4=textField_Price.getText();
+				model.addRow(new Object[]{c1,c2,c3,c4});
+			
+			}
+		});
+		btnSubmit.setBounds(700, 100, 100, 30);
+		panel_1.add(btnSubmit);
 		
 		textField_SecretNumber = new JTextField();
 		textField_SecretNumber.setHorizontalAlignment(SwingConstants.CENTER);
@@ -214,10 +296,6 @@ public class BuyBilling {
 		panel_1.add(textField_Price);
 		textField_Price.setColumns(10);
 		
-		JButton btnSubmit = new JButton("Submit");
-		btnSubmit.setBounds(700, 100, 100, 30);
-		panel_1.add(btnSubmit);
-		
 		JLabel lbSecretNumber = new JLabel("Secret number");
 		lbSecretNumber.setHorizontalAlignment(SwingConstants.CENTER);
 		lbSecretNumber.setBounds(50, 50, 100, 20);
@@ -241,37 +319,17 @@ public class BuyBilling {
 		table = new JTable();
 		table.setBorder(new LineBorder(new Color(0, 0, 0)));
 		table.setBounds(50, 450, 850, 400);
-		/*DefaultTableModel model = new DefaultTableModel();
-        table.setModel(new DefaultTableModel(
-        	new Object[][] {
-        		{null, null, null, null},
-        		{null, null, null, null},
-        		{null, null, null, null},
-        		{null, null, null, null},
-        		{null, null, null, null},
-        		{null, null, null, null},
-        		{null, null, null, null},
-        		{null, null, null, null},
-        		{null, null, null, null},
-        		{null, null, null, null},
-        		{null, null, null, null},
-        	},
-        	new String[] {
-        		"a", "New column", "New column", "New column"
-        	}
-        ));*/
-		DefaultTableModel model = new DefaultTableModel();
 		table.setModel(model);
         model.addColumn("Secret number");
         model.addColumn("Size");
         model.addColumn("Total weight");
         model.addColumn("Price per kg");
         model.addRow(new Object[]{"Secret number","Size","Total weight","Price per kg"});
+        /*model.addRow(new Object[]{"","","",""});
         model.addRow(new Object[]{"","","",""});
         model.addRow(new Object[]{"","","",""});
         model.addRow(new Object[]{"","","",""});
-        model.addRow(new Object[]{"","","",""});
-        model.addRow(new Object[]{"","","",""});
+        model.addRow(new Object[]{"","","",""});*/
 		
 		panel.add(table);
 		scrollPane.setBounds(0, 31, windowSize.width-20, windowSize.height-70);
