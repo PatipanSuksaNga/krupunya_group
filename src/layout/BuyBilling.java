@@ -43,6 +43,7 @@ public class BuyBilling {
 	JMenu mnLanguage = new JMenu(language.mnLanguage);
 	JMenuItem mntmEnglish = new JMenuItem(language.mntmEnglish);
 	JMenuItem mntmThai = new JMenuItem(language.mntmThai);
+	JLabel lbDate = new JLabel("Date");
 	DefaultTableModel model = new DefaultTableModel();
 	private JTextField textField_Name;
 	private JTextField textField_Address;
@@ -86,8 +87,8 @@ public class BuyBilling {
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		
 		frame = new JFrame();
-		frame.setBounds(50, 50, 970, 950);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setBounds(0, 0, 970, 950);
+		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
 		setText();
@@ -124,7 +125,6 @@ public class BuyBilling {
 		BuyBilling.setBounds(435, 30, 100, 30);
 		panel.add(BuyBilling);
 		
-		JLabel lbDate = new JLabel("Date");
 		lbDate.setHorizontalAlignment(SwingConstants.CENTER);
 		lbDate.setBounds(800, 20, 100, 20);
 		panel.add(lbDate);
@@ -246,6 +246,7 @@ public class BuyBilling {
 		        }
 				
 				BillCollections.buybill.add(buybill);
+				frame.setVisible(false);
 				
 			}
 		});
@@ -340,6 +341,7 @@ public class BuyBilling {
 		mnLanguage.setText(language.mnLanguage);
 		mntmEnglish.setText(language.mntmEnglish);
 		mntmThai.setText(language.mntmThai);
+		lbDate.setText(language.date);
 		
 	}
 }
