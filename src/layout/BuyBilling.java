@@ -194,6 +194,7 @@ public class BuyBilling {
 		panel.add(comboBox_Type);
 		
 		textField_Phonenumber = new JTextField();
+		textField_Phonenumber.setHorizontalAlignment(SwingConstants.CENTER);
 		textField_Phonenumber.setBounds(650, 150, 100, 20);
 		panel.add(textField_Phonenumber);
 		textField_Phonenumber.setColumns(10);
@@ -236,7 +237,7 @@ public class BuyBilling {
 					buybill.status = false;
 				
 				//push product to the bill
-				for (int count = 1; count < model.getRowCount(); count++){
+				for (int count = 0; count < model.getRowCount(); count++){
 					Product ptemp = new Product();
 					ptemp.secret_number=model.getValueAt(count, 0).toString();
 					ptemp.size=Integer.parseInt(model.getValueAt(count, 1).toString());
@@ -272,6 +273,22 @@ public class BuyBilling {
 		});
 		btnSubmit.setBounds(700, 100, 100, 30);
 		panel_1.add(btnSubmit);
+		
+		JButton btnDelete = new JButton("Delete");
+		btnDelete.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				int numRows = table.getSelectedRows().length;
+				for(int i=0; i<numRows ; i++ ) {
+
+					model.removeRow(table.getSelectedRow());
+				}
+				/*for (int count = 0; count < model.getRowCount(); count++){		//check object
+					System.out.println(model.getValueAt(count, 0).toString());
+		        }*/
+			}
+		});
+		btnDelete.setBounds(580, 100, 100, 30);
+		panel_1.add(btnDelete);
 		
 		textField_SecretNumber = new JTextField();
 		textField_SecretNumber.setHorizontalAlignment(SwingConstants.CENTER);
@@ -319,20 +336,18 @@ public class BuyBilling {
 		
 		table = new JTable();
 		table.setBorder(new LineBorder(new Color(0, 0, 0)));
+		table.setPreferredScrollableViewportSize(new Dimension(850,400));
 		table.setBounds(50, 450, 850, 400);
 		table.setModel(model);
         model.addColumn("Secret number");
         model.addColumn("Size");
         model.addColumn("Total weight");
         model.addColumn("Price per kg");
-        model.addRow(new Object[]{"Secret number","Size","Total weight","Price per kg"});
-        /*model.addRow(new Object[]{"","","",""});
-        model.addRow(new Object[]{"","","",""});
-        model.addRow(new Object[]{"","","",""});
-        model.addRow(new Object[]{"","","",""});
-        model.addRow(new Object[]{"","","",""});*/
+        JScrollPane table_sp = new JScrollPane(table,JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        table_sp.setBounds(50, 450, 850, 400);
+        table_sp.setVisible(true);
+		panel.add(table_sp);
 		
-		panel.add(table);
 		scrollPane.setBounds(0, 31, windowSize.width-20, windowSize.height-70);
 		frame.getContentPane().add(scrollPane);
 	}

@@ -23,6 +23,7 @@ import javax.swing.JMenuItem;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 
+import data.*;
 import data.language;
 import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.ColumnSpec;
@@ -56,6 +57,7 @@ public class General {
 	private final JLabel lbDate = new JLabel("Date ");
 	private final JLabel lblBuyBillDetail = new JLabel("Buy bill detail");
 	private JTable buybill_table;
+	private final JButton btnFetchData = new JButton("Fetch data");
 
 	/**
 	 * Launch the application.
@@ -186,13 +188,42 @@ public class General {
 		
 		buybill_table = new JTable();
 		buybill_table.setBorder(new LineBorder(new Color(0, 0, 0)));
+		buybill_table.setPreferredScrollableViewportSize(new Dimension(screenSize.width/2-400,300));
 		buybill_table.setBounds(screenSize.width/2+50, 150, screenSize.width/2-400, 300);
 		buybill_table.setModel(buybill_model);
 		buybill_model.addColumn("name");
 		buybill_model.addColumn("price");
 		buybill_model.addColumn("status");
 		
-		main_panel.add(buybill_table);
+		JScrollPane buybill_table_sp = new JScrollPane(buybill_table,JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		buybill_table_sp.setBounds(screenSize.width/2+50, 150, screenSize.width/2-400, 300);
+		buybill_table_sp.setVisible(true);
+		main_panel.add(buybill_table_sp);
+		
+		btnFetchData.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				for(int i=0;i<buybill_model.getRowCount();i++)
+					buybill_model.removeRow(i);
+				
+				for(int i=0;i<BillCollections.buybill.size();i++) { 
+					String 	name = BillCollections.buybill.get(i).name,
+							status = null;
+					double 	price = 0.0;
+					if(BillCollections.buybill.get(i).status)
+						status = "paid";
+					else
+						status = "pending";
+					for(int p=0;p<BillCollections.buybill.get(i).product.size();p++)
+						price += BillCollections.buybill.get(i).product.get(p).price * BillCollections.buybill.get(i).product.get(p).weight;
+					buybill_model.addRow(new Object[] {name,price,status});
+				}
+				
+			}
+		});
+		btnFetchData.setBounds(1100, 100, 100, 25);
+		
+		main_panel.add(btnFetchData);
 		
 		scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 		frame.getContentPane().add(scrollPane);
