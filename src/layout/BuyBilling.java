@@ -15,6 +15,7 @@ import javax.swing.JScrollPane;
 
 import data.BillCollections;
 import data.Buybill;
+import data.Information;
 import data.Product;
 import data.dateIn;
 import data.language;
@@ -49,6 +50,8 @@ public class BuyBilling {
 	private JTextField textField_Address;
 	private JTextField textField_Importer;
 	private JTextField textField_Evaluater;
+	Object[] SecretNumber = new Object[] {"A","11","22","33","44","55","6","7","O","1","111","2","3","4","5","8","88","888","other"}; 
+	JComboBox comboBox_SecretNumber = new JComboBox(SecretNumber);
 	private JTextField textField_SecretNumber;
 	private JTextField textField_Size;
 	private JTextField textField_TotalWeight;
@@ -146,7 +149,7 @@ public class BuyBilling {
 		
 		JLabel lbType = new JLabel("Type");
 		lbType.setHorizontalAlignment(SwingConstants.CENTER);
-		lbType.setBounds(300, 150, 100, 20);
+		lbType.setBounds(550, 100, 100, 20);
 		panel.add(lbType);
 		
 		JLabel lbPhoneNumber = new JLabel("Phone number");
@@ -156,17 +159,17 @@ public class BuyBilling {
 		
 		JLabel lbAddress = new JLabel("Address");
 		lbAddress.setHorizontalAlignment(SwingConstants.CENTER);
-		lbAddress.setBounds(50, 200, 100, 20);
+		lbAddress.setBounds(300, 150, 100, 20);
 		panel.add(lbAddress);
 		
 		JLabel lbImporter = new JLabel("Importer");
 		lbImporter.setHorizontalAlignment(SwingConstants.CENTER);
-		lbImporter.setBounds(300, 200, 100, 20);
+		lbImporter.setBounds(50, 200, 100, 20);
 		panel.add(lbImporter);
 		
 		JLabel lbEvaluater = new JLabel("Evaluator");
 		lbEvaluater.setHorizontalAlignment(SwingConstants.CENTER);
-		lbEvaluater.setBounds(550, 200, 100, 20);
+		lbEvaluater.setBounds(300, 200, 100, 20);
 		panel.add(lbEvaluater);
 		
 		JComboBox comboBox_Member = new JComboBox();
@@ -188,7 +191,7 @@ public class BuyBilling {
 		textField_Name.setColumns(10);
 		
 		JComboBox comboBox_Type = new JComboBox();
-		comboBox_Type.setBounds(400, 150, 100, 20);
+		comboBox_Type.setBounds(650, 100, 100, 20);
 		comboBox_Type.addItem("white shrimp");
 		comboBox_Type.addItem("Lobster");
 		panel.add(comboBox_Type);
@@ -201,19 +204,19 @@ public class BuyBilling {
 		
 		textField_Address = new JTextField();
 		textField_Address.setHorizontalAlignment(SwingConstants.CENTER);
-		textField_Address.setBounds(150, 200, 100, 20);
+		textField_Address.setBounds(400, 150, 100, 20);
 		panel.add(textField_Address);
 		textField_Address.setColumns(10);
 		
 		textField_Importer = new JTextField();
 		textField_Importer.setHorizontalAlignment(SwingConstants.CENTER);
-		textField_Importer.setBounds(400, 200, 100, 20);
+		textField_Importer.setBounds(150, 200, 100, 20);
 		panel.add(textField_Importer);
 		textField_Importer.setColumns(10);
 		
 		textField_Evaluater = new JTextField();
 		textField_Evaluater.setHorizontalAlignment(SwingConstants.CENTER);
-		textField_Evaluater.setBounds(650, 200, 100, 20);
+		textField_Evaluater.setBounds(400, 200, 100, 20);
 		panel.add(textField_Evaluater);
 		textField_Evaluater.setColumns(10);
 		
@@ -222,19 +225,19 @@ public class BuyBilling {
 			public void actionPerformed(ActionEvent arg0) {
 				
 				Buybill buybill = new Buybill(); 
-				
+				buybill.id = dateIn.year+dateIn.month+dateIn.day + "B" + Information.buybill_number; Information.buybill_number += 1;
 				buybill.name = textField_Name.getText();
 				buybill.address = textField_Address.getText();
 				buybill.phone_number = textField_Phonenumber.getText();
 				buybill.taker = textField_Importer.getText();
 				buybill.weighter = textField_Evaluater.getText();
-				buybill.date = dateIn.day+dateIn.month+dateIn.year;
+				buybill.issue_date = dateIn.year+dateIn.month+dateIn.day;
 				buybill.product_type = comboBox_Type.getSelectedItem().toString();
 				
 				if(comboBox_Status.getSelectedItem().toString() == "paid")
-					buybill.status = true;
+					{buybill.status = true;buybill.paid_date = buybill.issue_date;}
 				else
-					buybill.status = false;
+					{buybill.status = false;buybill.paid_date = null;}
 				
 				//push product to the bill
 				for (int count = 0; count < model.getRowCount(); count++){
@@ -247,6 +250,7 @@ public class BuyBilling {
 		        }
 				
 				BillCollections.buybill.add(buybill);
+				General.fetchData();
 				frame.setVisible(false);
 				
 			}
@@ -263,15 +267,19 @@ public class BuyBilling {
 		JButton btnSubmit = new JButton("Submit");
 		btnSubmit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				String 	c1=textField_SecretNumber.getText(),
+				String 	c1="",
 						c2=textField_Size.getText(),
 						c3=textField_TotalWeight.getText(),
 						c4=textField_Price.getText();
+				if(comboBox_SecretNumber.getSelectedItem().toString()=="other")
+					c1=textField_SecretNumber.getText();
+				else
+					c1=comboBox_SecretNumber.getSelectedItem().toString();
 				model.addRow(new Object[]{c1,c2,c3,c4});
 			
 			}
 		});
-		btnSubmit.setBounds(700, 100, 100, 30);
+		btnSubmit.setBounds(720, 110, 100, 30);
 		panel_1.add(btnSubmit);
 		
 		JButton btnDelete = new JButton("Delete");
@@ -287,12 +295,25 @@ public class BuyBilling {
 		        }*/
 			}
 		});
-		btnDelete.setBounds(580, 100, 100, 30);
+		btnDelete.setBounds(600, 110, 100, 30);
 		panel_1.add(btnDelete);
+		
+		comboBox_SecretNumber.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				if(comboBox_SecretNumber.getSelectedItem().toString()=="other")
+					textField_SecretNumber.setVisible(true);
+				else
+					textField_SecretNumber.setVisible(false);
+			}
+		});
+		comboBox_SecretNumber.setBounds(50, 75, 100, 20);
+		
+		panel_1.add(comboBox_SecretNumber);
 		
 		textField_SecretNumber = new JTextField();
 		textField_SecretNumber.setHorizontalAlignment(SwingConstants.CENTER);
-		textField_SecretNumber.setBounds(50, 75, 100, 20);
+		textField_SecretNumber.setBounds(50, 100, 100, 20);
+		textField_SecretNumber.setVisible(false);
 		panel_1.add(textField_SecretNumber);
 		textField_SecretNumber.setColumns(10);
 		

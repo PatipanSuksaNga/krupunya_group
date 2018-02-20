@@ -43,7 +43,9 @@ public class General {
 	JMenu mnLanguage = new JMenu(language.mnLanguage);
 	JMenuItem mntmEnglish = new JMenuItem(language.mntmEnglish);
 	JMenuItem mntmThai = new JMenuItem(language.mntmThai);
-	DefaultTableModel buybill_model = new DefaultTableModel();
+	static DefaultTableModel buybill_model = new DefaultTableModel();
+	static DefaultTableModel pending_buybill_model = new DefaultTableModel();
+	DefaultTableModel pay_pending_buybill_model = new DefaultTableModel();
 	
 	private final JPanel panel = new JPanel();
 	private final JButton btnBuybilling = new JButton("Buy Billing");
@@ -55,9 +57,20 @@ public class General {
 	private final JPanel main_panel = new JPanel();
 	private final JLabel lbMainpage = new JLabel("Main Page");
 	private final JLabel lbDate = new JLabel("Date ");
-	private final JLabel lblBuyBillDetail = new JLabel("Buy bill detail");
+	private final JLabel lbTotalBuyBill = new JLabel("Total Buy bill");
 	private JTable buybill_table;
 	private final JButton btnFetchData = new JButton("Fetch data");
+	private JTable pending_buybill_table;
+	private JTable pay_pending_buybill_table;
+	private final JLabel lbPayPendingBuyBill = new JLabel("Pay pending buy bill");
+	private final JLabel lbSumBuyPrice = new JLabel("Sum buy price :");
+	private final JLabel lbSumPendingPrice = new JLabel("Sum pending price :");
+	private final JLabel lbSumPayPendingPrice = new JLabel("Sum pay pending price :");
+	private final JLabel lbSumPaidAmount = new JLabel("Sum apid amount :");
+	private final JLabel lbSumBuyPriceNUM = new JLabel("0.0");
+	private final JLabel lbSumPendingPriceNUM = new JLabel("0.0");
+	private final JLabel lbSumPayPendingPriceNUM = new JLabel("0.0");
+	private final JLabel lbSumPaidAmountNUM = new JLabel("0.0");
 
 	/**
 	 * Launch the application.
@@ -95,6 +108,8 @@ public class General {
 		frame.getContentPane().setLayout(null);
 		
 		setText();
+		fetchData();
+		
 		menuBar.setBounds(0, 0, screenSize.width, 30);
 		menuBar.add(mnLanguage);
 		mnLanguage.add(mntmEnglish);
@@ -111,17 +126,17 @@ public class General {
 				setText();
 			}
 		});
-		
 		frame.getContentPane().add(menuBar);
 		
 		lbMainpage.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		lbMainpage.setHorizontalAlignment(SwingConstants.CENTER);
 		lbMainpage.setBounds((screenSize.width/2)-150, screenSize.height*4/100, 300, 50);
 		frame.getContentPane().add(lbMainpage);
+		
 		panel.setBorder(new LineBorder(new Color(0, 0, 0)));
 		panel.setBounds(screenSize.width/10, screenSize.height/10, screenSize.width*8/10, screenSize.height/10);
-		
 		frame.getContentPane().add(panel);
+		
 		btnBuybilling.setBounds(40, 20, 140, 25);
 		btnBuybilling.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -130,19 +145,30 @@ public class General {
 			}
 		});
 		panel.setLayout(null);
-		
 		panel.add(btnBuybilling);
+		btnSellbilling.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				SellBilling sellbilling_window = new SellBilling();
+				sellbilling_window.frame.setVisible(true);
+			}
+		});
+		
 		btnSellbilling.setBounds(190, 20, 140, 25);
-		
 		panel.add(btnSellbilling);
+		
 		btnOnspotsale.setBounds(340, 20, 140, 25);
-		
 		panel.add(btnOnspotsale);
+		
+		btnSizetable.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				SizeTable sizetablw_window = new SizeTable();
+				sizetablw_window.frame.setVisible(true);
+			}
+		});
 		btnSizetable.setBounds(490, 20, 140, 25);
-		
 		panel.add(btnSizetable);
-		btnConclusion.setBounds(640, 20, 140, 25);
 		
+		btnConclusion.setBounds(640, 20, 140, 25);
 		panel.add(btnConclusion);
 		lbDate.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		lbDate.setHorizontalAlignment(SwingConstants.CENTER);
@@ -154,9 +180,11 @@ public class General {
 		
 		main_panel.setPreferredSize(new Dimension(screenSize.width,screenSize.height*2));
 		main_panel.setBounds(0,screenSize.height*4/10,screenSize.width,screenSize.height*2);
+		main_panel.setLayout(null);
 		scrollPane.setBounds(0,screenSize.height*3/10,screenSize.width,screenSize.height*7/10);
 		scrollPane.setViewportView(main_panel);
-		main_panel.setLayout(null);
+		scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+		frame.getContentPane().add(scrollPane);
 		
 		JSeparator separator = new JSeparator();
 		separator.setBounds(screenSize.width/2-1, 0, 2, screenSize.height*2);
@@ -183,51 +211,112 @@ public class General {
 		lbExpenditure.setBounds(screenSize.width*3/4-100, 5, 200, 40);
 		main_panel.add(lbExpenditure);
 		
-		lblBuyBillDetail.setBounds(screenSize.width/2+50, 100, 100, 20);
-		main_panel.add(lblBuyBillDetail);
+		lbTotalBuyBill.setBounds(screenSize.width/2+50, 100, 100, 25);
+		main_panel.add(lbTotalBuyBill);	
+		
+		JLabel lbPendingBuyBill = new JLabel("Pending buy bill");
+		lbPendingBuyBill.setBounds(screenSize.width/2+50, 500, 100, 25);
+		main_panel.add(lbPendingBuyBill);
+		
+		lbPayPendingBuyBill.setBounds(screenSize.width/2+50, 800, 150, 25);
+		main_panel.add(lbPayPendingBuyBill);
 		
 		buybill_table = new JTable();
 		buybill_table.setBorder(new LineBorder(new Color(0, 0, 0)));
 		buybill_table.setPreferredScrollableViewportSize(new Dimension(screenSize.width/2-400,300));
 		buybill_table.setBounds(screenSize.width/2+50, 150, screenSize.width/2-400, 300);
 		buybill_table.setModel(buybill_model);
+		buybill_model.addColumn("ID");
 		buybill_model.addColumn("name");
 		buybill_model.addColumn("price");
 		buybill_model.addColumn("status");
-		
-		JScrollPane buybill_table_sp = new JScrollPane(buybill_table,JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		JScrollPane buybill_table_sp = new JScrollPane(	buybill_table,
+														JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+														JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		buybill_table_sp.setBounds(screenSize.width/2+50, 150, screenSize.width/2-400, 300);
 		buybill_table_sp.setVisible(true);
 		main_panel.add(buybill_table_sp);
 		
+		pending_buybill_table = new JTable();
+		pending_buybill_table.setBorder(new LineBorder(new Color(0, 0, 0)));
+		pending_buybill_table.setPreferredScrollableViewportSize(new Dimension(screenSize.width/2-400,200));
+		pending_buybill_table.setBounds(screenSize.width/2+50, 550, screenSize.width/2-400, 200);
+		pending_buybill_table.setModel(pending_buybill_model);
+		pending_buybill_model.addColumn("ID");
+		pending_buybill_model.addColumn("name");
+		pending_buybill_model.addColumn("price");
+		pending_buybill_model.addColumn("paid date");
+		JScrollPane pending_buybill_table_sp = new JScrollPane(	pending_buybill_table,
+																JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+																JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		pending_buybill_table_sp.setBounds(screenSize.width/2+50, 550, screenSize.width/2-400, 200);
+		pending_buybill_table_sp.setVisible(true);
+		main_panel.add(pending_buybill_table_sp);
+		
+		pay_pending_buybill_table = new JTable();
+		pay_pending_buybill_table.setBorder(new LineBorder(new Color(0, 0, 0)));
+		pay_pending_buybill_table.setPreferredScrollableViewportSize(new Dimension(screenSize.width/2-400,200));
+		pay_pending_buybill_table.setBounds(screenSize.width/2+50, 850, screenSize.width/2-400, 100);
+		pay_pending_buybill_table.setModel(pay_pending_buybill_model);
+		pay_pending_buybill_model.addColumn("ID");
+		pay_pending_buybill_model.addColumn("name");
+		pay_pending_buybill_model.addColumn("price");
+		pay_pending_buybill_model.addColumn("issued date");
+		JScrollPane pay_pending_buybill_table_sp = new JScrollPane(	pay_pending_buybill_table,
+																	JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+																	JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		pay_pending_buybill_table_sp.setBounds(screenSize.width/2+50, 850, screenSize.width/2-400, 100);
+		pay_pending_buybill_table_sp.setVisible(true);
+		main_panel.add(pay_pending_buybill_table_sp);
+		
+		btnFetchData.setBounds(screenSize.width/2+150, 100, 100, 25);
 		btnFetchData.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
-				for(int i=0;i<buybill_model.getRowCount();i++)
-					buybill_model.removeRow(i);
-				
-				for(int i=0;i<BillCollections.buybill.size();i++) { 
-					String 	name = BillCollections.buybill.get(i).name,
-							status = null;
-					double 	price = 0.0;
-					if(BillCollections.buybill.get(i).status)
-						status = "paid";
-					else
-						status = "pending";
-					for(int p=0;p<BillCollections.buybill.get(i).product.size();p++)
-						price += BillCollections.buybill.get(i).product.get(p).price * BillCollections.buybill.get(i).product.get(p).weight;
-					buybill_model.addRow(new Object[] {name,price,status});
-				}
-				
+				fetchData();
 			}
 		});
-		btnFetchData.setBounds(1100, 100, 100, 25);
-		
 		main_panel.add(btnFetchData);
 		
-		scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-		frame.getContentPane().add(scrollPane);
+		lbSumBuyPrice.setHorizontalAlignment(SwingConstants.RIGHT);
+		lbSumBuyPrice.setBounds(screenSize.width*3/4+100, 150, 150, 25);
+		main_panel.add(lbSumBuyPrice);
 		
+		lbSumPendingPrice.setHorizontalAlignment(SwingConstants.RIGHT);
+		lbSumPendingPrice.setBounds(screenSize.width*3/4+100, 200, 150, 25);
+		main_panel.add(lbSumPendingPrice);
+		
+		lbSumPayPendingPrice.setHorizontalAlignment(SwingConstants.RIGHT);
+		lbSumPayPendingPrice.setBounds(screenSize.width*3/4+100, 250, 150, 25);
+		main_panel.add(lbSumPayPendingPrice);
+		
+		lbSumPaidAmount.setHorizontalAlignment(SwingConstants.RIGHT);
+		lbSumPaidAmount.setBounds(screenSize.width*3/4+100, 300, 150, 25);
+		main_panel.add(lbSumPaidAmount);
+		
+		lbSumBuyPriceNUM.setBounds(screenSize.width*3/4+260, 150, 150, 25);
+		main_panel.add(lbSumBuyPriceNUM);
+		
+		lbSumPendingPriceNUM.setBounds(screenSize.width*3/4+260, 200, 150, 25);
+		main_panel.add(lbSumPendingPriceNUM);
+		
+		lbSumPayPendingPriceNUM.setBounds(screenSize.width*3/4+260, 250, 150, 25);
+		main_panel.add(lbSumPayPendingPriceNUM);
+		
+		lbSumPaidAmountNUM.setBounds(screenSize.width*3/4+260, 300, 150, 25);
+		main_panel.add(lbSumPaidAmountNUM);
+		
+		JButton btnPayBill = new JButton("Pay bill");
+		btnPayBill.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int numRows = pending_buybill_table.getSelectedRows().length;
+				for(int i=0; i<numRows ; i++ ) {
+
+					pending_buybill_model.removeRow(pending_buybill_table.getSelectedRow());
+				}
+			}
+		});
+		btnPayBill.setBounds(990, 500, 100, 25);
+		main_panel.add(btnPayBill);
 
 	}
 	
@@ -242,5 +331,26 @@ public class General {
 		btnOnspotsale.setText(language.btnOnspotsale);
 		btnSizetable.setText(language.btnSizetable);
 		btnConclusion.setText(language.btnConclusion);
+	}
+	public static void fetchData() {
+		for(int i=0;i<buybill_model.getRowCount();i++)
+			buybill_model.removeRow(i);
+		for(int i=0;i<pending_buybill_model.getRowCount();i++)
+			pending_buybill_model.removeRow(i);
+		
+		for(int i=0;i<BillCollections.buybill.size();i++) { 
+			String 	name = BillCollections.buybill.get(i).name,
+					status = null,
+					id = BillCollections.buybill.get(i).id;
+			double 	price = 0.0;
+			if(BillCollections.buybill.get(i).status)
+				status = "paid";
+			else {
+				status = "pending";
+			}
+			for(int p=0;p<BillCollections.buybill.get(i).product.size();p++)
+				price += BillCollections.buybill.get(i).product.get(p).price * BillCollections.buybill.get(i).product.get(p).weight;
+			buybill_model.addRow(new Object[] {id,name,price,status});
+		}
 	}
 }
