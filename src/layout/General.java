@@ -24,7 +24,7 @@ import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 
 import data.*;
-import data.language;
+
 import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.RowSpec;
@@ -45,7 +45,7 @@ public class General {
 	JMenuItem mntmThai = new JMenuItem(language.mntmThai);
 	static DefaultTableModel buybill_model = new DefaultTableModel();
 	static DefaultTableModel pending_buybill_model = new DefaultTableModel();
-	DefaultTableModel pay_pending_buybill_model = new DefaultTableModel();
+	static DefaultTableModel pay_pending_buybill_model = new DefaultTableModel();
 	
 	private final JPanel panel = new JPanel();
 	private final JButton btnBuybilling = new JButton("Buy Billing");
@@ -66,11 +66,11 @@ public class General {
 	private final JLabel lbSumBuyPrice = new JLabel("Sum buy price :");
 	private final JLabel lbSumPendingPrice = new JLabel("Sum pending price :");
 	private final JLabel lbSumPayPendingPrice = new JLabel("Sum pay pending price :");
-	private final JLabel lbSumPaidAmount = new JLabel("Sum apid amount :");
-	private final JLabel lbSumBuyPriceNUM = new JLabel("0.0");
-	private final JLabel lbSumPendingPriceNUM = new JLabel("0.0");
-	private final JLabel lbSumPayPendingPriceNUM = new JLabel("0.0");
-	private final JLabel lbSumPaidAmountNUM = new JLabel("0.0");
+	private final JLabel lbSumPaidAmount = new JLabel("Sum paid amount :");
+	private static JLabel lbSumBuyPriceNUM = new JLabel("0.0");
+	private static JLabel lbSumPendingPriceNUM = new JLabel("0.0");
+	private static JLabel lbSumPayPendingPriceNUM = new JLabel("0.0");
+	private static JLabel lbSumPaidAmountNUM = new JLabel("0.0");
 
 	/**
 	 * Launch the application.
@@ -108,7 +108,7 @@ public class General {
 		frame.getContentPane().setLayout(null);
 		
 		setText();
-		fetchData();
+		//fetchData();
 		
 		menuBar.setBounds(0, 0, screenSize.width, 30);
 		menuBar.add(mnLanguage);
@@ -245,7 +245,7 @@ public class General {
 		pending_buybill_model.addColumn("ID");
 		pending_buybill_model.addColumn("name");
 		pending_buybill_model.addColumn("price");
-		pending_buybill_model.addColumn("paid date");
+		pending_buybill_model.addColumn("issue date");
 		JScrollPane pending_buybill_table_sp = new JScrollPane(	pending_buybill_table,
 																JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
 																JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
@@ -310,9 +310,18 @@ public class General {
 			public void actionPerformed(ActionEvent e) {
 				int numRows = pending_buybill_table.getSelectedRows().length;
 				for(int i=0; i<numRows ; i++ ) {
-
-					pending_buybill_model.removeRow(pending_buybill_table.getSelectedRow());
+					String id = pending_buybill_table.getValueAt(i, 0).toString();
+					for(Buybill b:BillCollections.pending_buybill) {
+						if(b.id == id) {
+							BillCollections.pending_buybill.remove(b);
+							b.status = true;
+							b.paid_date = dateIn.year + dateIn.month + dateIn.day;
+							BillCollections.pay_pending_buybill.add(b);
+							break;
+						}
+					}
 				}
+				fetchData();
 			}
 		});
 		btnPayBill.setBounds(990, 500, 100, 25);
@@ -333,24 +342,65 @@ public class General {
 		btnConclusion.setText(language.btnConclusion);
 	}
 	public static void fetchData() {
-		for(int i=0;i<buybill_model.getRowCount();i++)
-			buybill_model.removeRow(i);
-		for(int i=0;i<pending_buybill_model.getRowCount();i++)
-			pending_buybill_model.removeRow(i);
 		
+		Information.total_buy = 0.0;
+		Information.credit_buy = 0.0;
+		Information.recredit_buy = 0.0;
+		
+		for(int i=buybill_model.getRowCount()-1;i>-1;i--)
+			buybill_model.removeRow(i);
 		for(int i=0;i<BillCollections.buybill.size();i++) { 
 			String 	name = BillCollections.buybill.get(i).name,
-					status = null,
+					status = "paid",
 					id = BillCollections.buybill.get(i).id;
 			double 	price = 0.0;
-			if(BillCollections.buybill.get(i).status)
-				status = "paid";
-			else {
+			if(!BillCollections.buybill.get(i).status)
 				status = "pending";
-			}
 			for(int p=0;p<BillCollections.buybill.get(i).product.size();p++)
-				price += BillCollections.buybill.get(i).product.get(p).price * BillCollections.buybill.get(i).product.get(p).weight;
+				price += BillCollections.buybill.get(i).product.get(p).price 
+						 * BillCollections.buybill.get(i).product.get(p).weight;
 			buybill_model.addRow(new Object[] {id,name,price,status});
+			Information.total_buy += price;
 		}
+		lbSumBuyPriceNUM.setText(Information.total_buy+"");
+		
+		for(int i=pending_buybill_model.getRowCount()-1;i>-1;i--)
+			pending_buybill_model.removeRow(i);
+		for(int i=0;i<BillCollections.pending_buybill.size();i++) { 
+			String 	name = BillCollections.pending_buybill.get(i).name,
+					issue_date = BillCollections.pending_buybill.get(i).issue_date,
+					id = BillCollections.pending_buybill.get(i).id;
+			double 	price = 0.0;
+			for(int p=0;p<BillCollections.pending_buybill.get(i).product.size();p++)
+				price += BillCollections.pending_buybill.get(i).product.get(p).price 
+						 * BillCollections.pending_buybill.get(i).product.get(p).weight;
+			pending_buybill_model.addRow(new Object[] {id,name,price,issue_date});
+			//Information.credit_buy += price;
+		}
+		
+		for(int i=buybill_model.getRowCount()-1;i>-1;i--) {
+			if(buybill_model.getValueAt(i, 3) == "pending")
+				Information.credit_buy += Double.parseDouble(buybill_model.getValueAt(i, 2).toString());
+		}
+		lbSumPendingPriceNUM.setText(Information.credit_buy+"");
+		
+		for(int i=pay_pending_buybill_model.getRowCount()-1;i>-1;i--)
+			pay_pending_buybill_model.removeRow(i);
+		for(int i=0;i<BillCollections.pay_pending_buybill.size();i++) { 
+			String 	name = BillCollections.pay_pending_buybill.get(i).name,
+					issue_date = BillCollections.pay_pending_buybill.get(i).issue_date,
+					id = BillCollections.pay_pending_buybill.get(i).id;
+			double 	price = 0.0;
+			for(int p=0;p<BillCollections.pay_pending_buybill.get(i).product.size();p++)
+				price += BillCollections.pay_pending_buybill.get(i).product.get(p).price 
+						 * BillCollections.pay_pending_buybill.get(i).product.get(p).weight;
+			pay_pending_buybill_model.addRow(new Object[] {id,name,price,issue_date});
+			Information.recredit_buy += price;
+		}
+		lbSumPayPendingPriceNUM.setText(Information.recredit_buy+"");
+		
+		
+		lbSumPaidAmountNUM.setText((Information.total_buy-Information.credit_buy)+"");
+		
 	}
 }

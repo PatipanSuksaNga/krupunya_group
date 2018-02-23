@@ -234,11 +234,6 @@ public class BuyBilling {
 				buybill.issue_date = dateIn.year+dateIn.month+dateIn.day;
 				buybill.product_type = comboBox_Type.getSelectedItem().toString();
 				
-				if(comboBox_Status.getSelectedItem().toString() == "paid")
-					{buybill.status = true;buybill.paid_date = buybill.issue_date;}
-				else
-					{buybill.status = false;buybill.paid_date = null;}
-				
 				//push product to the bill
 				for (int count = 0; count < model.getRowCount(); count++){
 					Product ptemp = new Product();
@@ -248,6 +243,11 @@ public class BuyBilling {
 					ptemp.price=Double.parseDouble(model.getValueAt(count, 3).toString());
 		            buybill.product.add(ptemp);
 		        }
+				
+				if(comboBox_Status.getSelectedItem().toString() == "paid")
+					{buybill.status = true;buybill.paid_date = buybill.issue_date;}
+				else
+					{buybill.status = false;buybill.paid_date = null;BillCollections.pending_buybill.add(buybill);}
 				
 				BillCollections.buybill.add(buybill);
 				General.fetchData();
