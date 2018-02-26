@@ -65,7 +65,7 @@ public class SizeTable {
 		
 		frame = new JFrame("Size Table");
 		frame.setSize(screenSize.width, screenSize.height);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
 		setText();
@@ -125,7 +125,7 @@ public class SizeTable {
 			for(Product p:B.product) {
 				sumB += p.price * p.weight;
 				sumW += p.weight;
-				System.out.println(p.secret_number);
+				//System.out.println(p.secret_number);
 				if(p.secret_number=="A")
 					SA = p.weight;
 				if(p.secret_number=="11")	
