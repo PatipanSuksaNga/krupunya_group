@@ -397,7 +397,7 @@ public class General {
 							BillCollections.pending_sellbill.remove(b);
 							b.status = true;
 							b.paid_date = dateIn.year + dateIn.month + dateIn.day;
-							BillCollections.pay_pending_sellbill.add(b);
+							BillCollections.get_pending_sellbill.add(b);
 							break;
 						}
 					}
@@ -405,7 +405,7 @@ public class General {
 				fetchData();
 			}
 		});
-		btnPayBill_sell.setBounds(screenSize.width/2-(screenSize.width/2-400)-50+150, 500, 100, 25);
+		btnPayBill_sell.setBounds(screenSize.width/2-(screenSize.width/2-400)-50+100, 500, 100, 25);
 		main_panel.add(btnPayBill_sell);
 		
 		get_pending_sellbill_table = new JTable();
@@ -474,7 +474,6 @@ public class General {
 				price += BillCollections.pending_buybill.get(i).product.get(p).price 
 						 * BillCollections.pending_buybill.get(i).product.get(p).weight;
 			pending_buybill_model.addRow(new Object[] {id,name,price,issue_date});
-			//Information.credit_buy += price;
 		}
 		
 		for(int i=buybill_model.getRowCount()-1;i>-1;i--) {
@@ -500,5 +499,58 @@ public class General {
 		
 		lbSumPaidAmountNUM.setText((Information.total_buy-Information.credit_buy)+"");
 		
+		//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		
+		Information.total_sell = 0.0;
+		Information.credit_sell = 0.0;
+		Information.recredit_sell = 0.0;
+		
+		for(int i=sellbill_model.getRowCount()-1;i>-1;i--)
+			sellbill_model.removeRow(i);
+		for(int i=0;i<BillCollections.sellbill.size();i++) { 
+			String 	name = BillCollections.sellbill.get(i).name,
+					status = "paid",
+					id = BillCollections.sellbill.get(i).id;
+			double 	price = 0.0;
+			if(!BillCollections.sellbill.get(i).status)
+				status = "pending";
+			for(int p=0;p<BillCollections.sellbill.get(i).product.size();p++)
+				price += BillCollections.sellbill.get(i).product.get(p).price 
+						 * BillCollections.sellbill.get(i).product.get(p).weight;
+			sellbill_model.addRow(new Object[] {id,name,price,status});
+			Information.total_sell += price;
+		}
+		
+		for(int i=pending_sellbill_model.getRowCount()-1;i>-1;i--)
+			pending_sellbill_model.removeRow(i);
+		for(int i=0;i<BillCollections.pending_sellbill.size();i++) { 
+			String 	name = BillCollections.pending_sellbill.get(i).name,
+					issue_date = BillCollections.pending_sellbill.get(i).issue_date,
+					id = BillCollections.pending_sellbill.get(i).id;
+			double 	price = 0.0;
+			for(int p=0;p<BillCollections.pending_sellbill.get(i).product.size();p++)
+				price += BillCollections.pending_sellbill.get(i).product.get(p).price 
+						 * BillCollections.pending_sellbill.get(i).product.get(p).weight;
+			pending_sellbill_model.addRow(new Object[] {id,name,price,issue_date});
+		}
+		
+		for(int i=sellbill_model.getRowCount()-1;i>-1;i--) {
+			if(sellbill_model.getValueAt(i, 3) == "pending")
+				Information.credit_sell += Double.parseDouble(sellbill_model.getValueAt(i, 2).toString());
+		}
+		
+		for(int i=get_pending_sellbill_model.getRowCount()-1;i>-1;i--)
+			get_pending_sellbill_model.removeRow(i);
+		for(int i=0;i<BillCollections.get_pending_sellbill.size();i++) { 
+			String 	name = BillCollections.get_pending_sellbill.get(i).name,
+					issue_date = BillCollections.get_pending_sellbill.get(i).issue_date,
+					id = BillCollections.get_pending_sellbill.get(i).id;
+			double 	price = 0.0;
+			for(int p=0;p<BillCollections.get_pending_sellbill.get(i).product.size();p++)
+				price += BillCollections.get_pending_sellbill.get(i).product.get(p).price 
+						 * BillCollections.get_pending_sellbill.get(i).product.get(p).weight;
+			get_pending_sellbill_model.addRow(new Object[] {id,name,price,issue_date});
+			Information.recredit_sell += price;
+		}
 	}
 }

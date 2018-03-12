@@ -203,11 +203,6 @@ public class SellBilling {
 				sellbill.issue_date = dateIn.year+dateIn.month+dateIn.day;
 				sellbill.product_type = comboBox_Type.getSelectedItem().toString();
 				
-				if(comboBox_Status.getSelectedItem().toString() == "paid")
-					{sellbill.status = true;sellbill.paid_date = sellbill.issue_date;}
-				else
-					{sellbill.status = false;sellbill.paid_date = null;}
-				
 				//push product to the bill
 				for (int count = 0; count < model.getRowCount(); count++){
 					Product ptemp = new Product();
@@ -218,7 +213,13 @@ public class SellBilling {
 		            sellbill.product.add(ptemp);
 		        }
 				
+				if(comboBox_Status.getSelectedItem().toString() == "paid")
+					{sellbill.status = true;sellbill.paid_date = sellbill.issue_date;}
+				else
+					{sellbill.status = false;sellbill.paid_date = null;BillCollections.pending_sellbill.add(sellbill);}
+				
 				BillCollections.sellbill.add(sellbill);
+				General.fetchData();
 				frame.setVisible(false);
 				
 			}
