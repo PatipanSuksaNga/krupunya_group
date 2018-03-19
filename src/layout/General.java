@@ -44,7 +44,7 @@ public class General {
 	private JMenuBar menuBar = new JMenuBar();
 	private JMenu mnLanguage = new JMenu(language.mnLanguage);
 	private JMenuItem mntmEnglish = new JMenuItem(language.mntmEnglish);
-	private JMenuItem mntmThai = new JMenuItem(language.mntmThai);
+	private JMenuItem mntmThai = new JMenuItem(language.mntmThai);	
 	
 	private static DefaultTableModel buybill_model = new DefaultTableModel();
 	private static DefaultTableModel pending_buybill_model = new DefaultTableModel();
