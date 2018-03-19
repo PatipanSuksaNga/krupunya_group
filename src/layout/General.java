@@ -35,47 +35,79 @@ import java.awt.Font;
 import javax.swing.JSeparator;
 import java.awt.Label;
 import javax.swing.JTable;
+import javax.swing.JComboBox;
+import javax.swing.JTextField;
 
 public class General {
 
 	public JFrame frame;
-	JMenuBar menuBar = new JMenuBar();
-	JMenu mnLanguage = new JMenu(language.mnLanguage);
-	JMenuItem mntmEnglish = new JMenuItem(language.mntmEnglish);
-	JMenuItem mntmThai = new JMenuItem(language.mntmThai);
-	static DefaultTableModel buybill_model = new DefaultTableModel();
-	static DefaultTableModel pending_buybill_model = new DefaultTableModel();
-	static DefaultTableModel pay_pending_buybill_model = new DefaultTableModel();
-	static DefaultTableModel sellbill_model = new DefaultTableModel();
-	static DefaultTableModel pending_sellbill_model = new DefaultTableModel();
-	static DefaultTableModel get_pending_sellbill_model = new DefaultTableModel();
+	private JMenuBar menuBar = new JMenuBar();
+	private JMenu mnLanguage = new JMenu(language.mnLanguage);
+	private JMenuItem mntmEnglish = new JMenuItem(language.mntmEnglish);
+	private JMenuItem mntmThai = new JMenuItem(language.mntmThai);
 	
-	private final JPanel panel = new JPanel();
-	private final JButton btnBuybilling = new JButton("Buy Billing");
-	private final JButton btnSellbilling = new JButton("Sell Billing");
-	private final JButton btnOnspotsale = new JButton("On spot sale");
-	private final JButton btnSizetable = new JButton("Size Table");
-	private final JButton btnConclusion = new JButton("Conclusion");
-	private final JScrollPane scrollPane = new JScrollPane();
-	private final JPanel main_panel = new JPanel();
-	private final JLabel lbMainpage = new JLabel("Main Page");
-	private final JLabel lbDate = new JLabel("Date ");
-	private final JButton btnFetchData = new JButton("Fetch data");
+	private static DefaultTableModel buybill_model = new DefaultTableModel();
+	private static DefaultTableModel pending_buybill_model = new DefaultTableModel();
+	private static DefaultTableModel pay_pending_buybill_model = new DefaultTableModel();
+	private static DefaultTableModel external_expenditure_model = new DefaultTableModel();
+	
+	private static DefaultTableModel sellbill_model = new DefaultTableModel();
+	private static DefaultTableModel pending_sellbill_model = new DefaultTableModel();
+	private static DefaultTableModel get_pending_sellbill_model = new DefaultTableModel();
+	private static DefaultTableModel external_revenue_model = new DefaultTableModel();
+	
+	private JPanel panel = new JPanel();
+	private JButton btnBuybilling = new JButton("Buy Billing");
+	private JButton btnSellbilling = new JButton("Sell Billing");
+	private JButton btnOnspotsale = new JButton("On spot sale");
+	private JButton btnSizetable = new JButton("Size Table");
+	private JButton btnConclusion = new JButton("Conclusion");
+	private JScrollPane scrollPane = new JScrollPane();
+	private JPanel main_panel = new JPanel();
+	private JLabel lbMainpage = new JLabel("Main Page");
+	private JLabel lbDate = new JLabel("Date ");
+	
+	private JButton btnFetchData = new JButton("Fetch data");
 	private JTable buybill_table;
 	private JTable pending_buybill_table;
 	private JTable pay_pending_buybill_table;
+	private JTable external_expenditure_table;
+	private JLabel lbListExp = new JLabel("List");
+	private JLabel lbAmountExp = new JLabel("Amount");
+	private Object[] ExtExpList = new Object[] {"a","b","c","d","other"}; 
+	private JComboBox comboBox_ExtExpList = new JComboBox(ExtExpList);
+	private JTextField textField_ExtExpList = new JTextField();
+	private JTextField textField_ExtExpAmount;
+	
+	private JLabel lbSumSellPrice = new JLabel("Sum Selling ");
+	private JLabel lbSumPendingSellPrice = new JLabel("Sum pending ");
+	private JLabel lbSumGetPendingPrice = new JLabel("Sum get pending ");
+	private JLabel lbSumGetAmount = new JLabel("Sum receive amount ");
+	private static JLabel lbSumSellPriceNUM = new JLabel("0.0");
+	private static JLabel lbSumPendingSellPriceNUM = new JLabel("0.0");
+	private static JLabel lbSumGetPendingPriceNUM = new JLabel("0.0");
+	private static JLabel lbSumGetAmountNUM = new JLabel("0.0");
+	
 	private JTable sellbill_table;
 	private JTable pending_sellbill_table;
 	private JTable get_pending_sellbill_table;
-	private final JLabel lbSumBuyPrice = new JLabel("Sum buy price ");
-	private final JLabel lbSumPendingPrice = new JLabel("Sum pending price ");
-	private final JLabel lbSumPayPendingPrice = new JLabel("Sum pay pending price ");
-	private final JLabel lbSumPaidAmount = new JLabel("Sum paid amount ");
+	private JTable external_revenue_table;
+	private JLabel lbListRev = new JLabel("List");
+	private JLabel lbAmountRev = new JLabel("Amount");
+	private Object[] ExtRevList = new Object[] {"a","b","c","d","other"}; 
+	private JComboBox comboBox_ExtRevList = new JComboBox(ExtRevList);
+	private JTextField textField_ExtRevList = new JTextField();
+	private JTextField textField_ExtRevAmount;
+	
+	private JLabel lbSumBuyPrice = new JLabel("Sum buying ");
+	private JLabel lbSumPendingBuyPrice = new JLabel("Sum pending ");
+	private JLabel lbSumPayPendingPrice = new JLabel("Sum pay pending ");
+	private JLabel lbSumPaidAmount = new JLabel("Sum paid amount ");
 	private static JLabel lbSumBuyPriceNUM = new JLabel("0.0");
-	private static JLabel lbSumPendingPriceNUM = new JLabel("0.0");
+	private static JLabel lbSumPendingBuyPriceNUM = new JLabel("0.0");
 	private static JLabel lbSumPayPendingPriceNUM = new JLabel("0.0");
 	private static JLabel lbSumPaidAmountNUM = new JLabel("0.0");
-
+	
 	/**
 	 * Launch the application.
 	 */
@@ -164,13 +196,19 @@ public class General {
 		btnSellbilling.setBounds(190, 20, 140, 25);
 		panel.add(btnSellbilling);
 		
+		btnOnspotsale.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				OnSpotSale onspotsale_window = new OnSpotSale();
+				onspotsale_window.frame.setVisible(true);
+			}
+		});
 		btnOnspotsale.setBounds(340, 20, 140, 25);
 		panel.add(btnOnspotsale);
 		
 		btnSizetable.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				SizeTable sizetablw_window = new SizeTable();
-				sizetablw_window.frame.setVisible(true);
+				SizeTable sizetable_window = new SizeTable();
+				sizetable_window.frame.setVisible(true);
 			}
 		});
 		btnSizetable.setBounds(490, 20, 140, 25);
@@ -222,6 +260,13 @@ public class General {
 		
 		//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		
+		btnFetchData.setBounds(screenSize.width/2+150, 100, 100, 25);
+		btnFetchData.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				fetchData();
+			}
+		});
+		
 		JLabel lbTotalBuyBill = new JLabel("Total Buy bill");
 		lbTotalBuyBill.setBounds(screenSize.width/2+50, 100, 100, 25);
 		main_panel.add(lbTotalBuyBill);	
@@ -233,13 +278,6 @@ public class General {
 		JLabel lbPayPendingBuyBill = new JLabel("Pay pending buy bill");
 		lbPayPendingBuyBill.setBounds(screenSize.width/2+50, 800, 150, 25);
 		main_panel.add(lbPayPendingBuyBill);
-		
-		btnFetchData.setBounds(screenSize.width/2+150, 100, 100, 25);
-		btnFetchData.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				fetchData();
-			}
-		});
 		main_panel.add(btnFetchData);
 		
 		buybill_table = new JTable();
@@ -312,13 +350,95 @@ public class General {
 		pay_pending_buybill_table_sp.setVisible(true);
 		main_panel.add(pay_pending_buybill_table_sp);
 		
+		JLabel lbExternalExpenditure = new JLabel("External Expenditure");
+		lbExternalExpenditure.setBounds(screenSize.width/2+50, 1000, 150, 25);
+		main_panel.add(lbExternalExpenditure);
+		
+		JButton btnAddExtExp = new JButton("Add");
+		btnAddExtExp.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				Expenditure exp = new Expenditure();
+				exp.id = dateIn.year+dateIn.month+dateIn.day + "E" + Information.expenditure_number; Information.expenditure_number += 1;
+				if(comboBox_ExtExpList.getSelectedItem().toString()=="other")
+					exp.list = textField_ExtExpList.getText();
+				else
+					exp.list = comboBox_ExtExpList.getSelectedItem().toString();
+				exp.amount = Integer.parseInt(textField_ExtExpAmount.getText());
+				External.expenditure.add(exp);
+				fetchData();
+			}
+		});
+		btnAddExtExp.setBounds(screenSize.width/2+200, 1000, 100, 25);
+		main_panel.add(btnAddExtExp);
+		
+		JButton btnDelExtExp = new JButton("Delete");
+		btnDelExtExp.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int numRows = external_expenditure_table.getSelectedRows().length;
+				for(int i=0; i<numRows ; i++ ) {
+					String id = external_expenditure_table.getValueAt(i, 0).toString();
+					for(Expenditure b:External.expenditure) {
+						if(b.id == id) {
+							External.expenditure.remove(b);
+							break;
+						}
+					}
+				}
+				fetchData();
+			}
+		});
+		btnDelExtExp.setBounds(screenSize.width/2+325, 1000, 100, 25);
+		main_panel.add(btnDelExtExp);
+		
+		lbListExp.setBounds(screenSize.width/2+50, 1050, 50, 25);
+		main_panel.add(lbListExp);
+		comboBox_ExtExpList.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(comboBox_ExtExpList.getSelectedItem().toString()=="other")
+					textField_ExtExpList.setVisible(true);
+				else
+					textField_ExtExpList.setVisible(false);
+			}
+		});
+		
+		comboBox_ExtExpList.setBounds(screenSize.width/2+100, 1050, 150, 25);
+		main_panel.add(comboBox_ExtExpList);
+		
+		textField_ExtExpList.setBounds(screenSize.width/2+275, 1050, 150, 25);
+		textField_ExtExpList.setColumns(10);
+		textField_ExtExpList.setVisible(false);
+		main_panel.add(textField_ExtExpList);
+		
+		lbAmountExp.setBounds(screenSize.width/2+50, 1100, 50, 25);
+		main_panel.add(lbAmountExp);
+		
+		textField_ExtExpAmount = new JTextField();
+		textField_ExtExpAmount.setBounds(screenSize.width/2+100, 1100, 150, 25);
+		main_panel.add(textField_ExtExpAmount);
+		textField_ExtExpAmount.setColumns(10);
+		
+		external_expenditure_table = new JTable();
+		external_expenditure_table.setBorder(new LineBorder(new Color(0, 0, 0)));
+		external_expenditure_table.setPreferredScrollableViewportSize(new Dimension(screenSize.width/2-400,200));
+		external_expenditure_table.setBounds(screenSize.width/2+50, 1150, screenSize.width/2-400, 100);
+		external_expenditure_table.setModel(external_expenditure_model);
+		external_expenditure_model.addColumn("ID");
+		external_expenditure_model.addColumn("List");
+		external_expenditure_model.addColumn("Amount");
+		JScrollPane external_expenditure_table_sp = new JScrollPane(	external_expenditure_table,
+																	JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+																	JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		external_expenditure_table_sp.setBounds(screenSize.width/2+50, 1150, screenSize.width/2-400, 100);
+		external_expenditure_table_sp.setVisible(true);
+		main_panel.add(external_expenditure_table_sp);
+		
 		lbSumBuyPrice.setHorizontalAlignment(SwingConstants.LEFT);
 		lbSumBuyPrice.setBounds(screenSize.width*82/100, 150, screenSize.width*8/100, 25);
 		main_panel.add(lbSumBuyPrice);
 		
-		lbSumPendingPrice.setHorizontalAlignment(SwingConstants.LEFT);
-		lbSumPendingPrice.setBounds(screenSize.width*82/100, 200, screenSize.width*8/100, 25);
-		main_panel.add(lbSumPendingPrice);
+		lbSumPendingBuyPrice.setHorizontalAlignment(SwingConstants.LEFT);
+		lbSumPendingBuyPrice.setBounds(screenSize.width*82/100, 200, screenSize.width*8/100, 25);
+		main_panel.add(lbSumPendingBuyPrice);
 		
 		lbSumPayPendingPrice.setHorizontalAlignment(SwingConstants.LEFT);
 		lbSumPayPendingPrice.setBounds(screenSize.width*82/100, 250, screenSize.width*8/100, 25);
@@ -331,8 +451,8 @@ public class General {
 		lbSumBuyPriceNUM.setBounds(screenSize.width*91/100, 150, 150, 25);
 		main_panel.add(lbSumBuyPriceNUM);
 		
-		lbSumPendingPriceNUM.setBounds(screenSize.width*91/100, 200, 150, 25);
-		main_panel.add(lbSumPendingPriceNUM);
+		lbSumPendingBuyPriceNUM.setBounds(screenSize.width*91/100, 200, 150, 25);
+		main_panel.add(lbSumPendingBuyPriceNUM);
 		
 		lbSumPayPendingPriceNUM.setBounds(screenSize.width*91/100, 250, 150, 25);
 		main_panel.add(lbSumPayPendingPriceNUM);
@@ -424,7 +544,119 @@ public class General {
 		get_pending_sellbill_table_sp.setVisible(true);
 		main_panel.add(get_pending_sellbill_table_sp);
 		
+		JLabel lbExternalRevenue = new JLabel("External Revenue");
+		lbExternalRevenue.setBounds(screenSize.width/2-(screenSize.width/2-400)-50, 1000, 150, 25);
+		main_panel.add(lbExternalRevenue);
+		
+		JButton btnAddExtRev = new JButton("Add");
+		btnAddExtRev.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				Revenue rev = new Revenue();
+				rev.id = dateIn.year+dateIn.month+dateIn.day + "R" + Information.revenue_number; Information.revenue_number += 1;
+				if(comboBox_ExtRevList.getSelectedItem().toString()=="other")
+					rev.list = textField_ExtRevList.getText();
+				else
+					rev.list = comboBox_ExtRevList.getSelectedItem().toString();
+				rev.amount = Integer.parseInt(textField_ExtRevAmount.getText());
+				External.revenue.add(rev);
+				fetchData();
+			}
+		});
+		btnAddExtRev.setBounds(screenSize.width/2-(screenSize.width/2-400)-50+150, 1000, 100, 25);
+		main_panel.add(btnAddExtRev);
+		
+		JButton btnDelExtRev = new JButton("Delete");
+		btnDelExtRev.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int numRows = external_revenue_table.getSelectedRows().length;
+				for(int i=0; i<numRows ; i++ ) {
+					String id = external_revenue_table.getValueAt(i, 0).toString();
+					for(Revenue b:External.revenue) {
+						if(b.id == id) {
+							External.revenue.remove(b);
+							break;
+						}
+					}
+				}
+				fetchData();
+			}
+		});
+		btnDelExtRev.setBounds(screenSize.width/2-(screenSize.width/2-400)-50+270, 1000, 100, 25);
+		main_panel.add(btnDelExtRev);
+		
+		lbListRev.setBounds(screenSize.width/2-(screenSize.width/2-400)-50, 1050, 50, 25);
+		main_panel.add(lbListRev);
+		comboBox_ExtRevList.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(comboBox_ExtRevList.getSelectedItem().toString()=="other")
+					textField_ExtRevList.setVisible(true);
+				else
+					textField_ExtRevList.setVisible(false);
+			}
+		});
+		
+		comboBox_ExtRevList.setBounds(screenSize.width/2-(screenSize.width/2-400)-50+50, 1050, 150, 25);
+		main_panel.add(comboBox_ExtRevList);
+		
+		textField_ExtRevList.setBounds(screenSize.width/2-(screenSize.width/2-400)-50+225, 1050, 150, 25);
+		textField_ExtRevList.setColumns(10);
+		textField_ExtRevList.setVisible(false);
+		main_panel.add(textField_ExtRevList);
+		
+		lbAmountRev.setBounds(screenSize.width/2-(screenSize.width/2-400)-50, 1100, 50, 25);
+		main_panel.add(lbAmountRev);
+		
+		textField_ExtRevAmount = new JTextField();
+		textField_ExtRevAmount.setBounds(screenSize.width/2-(screenSize.width/2-400)-50+50, 1100, 150, 25);
+		main_panel.add(textField_ExtRevAmount);
+		textField_ExtRevAmount.setColumns(10);
+		
+		external_revenue_table = new JTable();
+		external_revenue_table.setBorder(new LineBorder(new Color(0, 0, 0)));
+		external_revenue_table.setPreferredScrollableViewportSize(new Dimension(screenSize.width/2-400,200));
+		external_revenue_table.setBounds(screenSize.width/2-(screenSize.width/2-400)-50, 1150, screenSize.width/2-400, 100);
+		external_revenue_table.setModel(external_revenue_model);
+		external_revenue_model.addColumn("ID");
+		external_revenue_model.addColumn("List");
+		external_revenue_model.addColumn("Amount");
+		JScrollPane external_revenue_table_sp = new JScrollPane(	external_revenue_table,
+																	JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+																	JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		external_revenue_table_sp.setBounds(screenSize.width/2-(screenSize.width/2-400)-50, 1150, screenSize.width/2-400, 100);
+		external_revenue_table_sp.setVisible(true);
+		main_panel.add(external_revenue_table_sp);
+		
+		lbSumSellPrice.setHorizontalAlignment(SwingConstants.LEFT);
+		lbSumSellPrice.setBounds(screenSize.width*2/100, 150, screenSize.width*8/100, 25);
+		main_panel.add(lbSumSellPrice);
+		
+		lbSumPendingSellPrice.setHorizontalAlignment(SwingConstants.LEFT);
+		lbSumPendingSellPrice.setBounds(screenSize.width*2/100, 200, screenSize.width*8/100, 25);
+		main_panel.add(lbSumPendingSellPrice);
+		
+		lbSumGetPendingPrice.setHorizontalAlignment(SwingConstants.LEFT);
+		lbSumGetPendingPrice.setBounds(screenSize.width*2/100, 250, screenSize.width*8/100, 25);
+		main_panel.add(lbSumGetPendingPrice);
+		
+		lbSumGetAmount.setHorizontalAlignment(SwingConstants.LEFT);
+		lbSumGetAmount.setBounds(screenSize.width*2/100, 300, screenSize.width*8/100, 25);
+		main_panel.add(lbSumGetAmount);
+		
+		lbSumSellPriceNUM.setBounds(screenSize.width*11/100, 150, 150, 25);
+		main_panel.add(lbSumSellPriceNUM);
+		
+		lbSumPendingSellPriceNUM.setBounds(screenSize.width*11/100, 200, 150, 25);
+		main_panel.add(lbSumPendingSellPriceNUM);
+		
+		lbSumGetPendingPriceNUM.setBounds(screenSize.width*11/100, 250, 150, 25);
+		main_panel.add(lbSumGetPendingPriceNUM);
+		
+		lbSumGetAmountNUM.setBounds(screenSize.width*11/100, 300, 150, 25);
+		main_panel.add(lbSumGetAmountNUM);
+		
 		//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		
+		fetchData();
 
 	}
 	
@@ -440,11 +672,15 @@ public class General {
 		btnSizetable.setText(language.btnSizetable);
 		btnConclusion.setText(language.btnConclusion);
 	}
+	
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
 	public static void fetchData() {
 		
 		Information.total_buy = 0.0;
 		Information.credit_buy = 0.0;
 		Information.recredit_buy = 0.0;
+		Information.external_expenditure = 0;
 		
 		for(int i=buybill_model.getRowCount()-1;i>-1;i--)
 			buybill_model.removeRow(i);
@@ -480,7 +716,7 @@ public class General {
 			if(buybill_model.getValueAt(i, 3) == "pending")
 				Information.credit_buy += Double.parseDouble(buybill_model.getValueAt(i, 2).toString());
 		}
-		lbSumPendingPriceNUM.setText(Information.credit_buy+"");
+		lbSumPendingBuyPriceNUM.setText(Information.credit_buy+"");
 		
 		for(int i=pay_pending_buybill_model.getRowCount()-1;i>-1;i--)
 			pay_pending_buybill_model.removeRow(i);
@@ -498,6 +734,16 @@ public class General {
 		lbSumPayPendingPriceNUM.setText(Information.recredit_buy+"");
 		
 		lbSumPaidAmountNUM.setText((Information.total_buy-Information.credit_buy)+"");
+		
+		for(int i=external_expenditure_model.getRowCount()-1;i>-1;i--)
+			external_expenditure_model.removeRow(i);
+		for(int i=0;i<External.expenditure.size();i++) { 
+			String 	list = External.expenditure.get(i).list,
+					id = External.expenditure.get(i).id;
+			int 	amount = External.expenditure.get(i).amount;
+			external_expenditure_model.addRow(new Object[] {id,list,amount});
+			Information.external_expenditure += amount;
+		}
 		
 		//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		
@@ -520,6 +766,7 @@ public class General {
 			sellbill_model.addRow(new Object[] {id,name,price,status});
 			Information.total_sell += price;
 		}
+		lbSumSellPriceNUM.setText(Information.total_sell+"");
 		
 		for(int i=pending_sellbill_model.getRowCount()-1;i>-1;i--)
 			pending_sellbill_model.removeRow(i);
@@ -538,6 +785,7 @@ public class General {
 			if(sellbill_model.getValueAt(i, 3) == "pending")
 				Information.credit_sell += Double.parseDouble(sellbill_model.getValueAt(i, 2).toString());
 		}
+		lbSumPendingSellPriceNUM.setText(Information.credit_sell+"");
 		
 		for(int i=get_pending_sellbill_model.getRowCount()-1;i>-1;i--)
 			get_pending_sellbill_model.removeRow(i);
@@ -552,5 +800,24 @@ public class General {
 			get_pending_sellbill_model.addRow(new Object[] {id,name,price,issue_date});
 			Information.recredit_sell += price;
 		}
+		lbSumGetPendingPriceNUM.setText(Information.recredit_sell+"");
+		
+		lbSumGetAmountNUM.setText((Information.total_sell-Information.credit_sell)+"");
+		
+		for(int i=external_revenue_model.getRowCount()-1;i>-1;i--)
+			external_revenue_model.removeRow(i);
+		for(int i=0;i<External.revenue.size();i++) { 
+			String 	list = External.revenue.get(i).list,
+					id = External.revenue.get(i).id;
+			int 	amount = External.revenue.get(i).amount;
+			external_revenue_model.addRow(new Object[] {id,list,amount});
+			Information.external_revenue += amount;
+		}
+		
+		//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		
+		Information.total_expenditure = (Information.total_buy-Information.credit_buy)+Information.external_expenditure;
+		Information.total_revenue = (Information.total_sell-Information.credit_sell)+Information.external_revenue;
+		Information.balance = Information.total_revenue-Information.total_expenditure;
 	}
 }
