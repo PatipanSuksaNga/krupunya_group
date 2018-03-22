@@ -24,6 +24,7 @@ import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 
 import data.*;
+import process.*;
 
 import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.ColumnSpec;
@@ -364,6 +365,7 @@ public class General {
 				else
 					exp.list = comboBox_ExtExpList.getSelectedItem().toString();
 				exp.amount = Integer.parseInt(textField_ExtExpAmount.getText());
+				exp.issue_date =  dateIn.year+dateIn.month+dateIn.day;
 				External.expenditure.add(exp);
 				fetchData();
 			}
@@ -558,6 +560,7 @@ public class General {
 				else
 					rev.list = comboBox_ExtRevList.getSelectedItem().toString();
 				rev.amount = Integer.parseInt(textField_ExtRevAmount.getText());
+				rev.issue_date =  dateIn.year+dateIn.month+dateIn.day;
 				External.revenue.add(rev);
 				fetchData();
 			}
@@ -653,6 +656,15 @@ public class General {
 		
 		lbSumGetAmountNUM.setBounds(screenSize.width*11/100, 300, 150, 25);
 		main_panel.add(lbSumGetAmountNUM);
+		
+		JButton btnFinishAll = new JButton("finish all");
+		btnFinishAll.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				DatabaseHandler.PushData();
+			}
+		});
+		btnFinishAll.setBounds(1143, 226, 89, 23);
+		frame.getContentPane().add(btnFinishAll);
 		
 		//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		
