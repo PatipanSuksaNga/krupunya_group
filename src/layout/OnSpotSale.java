@@ -88,7 +88,7 @@ public class OnSpotSale {
 		});
 		frame.getContentPane().add(menuBar);
 		
-		JLabel lbSizeTable = new JLabel("Size Table of //");
+		JLabel lbSizeTable = new JLabel("On Spot Sale");
 		lbSizeTable.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		lbSizeTable.setHorizontalAlignment(SwingConstants.CENTER);
 		lbSizeTable.setBounds((screenSize.width/2)-150, screenSize.height*4/100, 300, 50);

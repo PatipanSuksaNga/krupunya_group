@@ -235,7 +235,7 @@ public class General {
 		frame.getContentPane().add(scrollPane);
 		
 		JSeparator separator = new JSeparator();
-		separator.setBounds(screenSize.width/2-1, 0, 2, screenSize.height*2);
+		separator.setBounds(screenSize.width/2-1, 0, 2, 1500);
 		separator.setOrientation(SwingConstants.VERTICAL);
 		separator.setForeground(Color.WHITE);
 		separator.setBackground(Color.BLACK);
@@ -313,27 +313,43 @@ public class General {
 		pending_buybill_table_sp.setVisible(true);
 		main_panel.add(pending_buybill_table_sp);
 		
-		JButton btnPayBill = new JButton("Pay bill");
-		btnPayBill.addActionListener(new ActionListener() {
+		JButton btnPayBill_buy = new JButton("Pay bill");
+		btnPayBill_buy.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				int numRows = pending_buybill_table.getSelectedRows().length;
-				for(int i=0; i<numRows ; i++ ) {
-					String id = pending_buybill_table.getValueAt(i, 0).toString();
-					for(Buybill b:BillCollections.pending_buybill) {
-						if(b.id == id) {
-							BillCollections.pending_buybill.remove(b);
-							b.status = true;
-							b.paid_date = dateIn.year + dateIn.month + dateIn.day;
-							BillCollections.pay_pending_buybill.add(b);
-							break;
-						}
+				int numRow = pending_buybill_table.getSelectedRow();
+				String table_id = pending_buybill_table.getValueAt(numRow, 0).toString();
+				
+				for (int j = 0; j < BillCollections.pending_buybill.size(); j++) {
+					Buybill b = BillCollections.pending_buybill.get(j);
+					if ((b.id == table_id) && (b.issue_date.compareTo(dateIn.year + dateIn.month + dateIn.day) != 0)) {
+						b.status = true;
+						b.paid_date = dateIn.year + dateIn.month + dateIn.day;
+						BillCollections.pending_buybill.remove(b);
+						BillCollections.pay_pending_buybill.add(b);
+						break;
 					}
 				}
+
+				for (int j = 0; j < BillCollections.buybill.size(); j++) {
+					if ((BillCollections.buybill.get(j).id == table_id) && (BillCollections.buybill.get(j).issue_date
+							.compareTo(dateIn.year + dateIn.month + dateIn.day) == 0)) {
+						for (Buybill b : BillCollections.pending_buybill) {
+							if (b.id == table_id) {														
+								BillCollections.pending_buybill.remove(b);
+								break;
+							}
+						}
+						BillCollections.buybill.get(j).status = true;
+						BillCollections.buybill.get(j).paid_date = dateIn.year + dateIn.month + dateIn.day;
+						break;
+					}
+				}
+				
 				fetchData();
 			}
 		});
-		btnPayBill.setBounds(screenSize.width/2+150, 500, 100, 25);
-		main_panel.add(btnPayBill);
+		btnPayBill_buy.setBounds(screenSize.width/2+150, 500, 100, 25);
+		main_panel.add(btnPayBill_buy);
 		
 		pay_pending_buybill_table = new JTable();
 		pay_pending_buybill_table.setBorder(new LineBorder(new Color(0, 0, 0)));
@@ -523,6 +539,15 @@ public class General {
 							break;
 						}
 					}
+					for(Sellbill b:BillCollections.sellbill) {
+						if(b.id == id) {
+							BillCollections.sellbill.remove(b);
+							b.status = true;
+							b.paid_date = dateIn.year + dateIn.month + dateIn.day;
+							BillCollections.sellbill.add(b);
+							break;
+						}
+					}
 				}
 				fetchData();
 			}
@@ -661,6 +686,7 @@ public class General {
 		btnFinishAll.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				DatabaseHandler.PushData();
+				fetchData();
 			}
 		});
 		btnFinishAll.setBounds(1143, 226, 89, 23);
@@ -722,12 +748,13 @@ public class General {
 				price += BillCollections.pending_buybill.get(i).product.get(p).price 
 						 * BillCollections.pending_buybill.get(i).product.get(p).weight;
 			pending_buybill_model.addRow(new Object[] {id,name,price,issue_date});
+			Information.credit_buy += price;
 		}
 		
-		for(int i=buybill_model.getRowCount()-1;i>-1;i--) {
+		/*for(int i=buybill_model.getRowCount()-1;i>-1;i--) {
 			if(buybill_model.getValueAt(i, 3) == "pending")
 				Information.credit_buy += Double.parseDouble(buybill_model.getValueAt(i, 2).toString());
-		}
+		}*/
 		lbSumPendingBuyPriceNUM.setText(Information.credit_buy+"");
 		
 		for(int i=pay_pending_buybill_model.getRowCount()-1;i>-1;i--)

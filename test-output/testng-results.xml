@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testng-results skipped="0" failed="0" ignored="0" total="2" passed="2">
+  <reporter-output>
+  </reporter-output>
+  <suite name="Default suite" duration-ms="544" started-at="2018-03-23T16:31:49Z" finished-at="2018-03-23T16:31:50Z">
+    <groups>
+    </groups>
+    <test name="Default test" duration-ms="544" started-at="2018-03-23T16:31:49Z" finished-at="2018-03-23T16:31:50Z">
+      <class name="process.DatabaseHandler">
+        <test-method status="PASS" signature="LoadData()[pri:0, instance:process.DatabaseHandler@58651fd0]" name="LoadData" duration-ms="493" started-at="2018-03-23T16:31:49Z" finished-at="2018-03-23T16:31:50Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- LoadData -->
+        <test-method status="PASS" signature="PushData()[pri:0, instance:process.DatabaseHandler@58651fd0]" name="PushData" duration-ms="31" started-at="2018-03-23T16:31:50Z" finished-at="2018-03-23T16:31:50Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- PushData -->
+      </class> <!-- process.DatabaseHandler -->
+    </test> <!-- Default test -->
+  </suite> <!-- Default suite -->
+</testng-results>

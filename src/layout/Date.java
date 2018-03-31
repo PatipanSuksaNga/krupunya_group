@@ -14,8 +14,9 @@ import java.awt.GridLayout;
 import java.awt.GridBagLayout;
 import javax.swing.border.LineBorder;
 
-import data.dateIn;
-import data.language;
+import data.*;
+
+import process.*;
 
 import java.awt.Color;
 import javax.swing.JSeparator;
@@ -145,6 +146,7 @@ public class Date {
 		btnBegin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				fetchdate();
+				DatabaseHandler.LoadData();
 				General general_window = new General();
 				general_window.frame.setVisible(true);
 				frame.setVisible(false);
