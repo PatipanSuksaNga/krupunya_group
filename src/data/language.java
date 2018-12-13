@@ -24,7 +24,7 @@ public class language {
 	public static void getEng() {
 		language.mnLanguage = "English";
 		language.mntmEnglish = "English";
-		language.mntmThai = "ä·Â";
+		language.mntmThai = "ï¿½ï¿½";
 		language.lbid = "ID";
 		language.lbpassword = "Password";
 		language.btnlogin = "Login";
@@ -42,23 +42,23 @@ public class language {
 	}
 	
 	public static void getThai() {
-		language.mnLanguage = "ÀÒÉÒ";
+		language.mnLanguage = "ï¿½ï¿½ï¿½ï¿½";
 		language.mntmEnglish = "English";
-		language.mntmThai = "ä·Â";
-		language.lbid = "ª×èÍ¼Ùéãªé";
-		language.lbpassword = "ÃËÑÊ¼èÒ¹";
-		language.btnlogin = "à¢éÒÊÙèÃĞºº";
-		language.lbDay = "ÇÑ¹";
-		language.lbMonth = "à´×Í¹";
-		language.lbYear = "»Õ";
-		language.btnBegin = "àÃÔèÁ¡ÒÃ·Ó§Ò¹";
-		language.date = "ÇÑ¹·Õè " + dateIn.day + "/" + dateIn.month + "/" + dateIn.year;
-		language.lbMainpage = "Ë¹éÒËÅÑ¡";
-		language.btnBuybilling = "ºÔÅ«×éÍ";
-		language.btnSellbilling = "ºÔÅ¢ÒÂ";
-		language.btnOnspotsale = "¢ÒÂÊ´";
-		language.btnSizetable = "ãºä«Êì";
-		language.btnConclusion = "ãºÊÃØ»";
+		language.mntmThai = "ï¿½ï¿½";
+		language.lbid = "ï¿½ï¿½ï¿½Í¼ï¿½ï¿½ï¿½ï¿½";
+		language.lbpassword = "ï¿½ï¿½ï¿½Ê¼ï¿½Ò¹";
+		language.btnlogin = "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ğºï¿½";
+		language.lbDay = "ï¿½Ñ¹";
+		language.lbMonth = "ï¿½ï¿½Í¹";
+		language.lbYear = "ï¿½ï¿½";
+		language.btnBegin = "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã·Ó§Ò¹";
+		language.date = "ï¿½Ñ¹ï¿½ï¿½ï¿½ " + dateIn.day + "/" + dateIn.month + "/" + dateIn.year;
+		language.lbMainpage = "Ë¹ï¿½ï¿½ï¿½ï¿½Ñ¡";
+		language.btnBuybilling = "ï¿½ï¿½Å«ï¿½ï¿½ï¿½";
+		language.btnSellbilling = "ï¿½ï¿½Å¢ï¿½ï¿½";
+		language.btnOnspotsale = "ï¿½ï¿½ï¿½Ê´";
+		language.btnSizetable = "ï¿½ï¿½ï¿½ï¿½";
+		language.btnConclusion = "ï¿½ï¿½ï¿½Ø»";
 	}
 	
 	public static void setdate() {

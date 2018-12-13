@@ -120,47 +120,47 @@ public class OnSpotSale {
 	private void fetchData() {
 		for(Sellbill s:BillCollections.sellbill ) {
 			String name=s.name;
-			Double 	SA=null,S11=null,S22=null,S33=null,S44=null,S55=null,S6=null,S7=null,SO=null,
-					S1=null,S111=null,S2=null,S3=null,S4=null,S5=null,S8=null,sumW=0.0,sumB=0.0;
+			Double 	SA=0.0,S11=0.0,S22=0.0,S33=0.0,S44=0.0,S55=0.0,S6=0.0,S7=0.0,SO=0.0,
+					S1=0.0,S111=0.0,S2=0.0,S3=0.0,S4=0.0,S5=0.0,S8=0.0,sumW=0.0,sumB=0.0;
 			for(Product p:s.product) {
 				sumB += p.price * p.weight;
 				sumW += p.weight;
 				//System.out.println(p.secret_number);
-				if(p.secret_number=="A")
+				if(p.secret_number.compareTo("A") == 0)
 					SA = p.weight;
-				if(p.secret_number=="11")	
+				if(p.secret_number.compareTo("11") == 0)	
 					S11 = p.weight;
-				if(p.secret_number=="22")
+				if(p.secret_number.compareTo("22") == 0)
 					S22 = p.weight;
-				if(p.secret_number=="33")
+				if(p.secret_number.compareTo("33") == 0)
 					S33 = p.weight;
-				if(p.secret_number=="44")	
+				if(p.secret_number.compareTo("44") == 0)	
 					S44 = p.weight;
-				if(p.secret_number=="55")	
+				if(p.secret_number.compareTo("55") == 0)	
 					S55 = p.weight;
-				if(p.secret_number=="6")
+				if(p.secret_number.compareTo("6") == 0)
 					S6 = p.weight;
-				if(p.secret_number=="7")
+				if(p.secret_number.compareTo("7") == 0)
 					S7 = p.weight;
-				if(p.secret_number=="O")
+				if(p.secret_number.compareTo("O") == 0)
 					SO = p.weight;
-				if(p.secret_number=="1")
+				if(p.secret_number.compareTo("1") == 0)
 					S1 = p.weight;
-				if(p.secret_number=="111")
+				if(p.secret_number.compareTo("111") == 0)
 					S111 = p.weight;
-				if(p.secret_number=="2")
+				if(p.secret_number.compareTo("2") == 0)
 					S2 = p.weight;
-				if(p.secret_number=="3")
+				if(p.secret_number.compareTo("3") == 0)
 					S3 = p.weight;
-				if(p.secret_number=="4")
+				if(p.secret_number.compareTo("4") == 0)
 					S4 = p.weight;
-				if(p.secret_number=="5")
+				if(p.secret_number.compareTo("5") == 0)
 					S5 = p.weight;
-				if(p.secret_number=="8")
+				if(p.secret_number.compareTo("8") == 0)
 					S8 += p.weight;
-				if(p.secret_number=="88")
+				if(p.secret_number.compareTo("88") == 0)
 					S8 += p.weight;
-				if(p.secret_number=="888")
+				if(p.secret_number.compareTo("888") == 0)
 					S8 += p.weight;
 			}
 			table_model.addRow(new Object[] {	

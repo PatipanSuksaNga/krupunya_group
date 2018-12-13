@@ -118,50 +118,52 @@ public class SizeTable {
 	}
 	
 	private void fetchData() {
+		Double 	TA=0.0,T11=0.0,T22=0.0,T33=0.0,T44=0.0,T55=0.0,T6=0.0,T7=0.0,TO=0.0,
+				T1=0.0,T111=0.0,T2=0.0,T3=0.0,T4=0.0,T5=0.0,T8=0.0,TsumW=0.0,TsumB=0.0;
 		for(Buybill B:BillCollections.buybill ) {
 			String name=B.name;
-			Double 	SA=null,S11=null,S22=null,S33=null,S44=null,S55=null,S6=null,S7=null,SO=null,
-					S1=null,S111=null,S2=null,S3=null,S4=null,S5=null,S8=null,sumW=0.0,sumB=0.0;
+			Double 	SA=0.0,S11=0.0,S22=0.0,S33=0.0,S44=0.0,S55=0.0,S6=0.0,S7=0.0,SO=0.0,
+					S1=0.0,S111=0.0,S2=0.0,S3=0.0,S4=0.0,S5=0.0,S8=0.0,sumW=0.0,sumB=0.0;
 			for(Product p:B.product) {
-				sumB += p.price * p.weight;
-				sumW += p.weight;
+				sumB += p.price * p.weight; TsumB += sumB;
+				sumW += p.weight; TsumW += sumW;
 				//System.out.println(p.secret_number);
-				if(p.secret_number=="A")
-					SA = p.weight;
-				if(p.secret_number=="11")	
-					S11 = p.weight;
-				if(p.secret_number=="22")
-					S22 = p.weight;
-				if(p.secret_number=="33")
-					S33 = p.weight;
-				if(p.secret_number=="44")	
-					S44 = p.weight;
-				if(p.secret_number=="55")	
-					S55 = p.weight;
-				if(p.secret_number=="6")
-					S6 = p.weight;
-				if(p.secret_number=="7")
-					S7 = p.weight;
-				if(p.secret_number=="O")
-					SO = p.weight;
-				if(p.secret_number=="1")
-					S1 = p.weight;
-				if(p.secret_number=="111")
-					S111 = p.weight;
-				if(p.secret_number=="2")
-					S2 = p.weight;
-				if(p.secret_number=="3")
-					S3 = p.weight;
-				if(p.secret_number=="4")
-					S4 = p.weight;
-				if(p.secret_number=="5")
-					S5 = p.weight;
-				if(p.secret_number=="8")
-					S8 += p.weight;
-				if(p.secret_number=="88")
-					S8 += p.weight;
-				if(p.secret_number=="888")
-					S8 += p.weight;
+				if(p.secret_number.compareTo("A") == 0)
+					{SA = p.weight; TA += SA;} 
+				if(p.secret_number.compareTo("11") == 0)	
+					{S11 = p.weight; T11 += S11; }
+				if(p.secret_number.compareTo("22") == 0)
+					{S22 = p.weight; T22 += S11;  }
+				if(p.secret_number.compareTo("33") == 0)
+					{S33 = p.weight; T33 += S33; }
+				if(p.secret_number.compareTo("44") == 0)	
+					{S44 = p.weight; T44 += S44; }
+				if(p.secret_number.compareTo("55") == 0)	
+					{S55 = p.weight; T55 += S55; }
+				if(p.secret_number.compareTo("6") == 0)
+					{S6 = p.weight; T6 += S6; }
+				if(p.secret_number.compareTo("7") == 0)
+					{S7 = p.weight; T7 += S7; }
+				if(p.secret_number.compareTo("O") == 0)
+					{SO = p.weight; TO += SO; }
+				if(p.secret_number.compareTo("1") == 0)
+					{S1 = p.weight; T1 += S1; }
+				if(p.secret_number.compareTo("111") == 0)
+					{S111 = p.weight; T111 += S111; }
+				if(p.secret_number.compareTo("2") == 0)
+					{S2 = p.weight; T2 += S2; }
+				if(p.secret_number.compareTo("3") == 0)
+					{S3 = p.weight; T3 += S3; }
+				if(p.secret_number.compareTo("4") == 0)
+					{S4 = p.weight; T4 += S4; }
+				if(p.secret_number.compareTo("5") == 0)
+					{S5 = p.weight; T5 += S5; }
+				if(p.secret_number.compareTo("8") == 0)
+					{S8 += p.weight; T8 += S8; }
+				if(p.secret_number.compareTo("88") == 0)
+					{S8 += p.weight; T8 += S8; }
+				if(p.secret_number.compareTo("888") == 0)
+					{S8 += p.weight; T8 += S8; }
 			}
 			table_model.addRow(new Object[] {	
 					name,
@@ -186,5 +188,28 @@ public class SizeTable {
 					
 					});
 		}
+		
+		table_model.addRow(new Object[] {	
+				"SUM TOTAL",
+				TA,
+				T11,
+				T22,
+				T33,
+				T44,
+				T55,
+				T6,
+				T7,
+				TO,
+				T1,
+				T111,
+				T2,
+				T3,
+				T4,
+				T5,
+				T8,
+				TsumW,
+				TsumB
+				
+				});
 	}
 }

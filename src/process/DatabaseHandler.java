@@ -42,12 +42,8 @@ public class DatabaseHandler {
 		while (buybills_cursor.hasNext()) {
 			BasicDBObject document = new BasicDBObject();
 			document = (BasicDBObject) buybills_cursor.next();
-			if (document.getString("issue_date").compareTo(APPdate) == 0)
+			if (document.getString("issue_date").compareTo(APPdate) == 0) // database issue date = today issue date -> remove
 				buybill_collection.remove(document);
-			if (document.getBoolean("status")) {
-				if ((document.getString("paid_date").compareTo(APPdate) == 0)&&(document.getString("issue_date").compareTo(APPdate) != 0))
-					buybill_collection.remove(document);
-			}
 		}
 
 		for (Buybill b : BillCollections.buybill) {
@@ -76,6 +72,15 @@ public class DatabaseHandler {
 		}
 		
 		for (Buybill b : BillCollections.pay_pending_buybill) {
+			
+			DBCursor gry_pending_sellbills_cursor = buybill_collection.find();
+			while (gry_pending_sellbills_cursor.hasNext()) {
+				BasicDBObject document = new BasicDBObject();
+				document = (BasicDBObject) gry_pending_sellbills_cursor.next();
+				if (document.getString("issue_date").compareTo(b.issue_date) == 0) 
+					buybill_collection.remove(document);
+			}
+			
 			BasicDBObject bill = new BasicDBObject();
 			bill.put("id", b.id);
 			bill.put("name", b.name);
@@ -131,6 +136,39 @@ public class DatabaseHandler {
 			bill.put("products", productList);
 			sellbill_collection.insert(bill);
 		}
+		
+		for (Sellbill s : BillCollections.get_pending_sellbill) {
+			
+			DBCursor get_pending_sellbills_cursor = sellbill_collection.find();
+			while (get_pending_sellbills_cursor.hasNext()) {
+				BasicDBObject document = new BasicDBObject();
+				document = (BasicDBObject) get_pending_sellbills_cursor.next();
+				if (document.getString("issue_date").compareTo(s.issue_date) == 0) 
+					sellbill_collection.remove(document);
+			}
+			
+			BasicDBObject bill = new BasicDBObject();
+			bill.put("id", s.id);
+			bill.put("name", s.name);
+			bill.put("address", s.address);
+			bill.put("phone", s.phone_number);
+			bill.put("issue_date", s.issue_date);
+			bill.put("paid_date", s.paid_date);
+			bill.put("product_type", s.product_type);
+			bill.put("status", s.status);
+			ArrayList<BasicDBObject> productList = new ArrayList<BasicDBObject>();
+			for (Product p : s.product) {
+				BasicDBObject product = new BasicDBObject();
+				product.put("secret_number", p.secret_number);
+				product.put("size", p.size);
+				product.put("weight", p.weight);
+				product.put("price", p.price);
+				productList.add(product);
+			}
+			bill.put("products", productList);
+			sellbill_collection.insert(bill);
+		}
+
 
 		DBCollection expenditure_collection = database.getCollection("expenditure");
 		DBCursor expenditure_cursor = expenditure_collection.find();
