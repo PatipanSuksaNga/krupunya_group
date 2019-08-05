@@ -244,7 +244,7 @@ public class BuyBilling {
 		            buybill.product.add(ptemp);
 		        }
 				
-				if(comboBox_Status.getSelectedItem().toString() == "paid")
+				if(comboBox_Status.getSelectedIndex() == 0)
 					{buybill.status = true;buybill.paid_date = buybill.issue_date;}
 				else
 					{buybill.status = false;buybill.paid_date = null;BillCollections.pending_buybill.add(buybill);}
@@ -377,7 +377,7 @@ public class BuyBilling {
 		mnLanguage.setText(language.mnLanguage);
 		mntmEnglish.setText(language.mntmEnglish);
 		mntmThai.setText(language.mntmThai);
-		lbDate.setText(language.date);
+		lbDate.setText(language.lbdate);
 		
 	}
 }

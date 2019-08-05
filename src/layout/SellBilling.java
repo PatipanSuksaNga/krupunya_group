@@ -346,7 +346,7 @@ public class SellBilling {
 		mnLanguage.setText(language.mnLanguage);
 		mntmEnglish.setText(language.mntmEnglish);
 		mntmThai.setText(language.mntmThai);
-		lbDate.setText(language.date);
+		lbDate.setText(language.lbdate);
 		
 	}
 }

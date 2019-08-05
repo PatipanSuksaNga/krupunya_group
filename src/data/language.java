@@ -1,68 +1,151 @@
 package data;
 
 public class language {
-	
+
+	public static String status = "ENG"; 
 	public static String mnLanguage = "Language";
 	public static String mntmEnglish = "English";
 	public static String mntmThai = "Thai";
+	public static String tbhdID = "ID";
+	public static String tbhdName = "Name";
+	public static String tbhdPrice = "Price";
+	public static String tbhdStatus = "Status";
+	public static String tbhdIssueDate = "Issue Date";
 	public static String lbid = "ID";
 	public static String lbpassword = "Password";
-	public static String btnlogin = "Login";
 	public static String lbDay = "Day";
 	public static String lbMonth = "Month";
 	public static String lbYear = "Year";
-	public static String btnBegin = "Begin";
-	public static String date = "Date " + dateIn.day + "/" + dateIn.month + "/" + dateIn.year;
 	public static String lbMainpage = "Main page";
-	public static String btnBuybilling = "Buy billing";
-	public static String btnSellbilling = "Sellbilling";
-	public static String btnOnspotsale = "On spot sale";
-	public static String btnSizetable = "Size table";
+	public static String lbdate = "Date " + dateIn.day + "/" + dateIn.month + "/" + dateIn.year;
+	public static String btnlogin = "Login";
+	public static String btnBegin = "Begin";
+	public static String btnBuybilling = "Buy Billing";
+	public static String btnSellbilling = "Sell Billing";
+	public static String btnOnspotsale = "On Spot Sale";
+	public static String btnSizetable = "Size Table";
 	public static String btnConclusion = "Conclusion";
-	
-	
+	public static String btnFetchData = "Fetch Data";
+	public static String btnFinishAll = "Finish All";
+	public static String lbRevenue = "Revenue";
+	public static String lbExpenditure = "Expenditure";
+	public static String lbTotalSellBill = "Total Sell Bill";
+	public static String lbSumSellPrice = "Sum Sell Price";
+	public static String lbSumPendingSellPrice = "Sum Pending Sell Price";
+	public static String lbSumGetPendingPrice = "Sum Get Pending Price";
+	public static String lbSumGetAmount = "Sum Get Amount";
+	public static String lbTotalBuyBill = "Total Buy Bill";
+	public static String lbSumBuyPrice = "Sum Buy Price";
+	public static String lbSumPendingBuyPrice = "Sum Pending Buy Price";
+	public static String lbSumPayPendingPrice = "Sum Pay Pending Price";
+	public static String lbSumPaidAmount = "Sum Paid Amount";
+	public static String lbPendingSellBill = "Pending Sell Bill";
+	public static String lbPendingBuyBill = "Pending Buy Bill";
+	public static String lbGetPendingSellBill = "Get Pending Sell Bill";
+	public static String lbPayPendingBuyBill = "Pay Pending Buy Bill";
+	public static String lbExternalRevenue = "External Revenue";
+	public static String lbExternalExpenditure = "External Expenditure";
+	public static String lbList = "List";
+	public static String lbAmount = "Amount";
+
 	public static void getEng() {
-		language.mnLanguage = "English";
+		language.status = "ENG";
+		language.mnLanguage = "Language";
 		language.mntmEnglish = "English";
-		language.mntmThai = "��";
+		language.mntmThai = "ไทบ";
+		language.tbhdID = "ID";
+		language.tbhdName = "Name";
+		language.tbhdPrice = "Price";
+		language.tbhdStatus = "Status";
+		language.tbhdIssueDate = "Issue Date";
 		language.lbid = "ID";
 		language.lbpassword = "Password";
-		language.btnlogin = "Login";
 		language.lbDay = "Day";
 		language.lbMonth = "Month";
 		language.lbYear = "Year";
-		language.btnBegin = "Begin";
-		language.date = "Date " + dateIn.day + "/" + dateIn.month + "/" + dateIn.year;
 		language.lbMainpage = "Main page";
-		language.btnBuybilling = "Buy billing";
-		language.btnSellbilling = "Sellbilling";
-		language.btnOnspotsale = "On spot sale";
+		language.lbdate = "Date " + dateIn.day + "/" + dateIn.month + "/" + dateIn.year;
+		language.btnlogin = "Login";
+		language.btnBegin = "Begin";
+		language.btnBuybilling = "Buy Billing";
+		language.btnSellbilling = "Sell Billing";
+		language.btnOnspotsale = "On Spot Sale";
 		language.btnSizetable = "Size table";
 		language.btnConclusion = "Conclusion";
+		language.btnFetchData = "Fetch Data";
+		language.btnFinishAll = "Finish all";
+		language.lbRevenue = "Revenue";
+		language.lbExpenditure = "Expenditure";
+		language.lbTotalSellBill = "Total Sell Bill";
+		language.lbSumSellPrice = "Sum Sell Price";
+		language.lbSumPendingSellPrice = "Sum Pending Sell Price";
+		language.lbSumGetPendingPrice = "Sum Get Pending Price";
+		language.lbSumGetAmount = "Sum Get Amount";
+		language.lbTotalBuyBill = "Total Buy Bill";
+		language.lbSumBuyPrice = "Sum Buy Price";
+		language.lbSumPendingBuyPrice = "Sum Pending Buy Price";
+		language.lbSumPayPendingPrice = "Sum Pay Pending Price";
+		language.lbSumPaidAmount = "Sum Paid Amount";
+		language.lbPendingSellBill = "Pending Sell Bill";
+		language.lbPendingBuyBill = "Pending Buy Bill";
+		language.lbGetPendingSellBill = "Get Pending Sell Bill";
+		language.lbPayPendingBuyBill = "Pay Pending Buy Bill";
+		language.lbExternalRevenue = "External Revenue";
+		language.lbExternalExpenditure = "External Expenditure";
+		language.lbList = "List";
+		language.lbAmount = "Amount";
 	}
-	
+
 	public static void getThai() {
-		language.mnLanguage = "����";
+		language.status = "TH";
+		language.mnLanguage = "ภาษา";
 		language.mntmEnglish = "English";
-		language.mntmThai = "��";
-		language.lbid = "���ͼ����";
-		language.lbpassword = "���ʼ�ҹ";
-		language.btnlogin = "�������к�";
-		language.lbDay = "�ѹ";
-		language.lbMonth = "��͹";
-		language.lbYear = "��";
-		language.btnBegin = "�������÷ӧҹ";
-		language.date = "�ѹ��� " + dateIn.day + "/" + dateIn.month + "/" + dateIn.year;
-		language.lbMainpage = "˹����ѡ";
-		language.btnBuybilling = "��ū���";
-		language.btnSellbilling = "��Ţ��";
-		language.btnOnspotsale = "���ʴ";
-		language.btnSizetable = "����";
-		language.btnConclusion = "���ػ";
+		language.mntmThai = "ไทย";
+		language.tbhdID = "รหัสบิล";
+		language.tbhdName = "ชื่อเจ้าของบิล";
+		language.tbhdPrice = "ราคารวม";
+		language.tbhdStatus = "สถานะ";
+		language.tbhdIssueDate = "วันที่ทำบิล";
+		language.lbid = "ชื่อผู้ใช้";
+		language.lbpassword = "รหัสผ่าน";
+		language.lbDay = "วัน";
+		language.lbMonth = "เดือน";
+		language.lbYear = "ปี";
+		language.lbMainpage = "หน้าหลัก";
+		language.lbdate = "วันที่  " + dateIn.day + "/" + dateIn.month + "/" + dateIn.year;
+		language.btnlogin = "เข้าใช้งาน";
+		language.btnBegin = "เริ่ม";
+		language.btnBuybilling = "บิลขาย";
+		language.btnSellbilling = "บิลซื้อ";
+		language.btnOnspotsale = "ขายสด";
+		language.btnSizetable = "ใบไซส์";
+		language.btnConclusion = "ใบสรุป";
+		language.btnFetchData = "ดึงข้อมูล";
+		language.btnFinishAll = "บันทึกข้อมูล";
+		language.lbRevenue = "รายจ่าย";
+		language.lbExpenditure = "รายรับ";
+		language.lbTotalSellBill = "รวมบิลขาย";
+		language.lbSumSellPrice = "รวมขาย";
+		language.lbSumPendingSellPrice = "รวมรอบิล";
+		language.lbSumGetPendingPrice = "รวมรับ รอบิล";
+		language.lbSumGetAmount = "รวมรับจริง";
+		language.lbTotalBuyBill = "รวมบิลซื้อ";
+		language.lbSumBuyPrice = "รวมซื้อ";
+		language.lbSumPendingBuyPrice = "รวมค้างจ่าย";
+		language.lbSumPayPendingPrice = "รวมจ่าย ค้างจ่าย";
+		language.lbSumPaidAmount = "รวมจ่ายจริง";
+		language.lbPendingSellBill = "รวมบิล รอบิล";
+		language.lbPendingBuyBill = "รวมบิล ค้างจ่าย";
+		language.lbGetPendingSellBill = "รวมบิล รับรอบิล";
+		language.lbPayPendingBuyBill = "รวมบิล จ่ายค้างจ่าย";
+		language.lbExternalRevenue = "รายรับอื่น";
+		language.lbExternalExpenditure = "รายจ่ายอื่น";
+		language.lbList = "รายการ";
+		language.lbAmount = "ราคา";
 	}
-	
+
 	public static void setdate() {
-		language.date = "Date " + dateIn.day + "/" + dateIn.month + "/" + dateIn.year;
+		language.lbdate = "Date " + dateIn.day + "/" + dateIn.month + "/" + dateIn.year;
 	}
-	
+
 }

@@ -17,22 +17,40 @@ import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.mongodb.Mongo;
 import com.mongodb.MongoClient;
+import com.mongodb.MongoClientURI;
+import com.mongodb.ServerAddress;
 import com.mongodb.MongoCredential;
 
 import data.*;
 
 public class DatabaseHandler {
-
-	public static void PushData() {
-
-		System.out.println("	! ! ! PUSH DATA ! ! !");
-
+	
+	public static DB DBConectionOnline() {
+		String template = "mongodb://krupanya:plug1995@docdb-2019-07-29-06-05-00.cluster-ckblogzdolfc.us-east-2.docdb.amazonaws.com:27017";
+//        String username = "krupanya";
+//        String password = "plug1995";
+//        String clusterEndpoint = "docdb-2019-07-29-06-05-00.cluster-ckblogzdolfc.us-east-2.docdb.amazonaws.com:27017";
+//        String readPreference = "secondaryPreferred";
+        String connectionString = String.format(template);
+        MongoClientURI clientURI = new MongoClientURI(connectionString);
+        MongoClient mongoClient = new MongoClient(clientURI);
+        DB database = mongoClient.getDB("krupanya");
+		return database;
+	}
+	public static DB DBConection() {
 		Mongo mongo = new MongoClient("localhost", 27017);
 		MongoCredential credential;
 		credential = MongoCredential.createCredential("sampleUser", "krupunya", "password".toCharArray());
 		System.out.println("Connected to the database successfully");
-		DB database = mongo.getDB("krupunya");
 		System.out.println("Credentials ::" + credential);
+		DB database = mongo.getDB("krupanya");
+		return database;
+	}
+
+	public static void PushData() {
+
+		System.out.println("	! ! ! PUSH DATA ! ! !");
+		DB database = DBConectionOnline();
 
 		String APPdate = dateIn.year + dateIn.month + dateIn.day;
 
@@ -210,13 +228,7 @@ public class DatabaseHandler {
 	public static void LoadData() {
 
 		System.out.println("	! ! ! LOAD DATA ! ! !");
-
-		Mongo mongo = new MongoClient("localhost", 27017);
-		MongoCredential credential;
-		credential = MongoCredential.createCredential("sampleUser", "krupunya", "password".toCharArray());
-		System.out.println("Connected to the database successfully");
-		DB database = mongo.getDB("krupunya");
-		System.out.println("Credentials ::" + credential);
+		DB database = DBConectionOnline();
 
 		String APPdate = dateIn.year + dateIn.month + dateIn.day;
 

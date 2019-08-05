@@ -3,7 +3,6 @@ package data;
 import java.util.ArrayList;
 
 public class Buybill {
-	
 	public String id;
 	public String name;
 	public String address;
