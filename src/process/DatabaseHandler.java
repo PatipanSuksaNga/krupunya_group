@@ -50,7 +50,7 @@ public class DatabaseHandler {
 	public static void PushData() {
 
 		System.out.println("	! ! ! PUSH DATA ! ! !");
-		DB database = DBConectionOnline();
+		DB database = DBConection();
 
 		String APPdate = dateIn.year + dateIn.month + dateIn.day;
 
@@ -228,7 +228,7 @@ public class DatabaseHandler {
 	public static void LoadData() {
 
 		System.out.println("	! ! ! LOAD DATA ! ! !");
-		DB database = DBConectionOnline();
+		DB database = DBConection();
 
 		String APPdate = dateIn.year + dateIn.month + dateIn.day;
 

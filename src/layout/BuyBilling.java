@@ -45,7 +45,6 @@ public class BuyBilling {
 	JMenuItem mntmEnglish = new JMenuItem(language.mntmEnglish);
 	JMenuItem mntmThai = new JMenuItem(language.mntmThai);
 	JLabel lbDate = new JLabel("Date");
-	DefaultTableModel model = new DefaultTableModel();
 	private JTextField textField_Name;
 	private JTextField textField_Address;
 	private JTextField textField_Importer;
@@ -57,6 +56,7 @@ public class BuyBilling {
 	private JTextField textField_TotalWeight;
 	private JTextField textField_Price;
 	private JTable table;
+	DefaultTableModel model = new DefaultTableModel();
 	private JTextField textField_Phonenumber;
 
 	/**
@@ -94,8 +94,10 @@ public class BuyBilling {
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
+		Dimension windowSize = frame.getSize();
+		
 		setText();
-		menuBar.setBounds(0, 0, screenSize.width, 30);
+		menuBar.setBounds(0, 0, windowSize.width, 30);
 		menuBar.add(mnLanguage);
 		mnLanguage.add(mntmEnglish);
 		mntmEnglish.addActionListener(new ActionListener() {
@@ -114,18 +116,16 @@ public class BuyBilling {
 		
 		frame.getContentPane().add(menuBar);
 		
-		Dimension windowSize = frame.getSize();
-		
 		JPanel panel = new JPanel();
 		panel.setBounds(0, 31, windowSize.width-20, 1500);
 		panel.setPreferredSize(new Dimension(windowSize.width-20,1500));
+		panel.setLayout(null);
 		
 		JScrollPane scrollPane = new JScrollPane(panel,JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-		panel.setLayout(null);
 		
 		JLabel BuyBilling = new JLabel("Buy Billing");
 		BuyBilling.setHorizontalAlignment(SwingConstants.CENTER);
-		BuyBilling.setBounds(435, 30, 100, 30);
+		BuyBilling.setBounds(windowSize.width/2 - 50, 30, 100, 30);
 		panel.add(BuyBilling);
 		
 		lbDate.setHorizontalAlignment(SwingConstants.CENTER);
@@ -192,8 +192,8 @@ public class BuyBilling {
 		
 		JComboBox comboBox_Type = new JComboBox();
 		comboBox_Type.setBounds(650, 100, 100, 20);
-		comboBox_Type.addItem("white shrimp");
-		comboBox_Type.addItem("Lobster");
+		comboBox_Type.addItem("prawn");
+		comboBox_Type.addItem("Gian fresh water prawn");
 		panel.add(comboBox_Type);
 		
 		textField_Phonenumber = new JTextField();

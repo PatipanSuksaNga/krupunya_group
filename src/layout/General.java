@@ -304,6 +304,15 @@ public class General {
 
 		btnConclusion.setBounds(640, 20, 140, 25);
 		panel.add(btnConclusion);
+		
+		JButton btnMembers = new JButton();
+		btnMembers.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+			}
+		});
+		btnMembers.setText("Members");
+		btnMembers.setBounds(40, 56, 140, 25);
+		panel.add(btnMembers);
 
 		lbDate.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		lbDate.setHorizontalAlignment(SwingConstants.CENTER);
