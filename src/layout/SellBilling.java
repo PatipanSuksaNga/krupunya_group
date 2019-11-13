@@ -14,6 +14,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JScrollPane;
 
 import data.*;
+import process.DatabaseHandler;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
@@ -196,7 +197,7 @@ public class SellBilling {
 			public void actionPerformed(ActionEvent arg0) {
 				
 				Sellbill sellbill = new Sellbill(); 
-				sellbill.id = dateIn.year+dateIn.month+dateIn.day + "S" + Information.sellbill_number; Information.sellbill_number += 1;
+				sellbill.id = "UNSAVE";
 				sellbill.name = textField_Name.getText();
 				sellbill.address = textField_Address.getText();
 				sellbill.phone_number = textField_Phonenumber.getText();
@@ -219,6 +220,7 @@ public class SellBilling {
 					{sellbill.status = false;sellbill.paid_date = null;BillCollections.pending_sellbill.add(sellbill);}
 				
 				BillCollections.sellbill.add(sellbill);
+				DatabaseHandler.PushData();
 				General.fetchData();
 				frame.setVisible(false);
 				

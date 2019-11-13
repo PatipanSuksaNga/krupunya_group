@@ -40,11 +40,12 @@ import java.awt.Font;
 public class Members {
 
 	private JFrame frame;
-	
+
 	JMenuBar menuBar = new JMenuBar();
 	JMenu mnLanguage = new JMenu(language.mnLanguage);
 	JMenuItem mntmEnglish = new JMenuItem(language.mntmEnglish);
 	JMenuItem mntmThai = new JMenuItem(language.mntmThai);
+	private JLabel lbIDMember = new JLabel("-");
 	private JTextField textField_Name;
 	private JTextField textField_Address;
 	private JTextField textField_Phone_number;
@@ -78,16 +79,16 @@ public class Members {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		
-Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-		
+
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+
 		frame = new JFrame();
 		frame.setBounds(0, 0, 970, 950);
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
-		
+
 		Dimension windowSize = frame.getSize();
-		
+
 		setText();
 		menuBar.setBounds(0, 0, windowSize.width, 30);
 		menuBar.add(mnLanguage);
@@ -105,47 +106,47 @@ Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 				setText();
 			}
 		});
-		
+
 		frame.getContentPane().add(menuBar);
-		
+
 		JPanel panel = new JPanel();
-		panel.setBounds(0, 31, windowSize.width-20, 1500);
-		panel.setPreferredSize(new Dimension(windowSize.width-20,1500));
+		panel.setBounds(0, 31, windowSize.width - 20, 1500);
+		panel.setPreferredSize(new Dimension(windowSize.width - 20, 1500));
 		panel.setLayout(null);
-		
-		JScrollPane scrollPane = new JScrollPane(panel,JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-		
-		JLabel lbMember = new JLabel("Member management");
+
+		JScrollPane scrollPane = new JScrollPane(panel, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+
+		JLabel lbMember = new JLabel("Member Management");
 		lbMember.setFont(new Font("Tahoma", Font.PLAIN, 19));
 		lbMember.setHorizontalAlignment(SwingConstants.CENTER);
-		lbMember.setBounds(windowSize.width/2-100, 75, 200, 30);
+		lbMember.setBounds(windowSize.width / 2 - 100, 75, 200, 30);
 		panel.add(lbMember);
-		
+
 		JLabel lbID = new JLabel("ID");
 		lbID.setHorizontalAlignment(SwingConstants.CENTER);
 		lbID.setBounds(50, 200, 100, 30);
 		panel.add(lbID);
-		
-		JLabel lbIDMember = new JLabel("-");
+
 		lbIDMember.setHorizontalAlignment(SwingConstants.CENTER);
-		lbIDMember.setBounds(110, 200, 100, 30);
+		lbIDMember.setBounds(160, 200, 200, 30);
 		panel.add(lbIDMember);
-		
+
 		JLabel lbName = new JLabel("Name");
 		lbName.setHorizontalAlignment(SwingConstants.CENTER);
 		lbName.setBounds(50, 250, 100, 30);
 		panel.add(lbName);
-		
+
 		JLabel lbAddress = new JLabel("Address");
 		lbAddress.setHorizontalAlignment(SwingConstants.CENTER);
 		lbAddress.setBounds(50, 300, 100, 30);
 		panel.add(lbAddress);
-		
+
 		JLabel lbPhone_number = new JLabel("Phone number");
 		lbPhone_number.setHorizontalAlignment(SwingConstants.CENTER);
 		lbPhone_number.setBounds(50, 350, 100, 30);
 		panel.add(lbPhone_number);
-		
+
 		textField_Name = new JTextField();
 		textField_Name.setHorizontalAlignment(SwingConstants.CENTER);
 		textField_Name.setBounds(160, 255, 200, 20);
@@ -157,36 +158,74 @@ Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		textField_Address.setBounds(160, 305, 200, 20);
 		panel.add(textField_Address);
 		textField_Address.setColumns(10);
-		
+
 		textField_Phone_number = new JTextField();
 		textField_Phone_number.setHorizontalAlignment(SwingConstants.CENTER);
 		textField_Phone_number.setBounds(160, 355, 200, 20);
 		panel.add(textField_Phone_number);
 		textField_Phone_number.setColumns(10);
-		
+
 		table = new JTable();
 		table.setBorder(new LineBorder(new Color(0, 0, 0)));
-		table.setPreferredScrollableViewportSize(new Dimension(850,400));
+		table.setPreferredScrollableViewportSize(new Dimension(850, 400));
 		table.setBounds(50, 450, 850, 400);
 		table.setModel(model);
-        model.addColumn("ID");
-        model.addColumn("Name");
-        model.addColumn("Address");
-        model.addColumn("Phone number");
-        JScrollPane table_sp = new JScrollPane(table,JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-        table_sp.setBounds(50, 450, 850, 400);
-        table_sp.setVisible(true);
+		model.addColumn("ID");
+		model.addColumn("Name");
+		model.addColumn("Address");
+		model.addColumn("Phone number");
+		JScrollPane table_sp = new JScrollPane(table, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		table_sp.setBounds(50, 450, 850, 400);
+		table_sp.setVisible(true);
 		panel.add(table_sp);
-		
-		scrollPane.setBounds(0, 31, windowSize.width-20, windowSize.height-70);
+
+		JButton btnAdd = new JButton("Add member");
+		btnAdd.setBounds(450, 200, 150, 30);
+		panel.add(btnAdd);
+
+		JButton btnDelete = new JButton("Delete member");
+		btnDelete.setBounds(450, 250, 150, 30);
+		panel.add(btnDelete);
+
+		JButton btnEdit = new JButton("Edit member");
+		btnEdit.setBounds(450, 300, 150, 30);
+		panel.add(btnEdit);
+
+		scrollPane.setBounds(0, 31, windowSize.width - 20, windowSize.height - 70);
 		frame.getContentPane().add(scrollPane);
 	}
-	
+
 	private void setText() {
 		mnLanguage.setText(language.mnLanguage);
 		mntmEnglish.setText(language.mntmEnglish);
 		mntmThai.setText(language.mntmThai);
-		
+
 	}
 
+	private String id, name, address, phone_number;
+	private boolean flag = false;
+
+	private void getdetail() {
+		id = lbIDMember.getText();
+		name = textField_Name.getText();
+		address = textField_Address.getText();
+		phone_number = textField_Phone_number.getText();
+		if (id.compareTo("-") == 0)
+			flag = false;
+		else
+			flag = true;
+	}
+	
+	private void addMember() {
+		getdetail();
+	}
+
+	private void deleteMember() {
+		getdetail();
+	}
+
+	private void editMember() {
+		getdetail();
+	}
 }

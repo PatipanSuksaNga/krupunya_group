@@ -31,6 +31,7 @@ import process.*;
 import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.RowSpec;
+import com.mongodb.DBCollection;
 import com.jgoodies.forms.layout.FormSpecs;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
@@ -82,7 +83,6 @@ public class General {
 	private JLabel lbExternalRevenue = new JLabel();
 	private JLabel lbExternalExpenditure = new JLabel();
 
-	
 	private JTable buybill_table;
 	private JTable pending_buybill_table;
 	private JTable pay_pending_buybill_table;
@@ -125,7 +125,7 @@ public class General {
 
 	private JButton btnFinishAll = new JButton();
 	private JButton btnFetchData = new JButton("Fetch data");
-	
+
 	private void setText() {
 		sellbill_table.getColumnModel().getColumn(0).setHeaderValue(language.tbhdID);
 		sellbill_table.getColumnModel().getColumn(1).setHeaderValue(language.tbhdName);
@@ -191,7 +191,7 @@ public class General {
 		lbAmountRev.setText(language.lbAmount);
 		lbListExp.setText(language.lbList);
 		lbAmountExp.setText(language.lbAmount);
-	
+
 	}
 
 	/**
@@ -304,7 +304,7 @@ public class General {
 
 		btnConclusion.setBounds(640, 20, 140, 25);
 		panel.add(btnConclusion);
-		
+
 		JButton btnMembers = new JButton();
 		btnMembers.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -382,49 +382,20 @@ public class General {
 		pending_buybill_table.setPreferredScrollableViewportSize(new Dimension(screenSize.width / 2 - 400, 200));
 		pending_buybill_table.setBounds(screenSize.width / 2 + 50, 550, screenSize.width / 2 - 400, 200);
 		pending_buybill_table.setModel(pending_buybill_model);
-			pending_buybill_model.addColumn("ID");
-			pending_buybill_model.addColumn("name");
-			pending_buybill_model.addColumn("price");
-			pending_buybill_model.addColumn("issue date");
+		pending_buybill_model.addColumn("ID");
+		pending_buybill_model.addColumn("name");
+		pending_buybill_model.addColumn("price");
+		pending_buybill_model.addColumn("issue date");
 		JScrollPane pending_buybill_table_sp = new JScrollPane(pending_buybill_table,
 				JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		pending_buybill_table_sp.setBounds(screenSize.width / 2 + 50, 550, screenSize.width / 2 - 400, 200);
 		pending_buybill_table_sp.setVisible(true);
 		main_panel.add(pending_buybill_table_sp);
 
-		JButton btnPayBill_buy = new JButton("Pay bill");
+		JButton btnPayBill_buy = new JButton("Pay buy bill");
 		btnPayBill_buy.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				int numRow = pending_buybill_table.getSelectedRow();
-				String table_id = pending_buybill_table.getValueAt(numRow, 0).toString();
-
-				for (int j = 0; j < BillCollections.pending_buybill.size(); j++) {
-					Buybill b = BillCollections.pending_buybill.get(j);
-					if ((b.id == table_id) && (b.issue_date.compareTo(dateIn.year + dateIn.month + dateIn.day) != 0)) {
-						b.status = true;
-						b.paid_date = dateIn.year + dateIn.month + dateIn.day;
-						BillCollections.pending_buybill.remove(b);
-						BillCollections.pay_pending_buybill.add(b);
-						break;
-					}
-				}
-
-				for (int j = 0; j < BillCollections.buybill.size(); j++) {
-					if ((BillCollections.buybill.get(j).id == table_id) && (BillCollections.buybill.get(j).issue_date
-							.compareTo(dateIn.year + dateIn.month + dateIn.day) == 0)) {
-						for (Buybill b : BillCollections.pending_buybill) {
-							if (b.id == table_id) {
-								BillCollections.pending_buybill.remove(b);
-								break;
-							}
-						}
-						BillCollections.buybill.get(j).status = true;
-						BillCollections.buybill.get(j).paid_date = dateIn.year + dateIn.month + dateIn.day;
-						break;
-					}
-				}
-
-				fetchData();
+				btnPayBill_buy_action();
 			}
 		});
 		btnPayBill_buy.setBounds(screenSize.width / 2 + 150, 500, 100, 25);
@@ -452,7 +423,7 @@ public class General {
 		btnAddExtExp.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				Expenditure exp = new Expenditure();
-				exp.id = dateIn.year + dateIn.month + dateIn.day + "E" + Information.expenditure_number;
+				exp.id = "UNSAVE";
 				Information.expenditure_number += 1;
 				if (comboBox_ExtExpList.getSelectedItem().toString() == "other")
 					exp.list = textField_ExtExpList.getText();
@@ -461,6 +432,7 @@ public class General {
 				exp.amount = Integer.parseInt(textField_ExtExpAmount.getText());
 				exp.issue_date = dateIn.year + dateIn.month + dateIn.day;
 				External.expenditure.add(exp);
+				DatabaseHandler.PushData();
 				fetchData();
 			}
 		});
@@ -603,29 +575,7 @@ public class General {
 		JButton btnPayBill_sell = new JButton("Get sell bill");
 		btnPayBill_sell.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				int numRows = pending_sellbill_table.getSelectedRows().length;
-				for (int i = 0; i < numRows; i++) {
-					String id = pending_sellbill_table.getValueAt(i, 0).toString();
-					for (Sellbill b : BillCollections.pending_sellbill) {
-						if (b.id == id) {
-							BillCollections.pending_sellbill.remove(b);
-							b.status = true;
-							b.paid_date = dateIn.year + dateIn.month + dateIn.day;
-							BillCollections.get_pending_sellbill.add(b);
-							break;
-						}
-					}
-					for (Sellbill b : BillCollections.sellbill) {
-						if (b.id == id) {
-							BillCollections.sellbill.remove(b);
-							b.status = true;
-							b.paid_date = dateIn.year + dateIn.month + dateIn.day;
-							BillCollections.sellbill.add(b);
-							break;
-						}
-					}
-				}
-				fetchData();
+				btnPayBill_sell_action();
 			}
 		});
 		btnPayBill_sell.setBounds(screenSize.width / 2 - (screenSize.width / 2 - 400) - 50 + 100, 500, 100, 25);
@@ -655,7 +605,7 @@ public class General {
 		btnAddExtRev.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				Revenue rev = new Revenue();
-				rev.id = dateIn.year + dateIn.month + dateIn.day + "R" + Information.revenue_number;
+				rev.id = "UNSAVE";
 				Information.revenue_number += 1;
 				if (comboBox_ExtRevList.getSelectedItem().toString() == "other")
 					rev.list = textField_ExtRevList.getText();
@@ -664,6 +614,7 @@ public class General {
 				rev.amount = Integer.parseInt(textField_ExtRevAmount.getText());
 				rev.issue_date = dateIn.year + dateIn.month + dateIn.day;
 				External.revenue.add(rev);
+				DatabaseHandler.PushData();
 				fetchData();
 			}
 		});
@@ -785,6 +736,22 @@ public class General {
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+	private void btnPayBill_buy_action() {
+		int numRow = pending_buybill_table.getSelectedRow();
+		String table_id = pending_buybill_table.getValueAt(numRow, 0).toString();
+		String today = dateIn.year + dateIn.month + dateIn.day;
+		DatabaseHandler.UpdateBillStatus(table_id, true, today, "buybill");
+		fetchData();
+	}
+
+	private void btnPayBill_sell_action() {
+		int numRow = pending_sellbill_table.getSelectedRow();
+		String table_id = pending_sellbill_table.getValueAt(numRow, 0).toString();
+		String today = dateIn.year + dateIn.month + dateIn.day;
+		DatabaseHandler.UpdateBillStatus(table_id, true, today, "sellbill");
+		fetchData();
+	}
+
 	public static void fetchData() {
 
 		Information.total_buy = 0.0;
@@ -821,11 +788,6 @@ public class General {
 			Information.credit_buy += price;
 		}
 
-		/*
-		 * for(int i=buybill_model.getRowCount()-1;i>-1;i--) {
-		 * if(buybill_model.getValueAt(i, 3) == "pending") Information.credit_buy +=
-		 * Double.parseDouble(buybill_model.getValueAt(i, 2).toString()); }
-		 */
 		lbSumPendingBuyPriceNUM.setText(Information.credit_buy + "");
 
 		for (int i = pay_pending_buybill_model.getRowCount() - 1; i > -1; i--)
@@ -927,5 +889,18 @@ public class General {
 				+ Information.external_expenditure;
 		Information.total_revenue = (Information.total_sell - Information.credit_sell) + Information.external_revenue;
 		Information.balance = Information.total_revenue - Information.total_expenditure;
+
+		//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+		BillCollections.buybill.clear();
+		BillCollections.pending_buybill.clear();
+		BillCollections.pay_pending_buybill.clear();
+		External.expenditure.clear();
+		BillCollections.sellbill.clear();
+		BillCollections.pending_sellbill.clear();
+		BillCollections.get_pending_sellbill.clear();
+		External.revenue.clear();
+		DatabaseHandler.LoadData();
+
 	}
 }

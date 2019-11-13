@@ -5,7 +5,5 @@ public class Product {
 	public int size;
 	public double weight;
 	public double price;
-	
-	public void Product() {}
 
 }

@@ -33,6 +33,8 @@ import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 
+import process.*;
+
 import java.awt.Color;
 import javax.swing.JTable;
 
@@ -225,7 +227,7 @@ public class BuyBilling {
 			public void actionPerformed(ActionEvent arg0) {
 				
 				Buybill buybill = new Buybill(); 
-				buybill.id = dateIn.year+dateIn.month+dateIn.day + "B" + Information.buybill_number; Information.buybill_number += 1;
+				buybill.id = "UNSAVE";
 				buybill.name = textField_Name.getText();
 				buybill.address = textField_Address.getText();
 				buybill.phone_number = textField_Phonenumber.getText();
@@ -250,6 +252,7 @@ public class BuyBilling {
 					{buybill.status = false;buybill.paid_date = null;BillCollections.pending_buybill.add(buybill);}
 				
 				BillCollections.buybill.add(buybill);
+				DatabaseHandler.PushData();
 				General.fetchData();
 				frame.setVisible(false);
 				
@@ -276,7 +279,6 @@ public class BuyBilling {
 				else
 					c1=comboBox_SecretNumber.getSelectedItem().toString();
 				model.addRow(new Object[]{c1,c2,c3,c4});
-			
 			}
 		});
 		btnSubmit.setBounds(720, 110, 100, 30);

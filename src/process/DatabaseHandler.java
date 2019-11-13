@@ -9,6 +9,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.bson.Document;
+import org.bson.types.ObjectId;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
@@ -24,19 +25,16 @@ import com.mongodb.MongoCredential;
 import data.*;
 
 public class DatabaseHandler {
-	
+
 	public static DB DBConectionOnline() {
 		String template = "mongodb://krupanya:plug1995@docdb-2019-07-29-06-05-00.cluster-ckblogzdolfc.us-east-2.docdb.amazonaws.com:27017";
-//        String username = "krupanya";
-//        String password = "plug1995";
-//        String clusterEndpoint = "docdb-2019-07-29-06-05-00.cluster-ckblogzdolfc.us-east-2.docdb.amazonaws.com:27017";
-//        String readPreference = "secondaryPreferred";
-        String connectionString = String.format(template);
-        MongoClientURI clientURI = new MongoClientURI(connectionString);
-        MongoClient mongoClient = new MongoClient(clientURI);
-        DB database = mongoClient.getDB("krupanya");
+		String connectionString = String.format(template);
+		MongoClientURI clientURI = new MongoClientURI(connectionString);
+		MongoClient mongoClient = new MongoClient(clientURI);
+		DB database = mongoClient.getDB("krupanya");
 		return database;
 	}
+
 	public static DB DBConection() {
 		Mongo mongo = new MongoClient("localhost", 27017);
 		MongoCredential credential;
@@ -47,180 +45,126 @@ public class DatabaseHandler {
 		return database;
 	}
 
+	public static void UpdateBillStatus(String bill_id, boolean updated_status, String paid_date,
+			String collection_name) {
+		DB database = DBConection();
+		DBCollection bill_collection = database.getCollection(collection_name);
+		BasicDBObject newDocument = new BasicDBObject();
+		newDocument.append("$set", new BasicDBObject().append("status", updated_status).append("paid_date", paid_date));
+		BasicDBObject searchQuery = new BasicDBObject().append("id", bill_id);
+		bill_collection.update(searchQuery, newDocument);
+	}
+	
+	private static BasicDBObject BuybillToBasicDBObject(Buybill b) {
+		BasicDBObject bill = new BasicDBObject();
+		bill.put("id", "SAVED");
+		bill.put("name", b.name);
+		bill.put("address", b.address);
+		bill.put("phone", b.phone_number);
+		bill.put("taker", b.taker);
+		bill.put("whighter", b.weighter);
+		bill.put("issue_date", b.issue_date);
+		bill.put("paid_date", b.paid_date);
+		bill.put("product_type", b.product_type);
+		bill.put("status", b.status);
+		ArrayList<BasicDBObject> productList = new ArrayList<BasicDBObject>();
+		for (Product p : b.product) {
+			BasicDBObject product = new BasicDBObject();
+			product.put("secret_number", p.secret_number);
+			product.put("size", p.size);
+			product.put("weight", p.weight);
+			product.put("price", p.price);
+			productList.add(product);
+		}
+		bill.put("products", productList);
+		return bill;
+	}
+	
+	private static BasicDBObject SellbillToBasicDBObject(Sellbill s) {
+		BasicDBObject bill = new BasicDBObject();
+		bill.put("id", "SAVED");
+		bill.put("name", s.name);
+		bill.put("address", s.address);
+		bill.put("phone", s.phone_number);
+		bill.put("issue_date", s.issue_date);
+		bill.put("paid_date", s.paid_date);
+		bill.put("product_type", s.product_type);
+		bill.put("status", s.status);
+		ArrayList<BasicDBObject> productList = new ArrayList<BasicDBObject>();
+		for (Product p : s.product) {
+			BasicDBObject product = new BasicDBObject();
+			product.put("secret_number", p.secret_number);
+			product.put("size", p.size);
+			product.put("weight", p.weight);
+			product.put("price", p.price);
+			productList.add(product);
+		}
+		bill.put("products", productList);
+		return bill;
+	}
+	
+	private static BasicDBObject ExpbillToBasicDBObject(Expenditure e) {
+		BasicDBObject bill = new BasicDBObject();
+		bill.put("id", "SAVED");
+		bill.put("list", e.list);
+		bill.put("amount", e.amount);
+		bill.put("issue_date", e.issue_date);
+		return bill;
+	}
+	
+	private static BasicDBObject RevbillToBasicDBObject(Revenue r) {
+		BasicDBObject bill = new BasicDBObject();
+		bill.put("id", "SAVED");
+		bill.put("list", r.list);
+		bill.put("amount", r.amount);
+		bill.put("issue_date", r.issue_date);
+		return bill;
+	}
+
+
 	public static void PushData() {
 
 		System.out.println("	! ! ! PUSH DATA ! ! !");
 		DB database = DBConection();
 
-		String APPdate = dateIn.year + dateIn.month + dateIn.day;
-
 		DBCollection buybill_collection = database.getCollection("buybill");
-		DBCursor buybills_cursor = buybill_collection.find();
-		while (buybills_cursor.hasNext()) {
-			BasicDBObject document = new BasicDBObject();
-			document = (BasicDBObject) buybills_cursor.next();
-			if (document.getString("issue_date").compareTo(APPdate) == 0) // database issue date = today issue date -> remove
-				buybill_collection.remove(document);
+		for (Buybill b : BillCollections.buybill) {
+			if (b.id.equals("UNSAVE")) {
+				buybill_collection.insert(BuybillToBasicDBObject(b));
+			}
 		}
 
-		for (Buybill b : BillCollections.buybill) {
-			BasicDBObject bill = new BasicDBObject();
-			bill.put("id", b.id);
-			bill.put("name", b.name);
-			bill.put("address", b.address);
-			bill.put("phone", b.phone_number);
-			bill.put("taker", b.taker);
-			bill.put("whighter", b.weighter);
-			bill.put("issue_date", b.issue_date);
-			bill.put("paid_date", b.paid_date);
-			bill.put("product_type", b.product_type);
-			bill.put("status", b.status);
-			ArrayList<BasicDBObject> productList = new ArrayList<BasicDBObject>();
-			for (Product p : b.product) {
-				BasicDBObject product = new BasicDBObject();
-				product.put("secret_number", p.secret_number);
-				product.put("size", p.size);
-				product.put("weight", p.weight);
-				product.put("price", p.price);
-				productList.add(product);
-			}
-			bill.put("products", productList);
-			buybill_collection.insert(bill);
-		}
-		
 		for (Buybill b : BillCollections.pay_pending_buybill) {
-			
-			DBCursor gry_pending_sellbills_cursor = buybill_collection.find();
-			while (gry_pending_sellbills_cursor.hasNext()) {
-				BasicDBObject document = new BasicDBObject();
-				document = (BasicDBObject) gry_pending_sellbills_cursor.next();
-				if (document.getString("issue_date").compareTo(b.issue_date) == 0) 
-					buybill_collection.remove(document);
+			if (b.id.equals("UNSAVE")) {
+				buybill_collection.insert(BuybillToBasicDBObject(b));
 			}
-			
-			BasicDBObject bill = new BasicDBObject();
-			bill.put("id", b.id);
-			bill.put("name", b.name);
-			bill.put("address", b.address);
-			bill.put("phone", b.phone_number);
-			bill.put("taker", b.taker);
-			bill.put("whighter", b.weighter);
-			bill.put("issue_date", b.issue_date);
-			bill.put("paid_date", b.paid_date);
-			bill.put("product_type", b.product_type);
-			bill.put("status", b.status);
-			ArrayList<BasicDBObject> productList = new ArrayList<BasicDBObject>();
-			for (Product p : b.product) {
-				BasicDBObject product = new BasicDBObject();
-				product.put("secret_number", p.secret_number);
-				product.put("size", p.size);
-				product.put("weight", p.weight);
-				product.put("price", p.price);
-				productList.add(product);
-			}
-			bill.put("products", productList);
-			buybill_collection.insert(bill);
 		}
 
 		DBCollection sellbill_collection = database.getCollection("sellbill");
-		DBCursor sellbills_cursor = sellbill_collection.find();
-		while (sellbills_cursor.hasNext()) {
-			BasicDBObject document = new BasicDBObject();
-			document = (BasicDBObject) sellbills_cursor.next();
-			if (document.getString("issue_date").compareTo(APPdate) == 0)
-				sellbill_collection.remove(document);
-		}
-
 		for (Sellbill s : BillCollections.sellbill) {
-			BasicDBObject bill = new BasicDBObject();
-			bill.put("id", s.id);
-			bill.put("name", s.name);
-			bill.put("address", s.address);
-			bill.put("phone", s.phone_number);
-			bill.put("issue_date", s.issue_date);
-			bill.put("paid_date", s.paid_date);
-			bill.put("product_type", s.product_type);
-			bill.put("status", s.status);
-			ArrayList<BasicDBObject> productList = new ArrayList<BasicDBObject>();
-			for (Product p : s.product) {
-				BasicDBObject product = new BasicDBObject();
-				product.put("secret_number", p.secret_number);
-				product.put("size", p.size);
-				product.put("weight", p.weight);
-				product.put("price", p.price);
-				productList.add(product);
+			if (s.id.equals("UNSAVE")) {
+				sellbill_collection.insert(SellbillToBasicDBObject(s));
 			}
-			bill.put("products", productList);
-			sellbill_collection.insert(bill);
-		}
-		
-		for (Sellbill s : BillCollections.get_pending_sellbill) {
-			
-			DBCursor get_pending_sellbills_cursor = sellbill_collection.find();
-			while (get_pending_sellbills_cursor.hasNext()) {
-				BasicDBObject document = new BasicDBObject();
-				document = (BasicDBObject) get_pending_sellbills_cursor.next();
-				if (document.getString("issue_date").compareTo(s.issue_date) == 0) 
-					sellbill_collection.remove(document);
-			}
-			
-			BasicDBObject bill = new BasicDBObject();
-			bill.put("id", s.id);
-			bill.put("name", s.name);
-			bill.put("address", s.address);
-			bill.put("phone", s.phone_number);
-			bill.put("issue_date", s.issue_date);
-			bill.put("paid_date", s.paid_date);
-			bill.put("product_type", s.product_type);
-			bill.put("status", s.status);
-			ArrayList<BasicDBObject> productList = new ArrayList<BasicDBObject>();
-			for (Product p : s.product) {
-				BasicDBObject product = new BasicDBObject();
-				product.put("secret_number", p.secret_number);
-				product.put("size", p.size);
-				product.put("weight", p.weight);
-				product.put("price", p.price);
-				productList.add(product);
-			}
-			bill.put("products", productList);
-			sellbill_collection.insert(bill);
 		}
 
+		for (Sellbill s : BillCollections.get_pending_sellbill) {
+			if (s.id.equals("UNSAVE")) {
+				sellbill_collection.insert(SellbillToBasicDBObject(s));
+			}
+		}
 
 		DBCollection expenditure_collection = database.getCollection("expenditure");
-		DBCursor expenditure_cursor = expenditure_collection.find();
-		while (expenditure_cursor.hasNext()) {
-			BasicDBObject document = new BasicDBObject();
-			document = (BasicDBObject) expenditure_cursor.next();
-			if (document.getString("issue_date").compareTo(APPdate) == 0)
-				expenditure_collection.remove(document);
-		}
-
 		for (Expenditure e : External.expenditure) {
-			BasicDBObject bill = new BasicDBObject();
-			bill.put("id", e.id);
-			bill.put("list", e.list);
-			bill.put("amount", e.amount);
-			bill.put("issue_date", e.issue_date);
-			expenditure_collection.insert(bill);
+			if (e.id.equals("UNSAVE")) {				
+				expenditure_collection.insert(ExpbillToBasicDBObject(e));
+			}
 		}
 
 		DBCollection revenue_collection = database.getCollection("revenue");
-		DBCursor revenue_cursor = revenue_collection.find();
-		while (revenue_cursor.hasNext()) {
-			BasicDBObject document = new BasicDBObject();
-			document = (BasicDBObject) revenue_cursor.next();
-			if (document.getString("issue_date").compareTo(APPdate) == 0)
-				revenue_collection.remove(document);
-		}
-
 		for (Revenue r : External.revenue) {
-			BasicDBObject bill = new BasicDBObject();
-			bill.put("id", r.id);
-			bill.put("list", r.list);
-			bill.put("amount", r.amount);
-			bill.put("issue_date", r.issue_date);
-			revenue_collection.insert(bill);
+			if (r.id.equals("UNSAVE")) {
+				revenue_collection.insert(RevbillToBasicDBObject(r));
+			}
 		}
 
 	}
@@ -238,7 +182,13 @@ public class DatabaseHandler {
 			BasicDBObject bill = (BasicDBObject) buybills_cursor.next();
 			if (bill.getString("issue_date").compareTo(APPdate) == 0) {
 				Buybill b = new Buybill();
-				b.id = bill.getString("id");
+
+				b.id = bill.getObjectId("_id").toString();
+				BasicDBObject newDocument = new BasicDBObject();
+				newDocument.append("$set", new BasicDBObject().append("id", bill.getObjectId("_id").toString()));
+				BasicDBObject searchQuery = new BasicDBObject().append("_id", bill.getObjectId("_id"));
+				buybill_collection.update(searchQuery, newDocument);
+
 				b.name = bill.getString("name");
 				b.address = bill.getString("address");
 				b.phone_number = bill.getString("phone");
@@ -262,7 +212,13 @@ public class DatabaseHandler {
 
 			if (bill.getBoolean("status") == false) {
 				Buybill b = new Buybill();
-				b.id = bill.getString("id");
+				
+				b.id = bill.getObjectId("_id").toString();
+				BasicDBObject newDocument = new BasicDBObject();
+				newDocument.append("$set", new BasicDBObject().append("id", bill.getObjectId("_id").toString()));
+				BasicDBObject searchQuery = new BasicDBObject().append("_id", bill.getObjectId("_id"));
+				buybill_collection.update(searchQuery, newDocument);
+				
 				b.name = bill.getString("name");
 				b.address = bill.getString("address");
 				b.phone_number = bill.getString("phone");
@@ -285,9 +241,16 @@ public class DatabaseHandler {
 			}
 
 			if (bill.getBoolean("status") == true) {
-				if ((bill.getString("paid_date").compareTo(APPdate) == 0) && (bill.getString("paid_date").compareTo(bill.getString("issue_date")) != 0)) {
+				if ((bill.getString("paid_date").compareTo(APPdate) == 0)
+						&& (bill.getString("paid_date").compareTo(bill.getString("issue_date")) != 0)) {
 					Buybill b = new Buybill();
-					b.id = bill.getString("id");
+					
+					b.id = bill.getObjectId("_id").toString();
+					BasicDBObject newDocument = new BasicDBObject();
+					newDocument.append("$set", new BasicDBObject().append("id", bill.getObjectId("_id").toString()));
+					BasicDBObject searchQuery = new BasicDBObject().append("_id", bill.getObjectId("_id"));
+					buybill_collection.update(searchQuery, newDocument);
+					
 					b.name = bill.getString("name");
 					b.address = bill.getString("address");
 					b.phone_number = bill.getString("phone");
@@ -308,6 +271,138 @@ public class DatabaseHandler {
 					}
 					BillCollections.pay_pending_buybill.add(b);
 				}
+			}
+		}
+
+		DBCollection sellbill_collection = database.getCollection("sellbill");
+		DBCursor sellbills_cursor = sellbill_collection.find();
+		while (sellbills_cursor.hasNext()) {
+			BasicDBObject bill = (BasicDBObject) sellbills_cursor.next();
+			if (bill.getString("issue_date").compareTo(APPdate) == 0) {
+				Sellbill b = new Sellbill();
+				
+				b.id = bill.getObjectId("_id").toString();
+				BasicDBObject newDocument = new BasicDBObject();
+				newDocument.append("$set", new BasicDBObject().append("id", bill.getObjectId("_id").toString()));
+				BasicDBObject searchQuery = new BasicDBObject().append("_id", bill.getObjectId("_id"));
+				sellbill_collection.update(searchQuery, newDocument);
+				
+				b.name = bill.getString("name");
+				b.address = bill.getString("address");
+				b.phone_number = bill.getString("phone");
+				b.issue_date = bill.getString("issue_date");
+				b.paid_date = bill.getString("paid_date");
+				b.product_type = bill.getString("product_type");
+				b.status = bill.getBoolean("status");
+				ArrayList<BasicDBObject> products = (ArrayList<BasicDBObject>) bill.get("products");
+				for (BasicDBObject product : products) {
+					Product p = new Product();
+					p.secret_number = product.getString("secret_number");
+					p.size = product.getInt("size");
+					p.weight = product.getDouble("weight");
+					p.price = product.getDouble("price");
+					b.product.add(p);
+				}
+				BillCollections.sellbill.add(b);
+			}
+
+			if (bill.getBoolean("status") == false) {
+				Sellbill b = new Sellbill();
+				
+				b.id = bill.getObjectId("_id").toString();
+				BasicDBObject newDocument = new BasicDBObject();
+				newDocument.append("$set", new BasicDBObject().append("id", bill.getObjectId("_id").toString()));
+				BasicDBObject searchQuery = new BasicDBObject().append("_id", bill.getObjectId("_id"));
+				sellbill_collection.update(searchQuery, newDocument);
+				
+				b.name = bill.getString("name");
+				b.address = bill.getString("address");
+				b.phone_number = bill.getString("phone");
+				b.issue_date = bill.getString("issue_date");
+				b.paid_date = bill.getString("paid_date");
+				b.product_type = bill.getString("product_type");
+				b.status = bill.getBoolean("status");
+				ArrayList<BasicDBObject> products = (ArrayList<BasicDBObject>) bill.get("products");
+				for (BasicDBObject product : products) {
+					Product p = new Product();
+					p.secret_number = product.getString("secret_number");
+					p.size = product.getInt("size");
+					p.weight = product.getDouble("weight");
+					p.price = product.getDouble("price");
+					b.product.add(p);
+				}
+				BillCollections.pending_sellbill.add(b);
+			}
+
+			if (bill.getBoolean("status") == true) {
+				if ((bill.getString("paid_date").compareTo(APPdate) == 0)
+						&& (bill.getString("paid_date").compareTo(bill.getString("issue_date")) != 0)) {
+					Sellbill b = new Sellbill();
+					
+					b.id = bill.getObjectId("_id").toString();
+					BasicDBObject newDocument = new BasicDBObject();
+					newDocument.append("$set", new BasicDBObject().append("id", bill.getObjectId("_id").toString()));
+					BasicDBObject searchQuery = new BasicDBObject().append("_id", bill.getObjectId("_id"));
+					sellbill_collection.update(searchQuery, newDocument);
+					
+					b.name = bill.getString("name");
+					b.address = bill.getString("address");
+					b.phone_number = bill.getString("phone");
+					b.issue_date = bill.getString("issue_date");
+					b.paid_date = bill.getString("paid_date");
+					b.product_type = bill.getString("product_type");
+					b.status = bill.getBoolean("status");
+					ArrayList<BasicDBObject> products = (ArrayList<BasicDBObject>) bill.get("products");
+					for (BasicDBObject product : products) {
+						Product p = new Product();
+						p.secret_number = product.getString("secret_number");
+						p.size = product.getInt("size");
+						p.weight = product.getDouble("weight");
+						p.price = product.getDouble("price");
+						b.product.add(p);
+					}
+					BillCollections.get_pending_sellbill.add(b);
+				}
+			}
+		}
+
+		DBCollection expenditure_collection = database.getCollection("expenditure");
+		DBCursor expenditure_cursor = expenditure_collection.find();
+		while (expenditure_cursor.hasNext()) {
+			BasicDBObject bill = (BasicDBObject) expenditure_cursor.next();
+			if (bill.getString("issue_date").compareTo(APPdate) == 0) {
+				Expenditure b = new Expenditure();
+				
+				b.id = bill.getObjectId("_id").toString();
+				BasicDBObject newDocument = new BasicDBObject();
+				newDocument.append("$set", new BasicDBObject().append("id", bill.getObjectId("_id").toString()));
+				BasicDBObject searchQuery = new BasicDBObject().append("_id", bill.getObjectId("_id"));
+				expenditure_collection.update(searchQuery, newDocument);
+				
+				b.list = bill.getString("list");
+				b.amount = bill.getInt("amount");
+				b.issue_date = bill.getString("issue_date");
+				External.expenditure.add(b);
+			}
+		}
+
+		DBCollection revenue_collection = database.getCollection("revenue");
+		DBCursor revenue_cursor = revenue_collection.find();
+		while (revenue_cursor.hasNext()) {
+			BasicDBObject bill = (BasicDBObject) revenue_cursor.next();
+			if (bill.getString("issue_date").compareTo(APPdate) == 0) {
+				Revenue b = new Revenue();
+				
+				b.id = bill.getObjectId("_id").toString();
+				BasicDBObject newDocument = new BasicDBObject();
+				newDocument.append("$set", new BasicDBObject().append("id", bill.getObjectId("_id").toString()));
+				BasicDBObject searchQuery = new BasicDBObject().append("_id", bill.getObjectId("_id"));
+				revenue_collection.update(searchQuery, newDocument);
+				
+				b.list = bill.getString("list");
+				b.amount = bill.getInt("amount");
+				b.issue_date = bill.getString("issue_date");
+				External.revenue.add(b);
 			}
 		}
 
