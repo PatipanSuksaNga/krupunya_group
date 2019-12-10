@@ -292,9 +292,6 @@ public class BuyBilling {
 
 					model.removeRow(table.getSelectedRow());
 				}
-				/*for (int count = 0; count < model.getRowCount(); count++){		//check object
-					System.out.println(model.getValueAt(count, 0).toString());
-		        }*/
 			}
 		});
 		btnDelete.setBounds(600, 110, 100, 30);

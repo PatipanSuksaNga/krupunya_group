@@ -3,7 +3,6 @@ package layout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.EventQueue;
-import java.awt.Frame;
 import java.awt.Toolkit;
 
 import javax.swing.JFrame;
@@ -12,13 +11,6 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-
-import javax.swing.AbstractButton;
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
-import javax.swing.JTabbedPane;
-import java.awt.BorderLayout;
-import javax.swing.JLayeredPane;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -28,16 +20,10 @@ import javax.swing.table.DefaultTableModel;
 import data.*;
 import process.*;
 
-import com.jgoodies.forms.layout.FormLayout;
-import com.jgoodies.forms.layout.ColumnSpec;
-import com.jgoodies.forms.layout.RowSpec;
-import com.mongodb.DBCollection;
-import com.jgoodies.forms.layout.FormSpecs;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import java.awt.Font;
 import javax.swing.JSeparator;
-import java.awt.Label;
 import javax.swing.JTable;
 import javax.swing.JComboBox;
 import javax.swing.JTextField;
@@ -50,26 +36,66 @@ public class General {
 	private JMenuItem mntmEnglish = new JMenuItem(language.mntmEnglish);
 	private JMenuItem mntmThai = new JMenuItem(language.mntmThai);
 
-	private static DefaultTableModel buybill_model = new DefaultTableModel();
-	private static DefaultTableModel pending_buybill_model = new DefaultTableModel();
-	private static DefaultTableModel pay_pending_buybill_model = new DefaultTableModel();
-	private static DefaultTableModel external_expenditure_model = new DefaultTableModel();
+	private static DefaultTableModel buybill_model = new DefaultTableModel() {
+		@Override
+		public boolean isCellEditable(int row, int column) {
+			return false;
+		}
+	};
+	private static DefaultTableModel pending_buybill_model = new DefaultTableModel(){
+		@Override
+		public boolean isCellEditable(int row, int column) {
+			return false;
+		}
+	};
+	private static DefaultTableModel pay_pending_buybill_model = new DefaultTableModel(){
+		@Override
+		public boolean isCellEditable(int row, int column) {
+			return false;
+		}
+	};
+	private static DefaultTableModel external_expenditure_model = new DefaultTableModel(){
+		@Override
+		public boolean isCellEditable(int row, int column) {
+			return false;
+		}
+	};
 
-	private static DefaultTableModel sellbill_model = new DefaultTableModel();
-	private static DefaultTableModel pending_sellbill_model = new DefaultTableModel();
-	private static DefaultTableModel get_pending_sellbill_model = new DefaultTableModel();
-	private static DefaultTableModel external_revenue_model = new DefaultTableModel();
+	private static DefaultTableModel sellbill_model = new DefaultTableModel(){
+		@Override
+		public boolean isCellEditable(int row, int column) {
+			return false;
+		}
+	};
+	private static DefaultTableModel pending_sellbill_model = new DefaultTableModel(){
+		@Override
+		public boolean isCellEditable(int row, int column) {
+			return false;
+		}
+	};
+	private static DefaultTableModel get_pending_sellbill_model = new DefaultTableModel(){
+		@Override
+		public boolean isCellEditable(int row, int column) {
+			return false;
+		}
+	};
+	private static DefaultTableModel external_revenue_model = new DefaultTableModel(){
+		@Override
+		public boolean isCellEditable(int row, int column) {
+			return false;
+		}
+	};
 
-	private JPanel panel = new JPanel();
+	private JPanel header_panel = new JPanel();
+	private JPanel option_panel = new JPanel();
 	private JButton btnBuybilling = new JButton();
 	private JButton btnSellbilling = new JButton();
 	private JButton btnOnspotsale = new JButton();
 	private JButton btnSizetable = new JButton();
 	private JButton btnConclusion = new JButton();
-	private JScrollPane scrollPane = new JScrollPane();
 	private JPanel main_panel = new JPanel();
 	private JLabel lbMainpage = new JLabel();
-	private JLabel lbDate = new JLabel();
+	//private JLabel lbDate = new JLabel(language.lbdate);
 
 	private JLabel lbRevenue = new JLabel();
 	private JLabel lbExpenditure = new JLabel();
@@ -160,8 +186,7 @@ public class General {
 		mnLanguage.setText(language.mnLanguage);
 		mntmEnglish.setText(language.mntmEnglish);
 		mntmThai.setText(language.mntmThai);
-		lbMainpage.setText(language.lbMainpage);
-		lbDate.setText(language.lbdate);
+		//lbDate.setText(language.lbdate);
 		btnBuybilling.setText(language.btnBuybilling);
 		btnSellbilling.setText(language.btnSellbilling);
 		btnOnspotsale.setText(language.btnOnspotsale);
@@ -194,6 +219,23 @@ public class General {
 
 	}
 
+	public static Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+
+	protected static int screenSizeWidth(int percentage) {
+		int s = screenSize.width * percentage / 100;
+		return s;
+	}
+
+	protected static int screenSizeHeight(int percentage) {
+		int s = screenSize.height * percentage / 100;
+		return s;
+	}
+
+	protected static int percentageSize(int parentSize, int childPercentage) {
+		int s = parentSize * childPercentage / 100;
+		return s;
+	}
+
 	/**
 	 * Launch the application.
 	 */
@@ -222,16 +264,14 @@ public class General {
 	 */
 	private void initialize() {
 
-		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-
 		frame = new JFrame("General List Account");
-		frame.setSize(screenSize.width, screenSize.height);
+		frame.setSize(screenSizeWidth(100), screenSizeHeight(100));
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 
 		//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-		menuBar.setBounds(0, 0, screenSize.width, 30);
+		menuBar.setBounds(0, 0, screenSizeWidth(100), 30);
 		menuBar.add(mnLanguage);
 		mnLanguage.add(mntmEnglish);
 		mntmEnglish.addActionListener(new ActionListener() {
@@ -248,28 +288,37 @@ public class General {
 			}
 		});
 		frame.getContentPane().add(menuBar);
+		header_panel.setBounds(screenSizeWidth(50) - screenSizeWidth(40) / 2, screenSizeHeight(3), screenSizeWidth(40),
+				screenSizeHeight(5));
+		header_panel.setLayout(null);
+		lbMainpage.setBounds(0, 0, header_panel.getWidth() / 2, header_panel.getHeight());
+		header_panel.add(lbMainpage);
+		lbMainpage.setText(language.lbMainpage);
+		JLabel lbDate = new JLabel(language.lbdate);
+		lbDate.setBounds(header_panel.getWidth() / 2, 0, header_panel.getWidth() / 2, header_panel.getHeight());
+		header_panel.add(lbDate);
+		frame.getContentPane().add(header_panel);
 
 		//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 		lbMainpage.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		lbMainpage.setHorizontalAlignment(SwingConstants.CENTER);
-		lbMainpage.setBounds((screenSize.width / 2) - 150, screenSize.height * 4 / 100, 300, 50);
-		frame.getContentPane().add(lbMainpage);
 
-		panel.setBorder(new LineBorder(new Color(0, 0, 0)));
-		panel.setBounds(screenSize.width / 10, screenSize.height / 10, screenSize.width * 8 / 10,
-				screenSize.height / 10);
-		frame.getContentPane().add(panel);
+		option_panel.setBorder(new LineBorder(new Color(0, 0, 0)));
+		option_panel.setBounds(screenSizeWidth(10), screenSizeHeight(10), screenSizeWidth(80), screenSizeHeight(10));
+		frame.getContentPane().add(option_panel);
 
-		btnBuybilling.setBounds(40, 20, 140, 25);
+		btnBuybilling.setBounds(percentageSize(option_panel.getWidth(), 5),
+				percentageSize(option_panel.getHeight(), 20), percentageSize(option_panel.getWidth(), 15),
+				percentageSize(option_panel.getHeight(), 20));
 		btnBuybilling.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				BuyBilling buybilling_window = new BuyBilling();
 				buybilling_window.frame.setVisible(true);
 			}
 		});
-		panel.setLayout(null);
-		panel.add(btnBuybilling);
+		option_panel.setLayout(null);
+		option_panel.add(btnBuybilling);
 
 		btnSellbilling.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -277,8 +326,10 @@ public class General {
 				sellbilling_window.frame.setVisible(true);
 			}
 		});
-		btnSellbilling.setBounds(190, 20, 140, 25);
-		panel.add(btnSellbilling);
+		btnSellbilling.setBounds(percentageSize(option_panel.getWidth(), 25),
+				percentageSize(option_panel.getHeight(), 20), percentageSize(option_panel.getWidth(), 15),
+				percentageSize(option_panel.getHeight(), 20));
+		option_panel.add(btnSellbilling);
 
 		btnOnspotsale.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -286,8 +337,10 @@ public class General {
 				onspotsale_window.frame.setVisible(true);
 			}
 		});
-		btnOnspotsale.setBounds(340, 20, 140, 25);
-		panel.add(btnOnspotsale);
+		btnOnspotsale.setBounds(percentageSize(option_panel.getWidth(), 45),
+				percentageSize(option_panel.getHeight(), 20), percentageSize(option_panel.getWidth(), 15),
+				percentageSize(option_panel.getHeight(), 20));
+		option_panel.add(btnOnspotsale);
 
 		btnSizetable.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -295,15 +348,19 @@ public class General {
 				sizetable_window.frame.setVisible(true);
 			}
 		});
-		btnSizetable.setBounds(490, 20, 140, 25);
-		panel.add(btnSizetable);
+		btnSizetable.setBounds(percentageSize(option_panel.getWidth(), 65),
+				percentageSize(option_panel.getHeight(), 20), percentageSize(option_panel.getWidth(), 15),
+				percentageSize(option_panel.getHeight(), 20));
+		option_panel.add(btnSizetable);
 		btnConclusion.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 			}
 		});
 
-		btnConclusion.setBounds(640, 20, 140, 25);
-		panel.add(btnConclusion);
+		btnConclusion.setBounds(percentageSize(option_panel.getWidth(), 5),
+				percentageSize(option_panel.getHeight(), 60), percentageSize(option_panel.getWidth(), 15),
+				percentageSize(option_panel.getHeight(), 20));
+		option_panel.add(btnConclusion);
 
 		JButton btnMembers = new JButton();
 		btnMembers.addActionListener(new ActionListener() {
@@ -311,27 +368,26 @@ public class General {
 			}
 		});
 		btnMembers.setText("Members");
-		btnMembers.setBounds(40, 56, 140, 25);
-		panel.add(btnMembers);
+		btnMembers.setBounds(percentageSize(option_panel.getWidth(), 25), percentageSize(option_panel.getHeight(), 60),
+				percentageSize(option_panel.getWidth(), 15), percentageSize(option_panel.getHeight(), 20));
+		option_panel.add(btnMembers);
 
 		lbDate.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		lbDate.setHorizontalAlignment(SwingConstants.CENTER);
-		lbDate.setBounds(708, 260, 500, 50);
-		frame.getContentPane().add(lbDate);
 
 		//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 		main_panel.setBorder(new LineBorder(new Color(0, 0, 0)));
-		main_panel.setPreferredSize(new Dimension(screenSize.width, screenSize.height * 2));
-		main_panel.setBounds(0, screenSize.height * 4 / 10, screenSize.width, screenSize.height * 2);
+		main_panel.setPreferredSize(new Dimension(screenSizeWidth(100), screenSizeHeight(200)));
+		main_panel.setBounds(0, screenSizeHeight(40), screenSizeWidth(100), screenSizeHeight(200));
 		main_panel.setLayout(null);
-		scrollPane.setBounds(0, screenSize.height * 3 / 10, screenSize.width, screenSize.height * 7 / 10);
-		scrollPane.setViewportView(main_panel);
-		scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-		frame.getContentPane().add(scrollPane);
+		JScrollPane content_scrollPane = new JScrollPane(main_panel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		content_scrollPane.setBounds(0, screenSizeHeight(30), screenSizeWidth(100), screenSizeHeight(70));
+		frame.getContentPane().add(content_scrollPane);
 
 		JSeparator separator = new JSeparator();
-		separator.setBounds(screenSize.width / 2 - 1, 0, 2, 1500);
+		separator.setBounds(screenSizeWidth(50) - 1, 0, 2, screenSizeHeight(170));
 		separator.setOrientation(SwingConstants.VERTICAL);
 		separator.setForeground(Color.WHITE);
 		separator.setBackground(Color.BLACK);
@@ -340,32 +396,32 @@ public class General {
 		JSeparator separator_1 = new JSeparator();
 		separator_1.setForeground(Color.WHITE);
 		separator_1.setBackground(Color.BLACK);
-		separator_1.setBounds(0, 50, screenSize.width, 2);
+		separator_1.setBounds(0, 50, screenSizeWidth(100), 2);
 		main_panel.add(separator_1);
 
 		lbRevenue.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		lbRevenue.setHorizontalAlignment(SwingConstants.CENTER);
-		lbRevenue.setBounds(screenSize.width / 4 - 100, 5, 200, 40);
+		lbRevenue.setBounds(screenSizeWidth(25) - 100, 5, 200, 40);
 		main_panel.add(lbRevenue);
 
 		lbExpenditure.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		lbExpenditure.setHorizontalAlignment(SwingConstants.CENTER);
-		lbExpenditure.setBounds(screenSize.width * 3 / 4 - 100, 5, 200, 40);
+		lbExpenditure.setBounds(screenSizeWidth(75) - 100, 5, 200, 40);
 		main_panel.add(lbExpenditure);
 
-		lbTotalBuyBill.setBounds(screenSize.width / 2 + 50, 100, 100, 25);
+		lbTotalBuyBill.setBounds(screenSizeWidth(50) + 50, 100, 100, 25);
 		main_panel.add(lbTotalBuyBill);
 
-		lbPendingBuyBill.setBounds(screenSize.width / 2 + 50, 500, 100, 25);
+		lbPendingBuyBill.setBounds(screenSizeWidth(50) + 50, 500, 100, 25);
 		main_panel.add(lbPendingBuyBill);
 
-		lbPayPendingBuyBill.setBounds(screenSize.width / 2 + 50, 800, 150, 25);
+		lbPayPendingBuyBill.setBounds(screenSizeWidth(50) + 50, 800, 150, 25);
 		main_panel.add(lbPayPendingBuyBill);
 
 		buybill_table = new JTable();
 		buybill_table.setBorder(new LineBorder(new Color(0, 0, 0)));
-		buybill_table.setPreferredScrollableViewportSize(new Dimension(screenSize.width / 2 - 400, 300));
-		buybill_table.setBounds(screenSize.width / 2 + 50, 150, screenSize.width / 2 - 400, 300);
+		buybill_table.setPreferredScrollableViewportSize(new Dimension(screenSizeWidth(50) - 400, 300));
+		buybill_table.setBounds(screenSizeWidth(50) + 50, 150, screenSizeWidth(50) - 400, 300);
 		buybill_table.setModel(buybill_model);
 		buybill_model.addColumn("ID");
 		buybill_model.addColumn("name");
@@ -373,14 +429,14 @@ public class General {
 		buybill_model.addColumn("status");
 		JScrollPane buybill_table_sp = new JScrollPane(buybill_table, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
 				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-		buybill_table_sp.setBounds(screenSize.width / 2 + 50, 150, screenSize.width / 2 - 400, 300);
+		buybill_table_sp.setBounds(screenSizeWidth(50) + 50, 150, screenSizeWidth(50) - 400, 300);
 		buybill_table_sp.setVisible(true);
 		main_panel.add(buybill_table_sp);
 
 		pending_buybill_table = new JTable();
 		pending_buybill_table.setBorder(new LineBorder(new Color(0, 0, 0)));
-		pending_buybill_table.setPreferredScrollableViewportSize(new Dimension(screenSize.width / 2 - 400, 200));
-		pending_buybill_table.setBounds(screenSize.width / 2 + 50, 550, screenSize.width / 2 - 400, 200);
+		pending_buybill_table.setPreferredScrollableViewportSize(new Dimension(screenSizeWidth(50) - 400, 200));
+		pending_buybill_table.setBounds(screenSizeWidth(50) + 50, 550, screenSizeWidth(50) - 400, 200);
 		pending_buybill_table.setModel(pending_buybill_model);
 		pending_buybill_model.addColumn("ID");
 		pending_buybill_model.addColumn("name");
@@ -388,7 +444,7 @@ public class General {
 		pending_buybill_model.addColumn("issue date");
 		JScrollPane pending_buybill_table_sp = new JScrollPane(pending_buybill_table,
 				JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-		pending_buybill_table_sp.setBounds(screenSize.width / 2 + 50, 550, screenSize.width / 2 - 400, 200);
+		pending_buybill_table_sp.setBounds(screenSizeWidth(50) + 50, 550, screenSizeWidth(50) - 400, 200);
 		pending_buybill_table_sp.setVisible(true);
 		main_panel.add(pending_buybill_table_sp);
 
@@ -398,13 +454,13 @@ public class General {
 				btnPayBill_buy_action();
 			}
 		});
-		btnPayBill_buy.setBounds(screenSize.width / 2 + 150, 500, 100, 25);
+		btnPayBill_buy.setBounds(screenSizeWidth(50) + 150, 500, 100, 25);
 		main_panel.add(btnPayBill_buy);
 
 		pay_pending_buybill_table = new JTable();
 		pay_pending_buybill_table.setBorder(new LineBorder(new Color(0, 0, 0)));
-		pay_pending_buybill_table.setPreferredScrollableViewportSize(new Dimension(screenSize.width / 2 - 400, 200));
-		pay_pending_buybill_table.setBounds(screenSize.width / 2 + 50, 850, screenSize.width / 2 - 400, 100);
+		pay_pending_buybill_table.setPreferredScrollableViewportSize(new Dimension(screenSizeWidth(50) - 400, 200));
+		pay_pending_buybill_table.setBounds(screenSizeWidth(50) + 50, 850, screenSizeWidth(50) - 400, 100);
 		pay_pending_buybill_table.setModel(pay_pending_buybill_model);
 		pay_pending_buybill_model.addColumn("ID");
 		pay_pending_buybill_model.addColumn("name");
@@ -412,11 +468,11 @@ public class General {
 		pay_pending_buybill_model.addColumn("issued date");
 		JScrollPane pay_pending_buybill_table_sp = new JScrollPane(pay_pending_buybill_table,
 				JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-		pay_pending_buybill_table_sp.setBounds(screenSize.width / 2 + 50, 850, screenSize.width / 2 - 400, 100);
+		pay_pending_buybill_table_sp.setBounds(screenSizeWidth(50) + 50, 850, screenSizeWidth(50) - 400, 100);
 		pay_pending_buybill_table_sp.setVisible(true);
 		main_panel.add(pay_pending_buybill_table_sp);
 
-		lbExternalExpenditure.setBounds(screenSize.width / 2 + 50, 1000, 150, 25);
+		lbExternalExpenditure.setBounds(screenSizeWidth(50) + 50, 1000, 150, 25);
 		main_panel.add(lbExternalExpenditure);
 
 		JButton btnAddExtExp = new JButton("Add");
@@ -436,7 +492,7 @@ public class General {
 				fetchData();
 			}
 		});
-		btnAddExtExp.setBounds(screenSize.width / 2 + 200, 1000, 100, 25);
+		btnAddExtExp.setBounds(screenSizeWidth(50) + 200, 1000, 100, 25);
 		main_panel.add(btnAddExtExp);
 
 		JButton btnDelExtExp = new JButton("Delete");
@@ -455,10 +511,10 @@ public class General {
 				fetchData();
 			}
 		});
-		btnDelExtExp.setBounds(screenSize.width / 2 + 325, 1000, 100, 25);
+		btnDelExtExp.setBounds(screenSizeWidth(50) + 325, 1000, 100, 25);
 		main_panel.add(btnDelExtExp);
 
-		lbListExp.setBounds(screenSize.width / 2 + 50, 1050, 50, 25);
+		lbListExp.setBounds(screenSizeWidth(50) + 50, 1050, 50, 25);
 		main_panel.add(lbListExp);
 		comboBox_ExtExpList.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -469,80 +525,80 @@ public class General {
 			}
 		});
 
-		comboBox_ExtExpList.setBounds(screenSize.width / 2 + 100, 1050, 150, 25);
+		comboBox_ExtExpList.setBounds(screenSizeWidth(50) + 100, 1050, 150, 25);
 		main_panel.add(comboBox_ExtExpList);
 
-		textField_ExtExpList.setBounds(screenSize.width / 2 + 275, 1050, 150, 25);
+		textField_ExtExpList.setBounds(screenSizeWidth(50) + 275, 1050, 150, 25);
 		textField_ExtExpList.setColumns(10);
 		textField_ExtExpList.setVisible(false);
 		main_panel.add(textField_ExtExpList);
 
-		lbAmountExp.setBounds(screenSize.width / 2 + 50, 1100, 50, 25);
+		lbAmountExp.setBounds(screenSizeWidth(50) + 50, 1100, 50, 25);
 		main_panel.add(lbAmountExp);
 
 		textField_ExtExpAmount = new JTextField();
-		textField_ExtExpAmount.setBounds(screenSize.width / 2 + 100, 1100, 150, 25);
+		textField_ExtExpAmount.setBounds(screenSizeWidth(50) + 100, 1100, 150, 25);
 		main_panel.add(textField_ExtExpAmount);
 		textField_ExtExpAmount.setColumns(10);
 
 		external_expenditure_table = new JTable();
 		external_expenditure_table.setBorder(new LineBorder(new Color(0, 0, 0)));
-		external_expenditure_table.setPreferredScrollableViewportSize(new Dimension(screenSize.width / 2 - 400, 200));
-		external_expenditure_table.setBounds(screenSize.width / 2 + 50, 1150, screenSize.width / 2 - 400, 100);
+		external_expenditure_table.setPreferredScrollableViewportSize(new Dimension(screenSizeWidth(50) - 400, 200));
+		external_expenditure_table.setBounds(screenSizeWidth(50) + 50, 1150, screenSizeWidth(50) - 400, 100);
 		external_expenditure_table.setModel(external_expenditure_model);
 		external_expenditure_model.addColumn("ID");
 		external_expenditure_model.addColumn("List");
 		external_expenditure_model.addColumn("Amount");
 		JScrollPane external_expenditure_table_sp = new JScrollPane(external_expenditure_table,
 				JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-		external_expenditure_table_sp.setBounds(screenSize.width / 2 + 50, 1150, screenSize.width / 2 - 400, 100);
+		external_expenditure_table_sp.setBounds(screenSizeWidth(50) + 50, 1150, screenSizeWidth(50) - 400, 100);
 		external_expenditure_table_sp.setVisible(true);
 		main_panel.add(external_expenditure_table_sp);
 
 		lbSumBuyPrice.setHorizontalAlignment(SwingConstants.LEFT);
-		lbSumBuyPrice.setBounds(screenSize.width * 82 / 100, 150, screenSize.width * 8 / 100, 25);
+		lbSumBuyPrice.setBounds(screenSizeWidth(82), 150, screenSizeWidth(8), 25);
 		main_panel.add(lbSumBuyPrice);
 
 		lbSumPendingBuyPrice.setHorizontalAlignment(SwingConstants.LEFT);
-		lbSumPendingBuyPrice.setBounds(screenSize.width * 82 / 100, 200, screenSize.width * 8 / 100, 25);
+		lbSumPendingBuyPrice.setBounds(screenSizeWidth(82), 200, screenSizeWidth(8), 25);
 		main_panel.add(lbSumPendingBuyPrice);
 
 		lbSumPayPendingPrice.setHorizontalAlignment(SwingConstants.LEFT);
-		lbSumPayPendingPrice.setBounds(screenSize.width * 82 / 100, 250, screenSize.width * 8 / 100, 25);
+		lbSumPayPendingPrice.setBounds(screenSizeWidth(82), 250, screenSizeWidth(8), 25);
 		main_panel.add(lbSumPayPendingPrice);
 
 		lbSumPaidAmount.setHorizontalAlignment(SwingConstants.LEFT);
-		lbSumPaidAmount.setBounds(screenSize.width * 82 / 100, 300, screenSize.width * 8 / 100, 25);
+		lbSumPaidAmount.setBounds(screenSizeWidth(82), 300, screenSizeWidth(8), 25);
 		main_panel.add(lbSumPaidAmount);
 
-		lbSumBuyPriceNUM.setBounds(screenSize.width * 91 / 100, 150, 150, 25);
+		lbSumBuyPriceNUM.setBounds(screenSizeWidth(91), 150, 150, 25);
 		main_panel.add(lbSumBuyPriceNUM);
 
-		lbSumPendingBuyPriceNUM.setBounds(screenSize.width * 91 / 100, 200, 150, 25);
+		lbSumPendingBuyPriceNUM.setBounds(screenSizeWidth(91), 200, 150, 25);
 		main_panel.add(lbSumPendingBuyPriceNUM);
 
-		lbSumPayPendingPriceNUM.setBounds(screenSize.width * 91 / 100, 250, 150, 25);
+		lbSumPayPendingPriceNUM.setBounds(screenSizeWidth(91), 250, 150, 25);
 		main_panel.add(lbSumPayPendingPriceNUM);
 
-		lbSumPaidAmountNUM.setBounds(screenSize.width * 91 / 100, 300, 150, 25);
+		lbSumPaidAmountNUM.setBounds(screenSizeWidth(91), 300, 150, 25);
 		main_panel.add(lbSumPaidAmountNUM);
 
 		//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-		lbTotalSellBill.setBounds(screenSize.width / 2 - (screenSize.width / 2 - 400) - 50, 100, 100, 25);
+		lbTotalSellBill.setBounds(screenSizeWidth(50) - (screenSizeWidth(50) - 400) - 50, 100, 100, 25);
 		main_panel.add(lbTotalSellBill);
 
-		lbPendingSellBill.setBounds(screenSize.width / 2 - (screenSize.width / 2 - 400) - 50, 500, 100, 25);
+		lbPendingSellBill.setBounds(screenSizeWidth(50) - (screenSizeWidth(50) - 400) - 50, 500, 100, 25);
 		main_panel.add(lbPendingSellBill);
 
-		lbGetPendingSellBill.setBounds(screenSize.width / 2 - (screenSize.width / 2 - 400) - 50, 800, 150, 25);
+		lbGetPendingSellBill.setBounds(screenSizeWidth(50) - (screenSizeWidth(50) - 400) - 50, 800, 150, 25);
 		main_panel.add(lbGetPendingSellBill);
 
 		sellbill_table = new JTable();
 		sellbill_table.setBorder(new LineBorder(new Color(0, 0, 0)));
-		sellbill_table.setPreferredScrollableViewportSize(new Dimension(screenSize.width / 2 - 400, 300));
-		sellbill_table.setBounds(screenSize.width / 2 - (screenSize.width / 2 - 400) - 50, 150,
-				screenSize.width / 2 - 400, 300);
+		sellbill_table.setPreferredScrollableViewportSize(new Dimension(screenSizeWidth(50) - 400, 300));
+		sellbill_table.setBounds(screenSizeWidth(50) - (screenSizeWidth(50) - 400) - 50, 150, screenSizeWidth(50) - 400,
+				300);
 		sellbill_table.setModel(sellbill_model);
 		sellbill_model.addColumn("ID");
 		sellbill_model.addColumn("name");
@@ -550,16 +606,16 @@ public class General {
 		sellbill_model.addColumn("status");
 		JScrollPane sellbill_table_sp = new JScrollPane(sellbill_table, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
 				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-		sellbill_table_sp.setBounds(screenSize.width / 2 - (screenSize.width / 2 - 400) - 50, 150,
-				screenSize.width / 2 - 400, 300);
+		sellbill_table_sp.setBounds(screenSizeWidth(50) - (screenSizeWidth(50) - 400) - 50, 150,
+				screenSizeWidth(50) - 400, 300);
 		sellbill_table_sp.setVisible(true);
 		main_panel.add(sellbill_table_sp);
 
 		pending_sellbill_table = new JTable();
 		pending_sellbill_table.setBorder(new LineBorder(new Color(0, 0, 0)));
-		pending_sellbill_table.setPreferredScrollableViewportSize(new Dimension(screenSize.width / 2 - 400, 200));
-		pending_sellbill_table.setBounds(screenSize.width / 2 - (screenSize.width / 2 - 400) - 50, 550,
-				screenSize.width / 2 - 400, 200);
+		pending_sellbill_table.setPreferredScrollableViewportSize(new Dimension(screenSizeWidth(50) - 400, 200));
+		pending_sellbill_table.setBounds(screenSizeWidth(50) - (screenSizeWidth(50) - 400) - 50, 550,
+				screenSizeWidth(50) - 400, 200);
 		pending_sellbill_table.setModel(pending_sellbill_model);
 		pending_sellbill_model.addColumn("ID");
 		pending_sellbill_model.addColumn("name");
@@ -567,8 +623,8 @@ public class General {
 		pending_sellbill_model.addColumn("issue date");
 		JScrollPane pending_sellbill_table_sp = new JScrollPane(pending_sellbill_table,
 				JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-		pending_sellbill_table_sp.setBounds(screenSize.width / 2 - (screenSize.width / 2 - 400) - 50, 550,
-				screenSize.width / 2 - 400, 200);
+		pending_sellbill_table_sp.setBounds(screenSizeWidth(50) - (screenSizeWidth(50) - 400) - 50, 550,
+				screenSizeWidth(50) - 400, 200);
 		pending_sellbill_table_sp.setVisible(true);
 		main_panel.add(pending_sellbill_table_sp);
 
@@ -578,14 +634,14 @@ public class General {
 				btnPayBill_sell_action();
 			}
 		});
-		btnPayBill_sell.setBounds(screenSize.width / 2 - (screenSize.width / 2 - 400) - 50 + 100, 500, 100, 25);
+		btnPayBill_sell.setBounds(screenSizeWidth(50) - (screenSizeWidth(50) - 400) - 50 + 100, 500, 100, 25);
 		main_panel.add(btnPayBill_sell);
 
 		get_pending_sellbill_table = new JTable();
 		get_pending_sellbill_table.setBorder(new LineBorder(new Color(0, 0, 0)));
-		get_pending_sellbill_table.setPreferredScrollableViewportSize(new Dimension(screenSize.width / 2 - 400, 200));
-		get_pending_sellbill_table.setBounds(screenSize.width / 2 - (screenSize.width / 2 - 400) - 50, 850,
-				screenSize.width / 2 - 400, 100);
+		get_pending_sellbill_table.setPreferredScrollableViewportSize(new Dimension(screenSizeWidth(50) - 400, 200));
+		get_pending_sellbill_table.setBounds(screenSizeWidth(50) - (screenSizeWidth(50) - 400) - 50, 850,
+				screenSizeWidth(50) - 400, 100);
 		get_pending_sellbill_table.setModel(get_pending_sellbill_model);
 		get_pending_sellbill_model.addColumn("ID");
 		get_pending_sellbill_model.addColumn("name");
@@ -593,12 +649,12 @@ public class General {
 		get_pending_sellbill_model.addColumn("issued date");
 		JScrollPane get_pending_sellbill_table_sp = new JScrollPane(get_pending_sellbill_table,
 				JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-		get_pending_sellbill_table_sp.setBounds(screenSize.width / 2 - (screenSize.width / 2 - 400) - 50, 850,
-				screenSize.width / 2 - 400, 100);
+		get_pending_sellbill_table_sp.setBounds(screenSizeWidth(50) - (screenSizeWidth(50) - 400) - 50, 850,
+				screenSizeWidth(50) - 400, 100);
 		get_pending_sellbill_table_sp.setVisible(true);
 		main_panel.add(get_pending_sellbill_table_sp);
 
-		lbExternalRevenue.setBounds(screenSize.width / 2 - (screenSize.width / 2 - 400) - 50, 1000, 150, 25);
+		lbExternalRevenue.setBounds(screenSizeWidth(50) - (screenSizeWidth(50) - 400) - 50, 1000, 150, 25);
 		main_panel.add(lbExternalRevenue);
 
 		JButton btnAddExtRev = new JButton("Add");
@@ -618,7 +674,7 @@ public class General {
 				fetchData();
 			}
 		});
-		btnAddExtRev.setBounds(screenSize.width / 2 - (screenSize.width / 2 - 400) - 50 + 150, 1000, 100, 25);
+		btnAddExtRev.setBounds(screenSizeWidth(50) - (screenSizeWidth(50) - 400) - 50 + 150, 1000, 100, 25);
 		main_panel.add(btnAddExtRev);
 
 		JButton btnDelExtRev = new JButton("Delete");
@@ -637,10 +693,10 @@ public class General {
 				fetchData();
 			}
 		});
-		btnDelExtRev.setBounds(screenSize.width / 2 - (screenSize.width / 2 - 400) - 50 + 270, 1000, 100, 25);
+		btnDelExtRev.setBounds(screenSizeWidth(50) - (screenSizeWidth(50) - 400) - 50 + 270, 1000, 100, 25);
 		main_panel.add(btnDelExtRev);
 
-		lbListRev.setBounds(screenSize.width / 2 - (screenSize.width / 2 - 400) - 50, 1050, 50, 25);
+		lbListRev.setBounds(screenSizeWidth(50) - (screenSizeWidth(50) - 400) - 50, 1050, 50, 25);
 		main_panel.add(lbListRev);
 		comboBox_ExtRevList.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -651,64 +707,64 @@ public class General {
 			}
 		});
 
-		comboBox_ExtRevList.setBounds(screenSize.width / 2 - (screenSize.width / 2 - 400) - 50 + 50, 1050, 150, 25);
+		comboBox_ExtRevList.setBounds(screenSizeWidth(50) - (screenSizeWidth(50) - 400) - 50 + 50, 1050, 150, 25);
 		main_panel.add(comboBox_ExtRevList);
 
-		textField_ExtRevList.setBounds(screenSize.width / 2 - (screenSize.width / 2 - 400) - 50 + 225, 1050, 150, 25);
+		textField_ExtRevList.setBounds(screenSizeWidth(50) - (screenSizeWidth(50) - 400) - 50 + 225, 1050, 150, 25);
 		textField_ExtRevList.setColumns(10);
 		textField_ExtRevList.setVisible(false);
 		main_panel.add(textField_ExtRevList);
 
-		lbAmountRev.setBounds(screenSize.width / 2 - (screenSize.width / 2 - 400) - 50, 1100, 50, 25);
+		lbAmountRev.setBounds(screenSizeWidth(50) - (screenSizeWidth(50) - 400) - 50, 1100, 50, 25);
 		main_panel.add(lbAmountRev);
 
 		textField_ExtRevAmount = new JTextField();
-		textField_ExtRevAmount.setBounds(screenSize.width / 2 - (screenSize.width / 2 - 400) - 50 + 50, 1100, 150, 25);
+		textField_ExtRevAmount.setBounds(screenSizeWidth(50) - (screenSizeWidth(50) - 400) - 50 + 50, 1100, 150, 25);
 		main_panel.add(textField_ExtRevAmount);
 		textField_ExtRevAmount.setColumns(10);
 
 		external_revenue_table = new JTable();
 		external_revenue_table.setBorder(new LineBorder(new Color(0, 0, 0)));
-		external_revenue_table.setPreferredScrollableViewportSize(new Dimension(screenSize.width / 2 - 400, 200));
-		external_revenue_table.setBounds(screenSize.width / 2 - (screenSize.width / 2 - 400) - 50, 1150,
-				screenSize.width / 2 - 400, 100);
+		external_revenue_table.setPreferredScrollableViewportSize(new Dimension(screenSizeWidth(50) - 400, 200));
+		external_revenue_table.setBounds(screenSizeWidth(50) - (screenSizeWidth(50) - 400) - 50, 1150,
+				screenSizeWidth(50) - 400, 100);
 		external_revenue_table.setModel(external_revenue_model);
 		external_revenue_model.addColumn("ID");
 		external_revenue_model.addColumn("List");
 		external_revenue_model.addColumn("Amount");
 		JScrollPane external_revenue_table_sp = new JScrollPane(external_revenue_table,
 				JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-		external_revenue_table_sp.setBounds(screenSize.width / 2 - (screenSize.width / 2 - 400) - 50, 1150,
-				screenSize.width / 2 - 400, 100);
+		external_revenue_table_sp.setBounds(screenSizeWidth(50) - (screenSizeWidth(50) - 400) - 50, 1150,
+				screenSizeWidth(50) - 400, 100);
 		external_revenue_table_sp.setVisible(true);
 		main_panel.add(external_revenue_table_sp);
 
 		lbSumSellPrice.setHorizontalAlignment(SwingConstants.LEFT);
-		lbSumSellPrice.setBounds(screenSize.width * 2 / 100, 150, screenSize.width * 8 / 100, 25);
+		lbSumSellPrice.setBounds(screenSizeWidth(2), 150, screenSizeWidth(8), 25);
 		main_panel.add(lbSumSellPrice);
 
 		lbSumPendingSellPrice.setHorizontalAlignment(SwingConstants.LEFT);
-		lbSumPendingSellPrice.setBounds(screenSize.width * 2 / 100, 200, screenSize.width * 8 / 100, 25);
+		lbSumPendingSellPrice.setBounds(screenSizeWidth(2), 200, screenSizeWidth(8), 25);
 		main_panel.add(lbSumPendingSellPrice);
 
 		lbSumGetPendingPrice.setHorizontalAlignment(SwingConstants.LEFT);
-		lbSumGetPendingPrice.setBounds(screenSize.width * 2 / 100, 250, screenSize.width * 8 / 100, 25);
+		lbSumGetPendingPrice.setBounds(screenSizeWidth(2), 250, screenSizeWidth(8), 25);
 		main_panel.add(lbSumGetPendingPrice);
 
 		lbSumGetAmount.setHorizontalAlignment(SwingConstants.LEFT);
-		lbSumGetAmount.setBounds(screenSize.width * 2 / 100, 300, screenSize.width * 8 / 100, 25);
+		lbSumGetAmount.setBounds(screenSizeWidth(2), 300, screenSizeWidth(8), 25);
 		main_panel.add(lbSumGetAmount);
 
-		lbSumSellPriceNUM.setBounds(screenSize.width * 11 / 100, 150, 150, 25);
+		lbSumSellPriceNUM.setBounds(screenSizeWidth(11), 150, 150, 25);
 		main_panel.add(lbSumSellPriceNUM);
 
-		lbSumPendingSellPriceNUM.setBounds(screenSize.width * 11 / 100, 200, 150, 25);
+		lbSumPendingSellPriceNUM.setBounds(screenSizeWidth(11), 200, 150, 25);
 		main_panel.add(lbSumPendingSellPriceNUM);
 
-		lbSumGetPendingPriceNUM.setBounds(screenSize.width * 11 / 100, 250, 150, 25);
+		lbSumGetPendingPriceNUM.setBounds(screenSizeWidth(11), 250, 150, 25);
 		main_panel.add(lbSumGetPendingPriceNUM);
 
-		lbSumGetAmountNUM.setBounds(screenSize.width * 11 / 100, 300, 150, 25);
+		lbSumGetAmountNUM.setBounds(screenSizeWidth(11), 300, 150, 25);
 		main_panel.add(lbSumGetAmountNUM);
 
 		btnFinishAll.addActionListener(new ActionListener() {

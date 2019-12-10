@@ -8,6 +8,8 @@ import javax.swing.JScrollPane;
 import javax.swing.border.LineBorder;
 import java.awt.Color;
 import java.awt.Dimension;
+import javax.swing.JButton;
+import javax.swing.SpringLayout;
 
 public class jscrollpane_sample {
 
@@ -46,24 +48,17 @@ public class jscrollpane_sample {
 		frame.getContentPane().setLayout(null);
 		
 		JPanel panel = new JPanel();
-		panel.setBorder(new LineBorder(new Color(0, 0, 0)));
-		panel.setBounds(138, 98, 421, 277);
+		panel.setBounds(151, 65, 416, 340);
 		frame.getContentPane().add(panel);
-		panel.setLayout(null);
+		SpringLayout sl_panel = new SpringLayout();
+		panel.setLayout(sl_panel);
 		
-		JPanel panel_1 = new JPanel();
-		panel_1.setBackground(new Color(204, 204, 0));
-		panel_1.setBorder(new LineBorder(new Color(0, 0, 0)));
-		panel_1.setPreferredSize(new Dimension(700,700));                 //VERY IMPORTANT//
-		panel_1.setBounds(0,0,700,700);
-//		panel.add(panel_1);
-		
-		JScrollPane sp = new JScrollPane(panel_1,JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-//		sp.setViewportView(panel);
-		sp.setBounds(138, 98, 421, 277);
-		sp.setVisible(true);
-		frame.getContentPane().add(sp);
+		JButton btnNewButton = new JButton("New button");
+		sl_panel.putConstraint(SpringLayout.NORTH, btnNewButton, 82, SpringLayout.NORTH, panel);
+		sl_panel.putConstraint(SpringLayout.WEST, btnNewButton, 76, SpringLayout.WEST, panel);
+		sl_panel.putConstraint(SpringLayout.SOUTH, btnNewButton, -98, SpringLayout.SOUTH, panel);
+		sl_panel.putConstraint(SpringLayout.EAST, btnNewButton, -108, SpringLayout.EAST, panel);
+		panel.add(btnNewButton);
 		
 	}
-
 }

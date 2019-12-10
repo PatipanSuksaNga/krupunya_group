@@ -36,6 +36,7 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.Color;
 import javax.swing.JTable;
 import java.awt.Font;
+import javax.swing.Box;
 
 public class Members {
 
@@ -112,56 +113,56 @@ public class Members {
 		JPanel panel = new JPanel();
 		panel.setBounds(0, 31, windowSize.width - 20, 1500);
 		panel.setPreferredSize(new Dimension(windowSize.width - 20, 1500));
-		panel.setLayout(null);
 
 		JScrollPane scrollPane = new JScrollPane(panel, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		panel.setLayout(null);
 
 		JLabel lbMember = new JLabel("Member Management");
+		lbMember.setBounds(385, 75, 200, 30);
 		lbMember.setFont(new Font("Tahoma", Font.PLAIN, 19));
 		lbMember.setHorizontalAlignment(SwingConstants.CENTER);
-		lbMember.setBounds(windowSize.width / 2 - 100, 75, 200, 30);
 		panel.add(lbMember);
 
 		JLabel lbID = new JLabel("ID");
+		lbID.setBounds(50, 175, 100, 30);
 		lbID.setHorizontalAlignment(SwingConstants.CENTER);
-		lbID.setBounds(50, 200, 100, 30);
 		panel.add(lbID);
+		lbIDMember.setBounds(160, 175, 200, 30);
 
 		lbIDMember.setHorizontalAlignment(SwingConstants.CENTER);
-		lbIDMember.setBounds(160, 200, 200, 30);
 		panel.add(lbIDMember);
 
 		JLabel lbName = new JLabel("Name");
+		lbName.setBounds(50, 225, 100, 30);
 		lbName.setHorizontalAlignment(SwingConstants.CENTER);
-		lbName.setBounds(50, 250, 100, 30);
 		panel.add(lbName);
 
 		JLabel lbAddress = new JLabel("Address");
+		lbAddress.setBounds(50, 275, 100, 30);
 		lbAddress.setHorizontalAlignment(SwingConstants.CENTER);
-		lbAddress.setBounds(50, 300, 100, 30);
 		panel.add(lbAddress);
 
 		JLabel lbPhone_number = new JLabel("Phone number");
+		lbPhone_number.setBounds(50, 325, 100, 30);
 		lbPhone_number.setHorizontalAlignment(SwingConstants.CENTER);
-		lbPhone_number.setBounds(50, 350, 100, 30);
 		panel.add(lbPhone_number);
 
 		textField_Name = new JTextField();
+		textField_Name.setBounds(160, 230, 200, 20);
 		textField_Name.setHorizontalAlignment(SwingConstants.CENTER);
-		textField_Name.setBounds(160, 255, 200, 20);
 		panel.add(textField_Name);
 		textField_Name.setColumns(10);
 
 		textField_Address = new JTextField();
+		textField_Address.setBounds(160, 280, 200, 20);
 		textField_Address.setHorizontalAlignment(SwingConstants.CENTER);
-		textField_Address.setBounds(160, 305, 200, 20);
 		panel.add(textField_Address);
 		textField_Address.setColumns(10);
 
 		textField_Phone_number = new JTextField();
+		textField_Phone_number.setBounds(160, 330, 200, 20);
 		textField_Phone_number.setHorizontalAlignment(SwingConstants.CENTER);
-		textField_Phone_number.setBounds(160, 355, 200, 20);
 		panel.add(textField_Phone_number);
 		textField_Phone_number.setColumns(10);
 
@@ -191,6 +192,19 @@ public class Members {
 		JButton btnEdit = new JButton("Edit member");
 		btnEdit.setBounds(450, 300, 150, 30);
 		panel.add(btnEdit);
+		
+		JLabel lbType = new JLabel("Type");
+		lbType.setBounds(50, 375, 100, 30);
+		lbType.setHorizontalAlignment(SwingConstants.CENTER);
+		panel.add(lbType);
+		
+		JComboBox comboBox = new JComboBox();
+		comboBox.setBounds(160, 380, 150, 20);
+		panel.add(comboBox);
+		
+		JButton btnViewBill = new JButton("View bill");
+		btnViewBill.setBounds(450, 350, 150, 30);
+		panel.add(btnViewBill);
 
 		scrollPane.setBounds(0, 31, windowSize.width - 20, windowSize.height - 70);
 		frame.getContentPane().add(scrollPane);
